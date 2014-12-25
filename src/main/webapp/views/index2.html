@@ -6,11 +6,15 @@
     <script src="/resources/js/lib/require.min.js" data-main="/resources/js/require-main.js"></script>
 </head>
 <body>
-    <script type='text/x-handlebars' id='inline-template'>
+    <template id='inline-template'>
         <div id="inline">
             <h1>{{title}}</h1>
             <p>Published: {{date}}</p>
         </div>
+    </template>
+
+    <script type="text/html" id="underscore-template">
+        <div> Hello <%=name%></div>
     </script>
 
 </body>
