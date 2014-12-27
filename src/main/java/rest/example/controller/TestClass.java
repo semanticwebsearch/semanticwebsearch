@@ -1,4 +1,4 @@
-package rest.controller;
+package rest.example.controller;
 
 import com.sun.jersey.api.view.Viewable;
 
@@ -8,11 +8,11 @@ import javax.ws.rs.Path;
 /**
  * Created by Spac on 24 Nov 2014.
  */
-@Path("/test2")
+@Path("/examples/test")
 public class TestClass {
 
     @GET
-    @Path("/path2")
+    @Path("/path")
     public String tralala() {
         return "It's working 2";
     }
