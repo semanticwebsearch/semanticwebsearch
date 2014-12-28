@@ -13,33 +13,33 @@
         <img class="img-responsive center-block" src="/resources/img/semantic_search.jpg" alt="Semantic Web Search" />
     </div>
     <div class="row">
-        <form>
-            <input class="form-control" type="search" />
+        <form action="/rest/todo" method="post">
+            <input class="form-control" name="query" type="search" />
             <div class="row">
                 <h5 class="float-left margin-top-xxs-2 margin-top-xs-1 margin-top-sm-2 margin-top-md-1">Looking for: </h5>
                 <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
-                    <input type='checkbox' name='text' value='text' id="text" class="img-checkbox"/>
+                    <input type='checkbox' name='text' value='true' id="text" class="img-checkbox"/>
                     <label for="text" class="img-responsive">
                         <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
                         <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
                     </label>
                 </div>
                 <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5">
-                    <input type='checkbox' name='picture' value='picture' id="picture" class="img-checkbox"/>
+                    <input type='checkbox' name='picture' value='true' id="picture" class="img-checkbox"/>
                     <label for="picture" class="img-responsive">
                         <img class="img-responsive " src="/resources/img/icons/camera.png" alt="Pictures"/>
                         <img class="img-responsive" src="/resources/img/icons/camera-selected.png" alt="Text"/>
                     </label>
                 </div>
                 <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
-                    <input type='checkbox' name='video' value='video' id="video" class="img-checkbox"/>
+                    <input type='checkbox' name='video' value='true' id="video" class="img-checkbox"/>
                     <label for="video" class="img-responsive">
                         <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
                         <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Text"/>
                     </label>
                 </div>
                 <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
-                    <input type='checkbox' name='map' value='map' id="map" class="img-checkbox"/>
+                    <input type='checkbox' name='map' value='true' id="map" class="img-checkbox"/>
                     <label for="map" class="img-responsive">
                         <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
                         <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Text"/>

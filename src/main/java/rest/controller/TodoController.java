@@ -1,10 +1,10 @@
 package rest.controller;
 
+import com.sun.jersey.api.core.InjectParam;
+import rest.model.SearchData;
 import rest.model.TodoModel;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -23,5 +23,12 @@ public class TodoController {
         todos.add(todo);
         todos.add(todo);
         return todos;
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    public void getFormParams(@InjectParam SearchData s) {
+       s.isMap();
+
     }
 }
