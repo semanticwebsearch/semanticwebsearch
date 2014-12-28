@@ -1,5 +1,10 @@
 @import url("normalize.css");
-
+/*Overwrite rule from normalize.css*/
+input[type="search"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 .img-responsive {
     display: block;
     max-width: 100%;
@@ -12,7 +17,7 @@
 }
 .form-control {
     display: block;
-    width: 99.33%;
+    width: 100%;
     border: 1px solid #ccc;
     background-color: #F2F2F2;
     border-radius: 4px;
@@ -45,14 +50,13 @@
     display: none;
 }
 .row {
-    margin: 5px;
     padding-top: 10px;
 }
 .col-xxs-80 {
     width: 80%;
 }
 .col-xxs-10 {
-    width: 10vmin;
+    width: 10%;
 }
 .col-xxs-100 {
     width: 100%;
@@ -88,7 +92,6 @@ p {
     font-weight: 200;
 }
 h5 {
-    position: relative;
     margin: 0 0 10px;
 }
 
@@ -113,8 +116,18 @@ h5 {
         width: 70%;
     }
     .col-xs-7 {
+        width: 7%;
+    }
+}
+
+@media only screen and (min-width : 480px) and (orientation: landscape) {
+    .col-xs-70 {
+        width: 60%;
+    }
+    .col-xs-7 {
         width: 10%;
     }
+
 }
 
 /* Small Devices, Tablets */
@@ -122,12 +135,30 @@ h5 {
     .margin-top-sm-15 {
         margin-top: 15%;
     }
+    .margin-top-sm-2 {
+        margin-top: 2%;
+    }
+
+    .col-xs-7 {
+        width: 7%;
+    }
+    h5 {
+        font-size: 1em;
+    }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
     .margin-top-md-10 {
         margin-top: 10%;
+    }
+
+    .margin-top-md-1 {
+        margin-top: 1%;
+    }
+
+    h5 {
+        font-size: 1.2em;
     }
 }
 
@@ -139,4 +170,41 @@ h5 {
     .margin-left-lg-5 {
         margin-left: 5%;
     }
+
+    .col-lg-5 {
+        width: 5%;
+    }
+    h5 {
+        font-size: 1.2em;
+    }
 }
+/*
+input[type=checkbox] {
+    display:none;
+}
+
+input[type=checkbox] + label
+{
+    background: #999;
+
+}
+input[type=checkbox]:checked + label
+{
+    background-color: #66a34d;
+
+}*/
+
+.img-checkbox, .img-checkbox ~ label > img ~ img {
+    display:none;
+}
+
+.img-checkbox:checked ~ label > img {
+    display:none;
+}
+.img-checkbox:checked ~ label > img ~ img{
+    display:block;
+}
+.img-checkbox ~ label {
+    display: block;
+}
+
