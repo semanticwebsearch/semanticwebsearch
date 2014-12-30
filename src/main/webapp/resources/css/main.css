@@ -63,6 +63,9 @@ input[type="search"] {
 .fill {
     width: 100%;
 }
+.pinned{
+    position: fixed;
+}
 .no-display{
     display: none;
 }
@@ -77,6 +80,9 @@ input[type="search"] {
 }
 .col-xxs-100 {
     width: 100%;
+}
+.col-xxs-2 {
+    width: 2%;
 }
 .margin-left-xxs-3 {
     margin-left: 3%;
