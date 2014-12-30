@@ -1,55 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Semantic Web Search</title>
-        <script src="/resources/js/lib/require.min.js" data-main="/resources/js/require-main.js"></script>
-        <link href="/resources/css/main.css" rel="stylesheet">
-    </head>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Semantic Web Search</title>
+    <script src="/resources/js/lib/require.min.js" data-main="/resources/js/require-main.js"></script>
+    <link href="/resources/css/main.css" rel="stylesheet">
+</head>
 
-    <body>
-
-        <div class="col-xs-70 container-fluid">
-
-            <div class="row" id="mainLevel">
-                <div class="row">
-                    <img id="SemanticWebSearchImg" class=" margin-top-xxs-10 img-responsive center-block" src="/resources/img/semantic_search.jpg" alt="Semantic Web Search" />
-                </div>
-
-                <div class="row">
-                    <form>
-                        <input id="searchInput" class="form-control" type="search" />
-                    </form>
-                </div>
-            </div>
-            <div class="row" id="parser">
-            </div>
-            <div class="row" id="LookingFor">
-                <h5 class="float-left margin-top-xxs-2 margin-top-xs-1">Looking for: </h5>
-                <div class="float-left margin-left-xxs-3 col-xxs-10 ">
-                    <img class="img-responsive center-block" src="/resources/img/icons/icon_file-word-o.png" alt="Text" rel="">
-                </div>
-                <div class="float-left margin-left-xxs-3 col-xxs-10 ">
-                    <img class="img-responsive " src="/resources/img/icons/camera.png" alt="Pictures" rel="">
-                </div>
-                <div class="float-left margin-left-xxs-3 col-xxs-10 ">
-                    <img class="img-responsive center-block" src="/resources/img/icons/video.png" alt="Videos" rel="">
-                </div>
-                <div class="float-left margin-left-xxs-3 col-xxs-10 ">
-                    <img class="img-responsive center-block" src="/resources/img/icons/earth.png" alt="Maps" rel="">
-                </div>
-            </div>
-
-
+<body>
+<div class="col-xs-70 container-fluid">
+    <div class="row" id="mainLevel">
+        <div class="row">
+            <img id="SemanticWebSearchImg" class=" margin-top-xxs-10 img-responsive center-block" src="/resources/img/semantic_search.jpg" alt="Semantic Web Search" />
         </div>
-    <script src="/resources/js/searchBar.js"></script>
 
-    <script>
-        (function(){
-            searchInputTop();
-        })();
-    </script>
+        <div class="row">
+            <form>
+                <input id="searchInput"   name="query" class="form-control" type="search" />
+                <div class="row">
+                    <h5 class="float-left margin-top-xxs-2 margin-top-xs-1 margin-top-sm-2 margin-top-md-1">Looking for: </h5>
 
-    </body>
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <input type='checkbox' name='text' value='true' id="text" class="img-checkbox"/>
+                        <label for="text" class="img-responsive">
+                            <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
+                            <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
+                        </label>
+                    </div>
+
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5">
+                        <input type='checkbox' name='picture' value='true' id="picture" class="img-checkbox"/>
+                        <label for="picture" class="img-responsive">
+                            <img class="img-responsive " src="/resources/img/icons/camera.png" alt="Pictures"/>
+                            <img class="img-responsive" src="/resources/img/icons/camera-selected.png" alt="Text"/>
+                        </label>
+                    </div>
+
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <input type='checkbox' name='video' value='true' id="video" class="img-checkbox"/>
+                        <label for="video" class="img-responsive">
+                            <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
+                            <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Text"/>
+                        </label>
+                    </div>
+
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <input type='checkbox' name='map' value='true' id="map" class="img-checkbox"/>
+                        <label for="map" class="img-responsive">
+                            <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
+                            <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Text"/>
+                        </label>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/resources/js/searchBar.js"></script>
+
+<script>
+    (function(){
+        searchInputTop();
+    })();
+</script>
+
+</body>
 </html>
