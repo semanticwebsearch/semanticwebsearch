@@ -76,9 +76,6 @@ input[type="search"] {
 .fill {
     width: 100%;
 }
-.pinned{
-    position: fixed;
-}
 .no-display{
     display: none;
 }
