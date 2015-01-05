@@ -6,8 +6,6 @@ var wrap = $("#wrap");
 
 $(window).scroll(function() {
 
-    console.log( "Handler for scroll on wrap called." );
-
     var width = $('#SemanticWebSearchImg').height();
 
     var positionFromTop = $(window).scrollTop();
@@ -22,7 +20,6 @@ $(window).scroll(function() {
         $('#togglerDisplay').removeClass("no-display");
 
         if(!($("#toggled_content").find("#sOptions").length == 1)) {
-            console.log("detache sOption bar");
             $("#sOptions").detach().appendTo("#toggled_content");
 
             $("#displayAs").removeClass("no-display");
@@ -86,7 +83,6 @@ $("input:checkbox").click(function(){
 
         var link = $(this).attr('rel');
 
-        console.log(link);
         $("#mainLayout").attr("href",$(this).attr('rel'));
     }
 });
