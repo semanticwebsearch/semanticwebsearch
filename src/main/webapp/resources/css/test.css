@@ -1,0 +1,194 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.wrap {
+    position: relative;
+}
+
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.container-fluid {
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.top-header .menu-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 18px 20px;
+}
+.fix-search .top-header {
+    background: #eee;
+    width: 100%;
+    height: auto;
+}
+.fix-search .search {
+    position: fixed;
+    top: 10px;
+}
+
+.fix-search .search input {
+    width: 50vw;
+}
+/*toggler/lookFor/display*/
+
+#toggle_parent{
+    margin-top: 40px;
+}
+#toggleHolder{
+    margin-left: 48%;
+    padding: 4px;
+}
+#toggled_content{
+    padding: 4px;
+}
+
+#sOptions{
+    display: block;
+}
+#lookFor .lookingForWidth{
+    max-width: 9%;
+}
+#displayAs .lookingForWidth{
+    max-width: 9%;
+}
+
+.max-width-50 {
+    width: 50%;
+}
+/*img checkbox */
+.img-checkbox, .img-checkbox ~ label > img ~ img {
+    display:none;
+}
+.img-checkbox:checked ~ label > img {
+    display:none;
+}
+.img-checkbox:checked ~ label > img ~ img{
+    display:block;
+}
+.img-checkbox ~ label {
+    display: block;
+}
+/*search efect bar here*/
+
+form.go-right > div {
+    position: relative;
+    overflow: hidden;
+}
+form.go-right input {
+
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 4px;
+    background: none;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 8px 12px;
+    outline: 0;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+
+    -webkit-appearance: none;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+form.go-right input:valid {
+    background: white;
+}
+form.go-right input:focus{
+
+    border-color: #f06d06;
+
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px rgba(12, 115, 233, .5);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px rgba(12, 115, 233, .5);
+}
+form.go-right input:focus + label{
+
+    background: #f06d06;
+    color: white;
+    font-size: 70%;
+    padding: 1px 6px;
+    z-index: 2;
+    text-transform: uppercase;
+
+    text-align: center;
+    line-height: 20px;
+
+    right: 0;
+    margin-right: 0;
+    width: 20%;
+    padding-top: 5px;
+}
+form.go-right label {
+
+    transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s;
+    position: absolute;
+    color: #999;
+    padding: 7px 6px;
+
+    top: 0px;
+    right: 100%;
+    width: 100%;
+    margin-right: -100%;
+    bottom: 0px;
+
+}
+/*end search efect*/
+
+/* displaying conntent */
+main{
+
+}
+
+/* width sizes*/
+
+.col-xs-70{
+    width: 70%;
+}
+
+/* margin/padding sizes*/
+
+.margin-top-xxs-10 {
+    margin-top: 10vh;
+}
+.margin-top-xxs-1{
+    margin-top: 1%;
+}
+.row {
+    padding-top: 10px;
+}
+/*formating */
+
+.float-left {
+    float: left;
+}
+.no-display{
+    display: none;
+}
+.center-block {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
