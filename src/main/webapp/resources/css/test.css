@@ -84,6 +84,18 @@ body {
 .img-checkbox ~ label {
     display: block;
 }
+label.img-checkbox-test > .img-checkbox, .img-checkbox ~  img ~ img {
+    display:none;
+}
+label.img-checkbox-test > .img-checkbox:checked ~ img {
+    display:none;
+}
+label.img-checkbox-test > .img-checkbox:checked ~  img ~ img{
+    display:block;
+}
+label.img-checkbox-test ~ .img-checkbox  {
+    display: block;
+}
 /*search efect bar here*/
 
 form.go-right > div {
