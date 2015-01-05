@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Semantic Web Search</title>
     <link href="/resources/css/main.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/freebase/suggest/4_2/suggest.min.css" />
 </head>
 
 <body>
@@ -15,51 +16,68 @@
             <img id="SemanticWebSearchImg" class=" margin-top-xxs-10 img-responsive center-block" src="/resources/img/semantic_search.jpg" alt="Semantic Web Search" />
         </div><!-- end logoImg -->
 
-        <form id="searchForm">
+        <form onsubmit="return false;" id="searchForm">
 
             <div id="searchBar" class="row">
-                <input id="searchInput"   name="query" class="form-control" type="search" />
+
+                <input id="searchInput"   name="searchInput" class="form-control" type="search" required/>
+                <label for="searchInput">Search</label>
             </div> <!-- end searchBar -->
 
-            <div id="lookFor" class="row">
-                <h5 class="float-left margin-top-xxs-2 margin-top-xs-1 margin-top-sm-2 margin-top-md-1">Looking for: </h5>
+            <div id="sOptions" class="">
+                <div id="lookFor" class="max-width-50 row float-left">
+                    <h5 class="float-left margin-top-xxs-2 margin-top-xs-1 margin-top-sm-1 margin-top-md-1">Looking for: </h5>
 
-                <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
-                    <input type='checkbox' name='text' value='true' id="text" class="img-checkbox"/>
-                    <label for="text" class="img-responsive">
-                        <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
-                        <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
-                    </label>
-                </div>
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <input type='checkbox' name='text' value='true' id="text" class="img-checkbox"/>
+                        <label for="text" class="img-responsive">
+                            <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
+                            <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
+                        </label>
+                    </div>
 
-                <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5">
-                    <input type='checkbox' name='picture' value='true' id="picture" class="img-checkbox"/>
-                    <label for="picture" class="img-responsive">
-                        <img class="img-responsive " src="/resources/img/icons/camera.png" alt="Pictures"/>
-                        <img class="img-responsive" src="/resources/img/icons/camera-selected.png" alt="Text"/>
-                    </label>
-                </div>
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5">
+                        <input type='checkbox' name='picture' value='true' id="picture" class="img-checkbox"/>
+                        <label for="picture" class="img-responsive">
+                            <img class="img-responsive " src="/resources/img/icons/camera.png" alt="Pictures"/>
+                            <img class="img-responsive" src="/resources/img/icons/camera-selected.png" alt="Pictures"/>
+                        </label>
+                    </div>
 
-                <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
-                    <input type='checkbox' name='video' value='true' id="video" class="img-checkbox"/>
-                    <label for="video" class="img-responsive">
-                        <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
-                        <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Text"/>
-                    </label>
-                </div>
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <input type='checkbox' name='video' value='true' id="video" class="img-checkbox"/>
+                        <label for="video" class="img-responsive">
+                            <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
+                            <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Videos"/>
+                        </label>
+                    </div>
 
-                <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
-                    <input type='checkbox' name='map' value='true' id="map" class="img-checkbox"/>
-                    <label for="map" class="img-responsive">
-                        <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
-                        <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Text"/>
-                    </label>
-                </div>
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <input type='checkbox' name='map' value='true' id="map" class="img-checkbox"/>
+                        <label for="map" class="img-responsive">
+                            <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
+                            <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Maps"/>
+                        </label>
+                    </div>
 
-            </div><!-- end lookFor -->
+                </div><!-- end lookFor -->
+                <div id="displayAs" class=" no-display">
+                    <h5 class="float-left margin-top-xxs-2 margin-top-xs-1 margin-top-sm-1 margin-top-md-1">Display as: </h5>
+
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <img class="img-responsive" src="/resources/img/icons/list.png">
+                    </div>
+                    <div class="float-left margin-left-xxs-3 col-xxs-10 col-xs-7 col-lg-5 center-block">
+                        <img class="img-responsive" src="/resources/img/icons/grid.png">
+                    </div>
+
+                </div><!-- end displayAs -->
+            </div><!--end sOptions!-->
+
+
         </form><!-- end searchForm -->
 
-        <div id="displayAs"></div><!-- end displayAs -->
+
 
     </section><!-- end topSection -->
 
@@ -69,6 +87,13 @@
 
 <script src="/resources/js/searchBar.js"></script>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/freebase/suggest/4_2/suggest.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#searchInput").suggest({filter:'(all type:/film/director)'});
+    });
+</script>
 <script>
     (function(){
         searchInputTop();
