@@ -1,3 +1,4 @@
+@import url('normalize.css');
 * {
     box-sizing: border-box;
 }
@@ -64,7 +65,9 @@ body {
 #displayAs .lookingForWidth{
     max-width: 9%;
 }
-
+.aOptions .lookingForWidth{
+    max-width: 100%;
+}
 .max-width-50 {
     width: 50%;
 }
