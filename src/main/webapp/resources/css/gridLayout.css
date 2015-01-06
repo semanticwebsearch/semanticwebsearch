@@ -13,10 +13,12 @@
     width: 100%;
 
 }
+.aOptions .lookingForWidth{
+    max-width: 10%;
+}
 .aOptions{
-    display:block;
-    float:left;
-    max-width:35px;
+    display: block;
+    width: 88%;
 }
 .feedbackOptions{
 }
@@ -26,13 +28,17 @@
     border: 1px solid #000000;
     border-radius: 10px;
     padding:8px;
-    max-width: 88%;
+    max-width: 92%;
     min-height: 100px;
 }
 .answer-content p{
     display:block;
     text-align: justify;
 
+}
+.answerImg{
+    width: 9%;
+    float:left;
 }
 
 @media only screen and (min-width: 400px) {

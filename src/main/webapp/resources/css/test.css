@@ -65,12 +65,11 @@ body {
 #displayAs .lookingForWidth{
     max-width: 9%;
 }
-.aOptions .lookingForWidth{
-    max-width: 100%;
-}
+
 .max-width-50 {
     width: 50%;
 }
+
 /*img checkbox */
 .img-checkbox, .img-checkbox ~ label > img ~ img {
     display:none;
@@ -104,7 +103,7 @@ form.go-right > div {
 }
 form.go-right input {
 
-    width: 100%;
+    width: 98%;
     border: 1px solid gray;
     border-radius: 4px;
     background: none;
@@ -193,6 +192,9 @@ main{
 .float-left {
     float: left;
 }
+.float-right {
+    float: right;
+}
 .no-display{
     display: none;
 }
@@ -206,4 +208,25 @@ main{
     display: block;
     max-width: 100%;
     height: auto;
+}
+
+/*@media*/
+@media only screen and (min-width: 400px) {
+
+}
+
+@media only screen and (min-width: 700px) {
+
+}
+
+@media only screen and (min-width: 1000px) {
+
+}
+
+@media only screen and (min-width: 1254px) {
+
+}
+
+@media only screen and (min-width: 1280px) {
+
 }

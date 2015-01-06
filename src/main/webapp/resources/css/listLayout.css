@@ -2,15 +2,10 @@
     width: 98%;
     margin:0 auto;
 }
-.answer{
-    margin-bottom:20px;
-    display:block;
-    max-width:70%;
-}
 
 .aOptions{
-    display:block;
-    float:left;
+    display: block;
+    width: 92%;
 }
 .feedbackOptions{
 }
@@ -29,21 +24,47 @@
 
 }
 
-@media only screen and (max-width: 874px) {
-    .aOptions .lookingForWidth{
-        width: 9%;
+@media only screen and (min-width: 400px) {
+    .answer{
+        margin-bottom:20px;
+        display:block;
+        max-width:100%;
     }
-    .answer {
-        margin-bottom: 20px;
-        display: block;
-        max-width: 90%;
+    .answer .lookingForWidth{
+        max-width: 8%;
     }
 }
-@media only screen and (min-width: 875px){
-    .aOptions .lookingForWidth{
-        width: 100%;
+
+@media only screen and (min-width: 700px) {
+    .answer{
+        margin-bottom:20px;
+        display:block;
+        max-width:90%;
     }
-    .aOptions{
-        width: 35px;
+    .answer .lookingForWidth{
+        max-width: 6%;
     }
+}
+
+@media only screen and (min-width: 1000px) {
+    .answer{
+        margin-bottom:20px;
+        display:block;
+        max-width:80%;
+    }
+    .answer .lookingForWidth{
+        max-width: 4%;
+    }
+}
+
+@media only screen and (min-width: 1254px) {
+    .answer{
+        margin-bottom:20px;
+        display:block;
+        max-width:70%;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+
 }

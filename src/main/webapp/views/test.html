@@ -9,7 +9,7 @@
 
     </head>
     <body>
-    <template id="answerArticle">
+        <template id="answerArticle">
         <article class="answer">
 
             <div class="aOptions feedbackOptions">
@@ -42,6 +42,7 @@
             <div style="clear:both;"></div>
         </article>
     </template>
+
         <div class="wrap container-fluid col-xs-70" id="wrap">
 
             <header id="topHeader" class="top-header">
@@ -85,7 +86,7 @@
 
                         <!-- Search for text-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='text' value='true' id="text" class="img-checkbox"/>
+                            <input type='checkbox' name='text' value='true' checked="true" id="text" class="img-checkbox"/>
                             <label for="text" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
                                 <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
@@ -93,7 +94,7 @@
                         </div>
                         <!-- Search for images-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='picture' value='true' id="picture" class="img-checkbox"/>
+                            <input type='checkbox' name='picture' value='true' checked="true" id="picture" class="img-checkbox"/>
                             <label for="picture" class="img-responsive">
                                 <img class="img-responsive " src="/resources/img/icons/camera.png" alt="Pictures"/>
                                 <img class="img-responsive" src="/resources/img/icons/camera-selected.png" alt="Pictures"/>
@@ -101,7 +102,7 @@
                         </div>
                         <!-- Search for videos-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='video' value='true' id="video" class="img-checkbox"/>
+                            <input type='checkbox' name='video' value='true' checked="true" id="video" class="img-checkbox"/>
                             <label for="video" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
                                 <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Videos"/>
@@ -109,7 +110,7 @@
                         </div>
                         <!-- Search for maps-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='map' value='true' id="map" class="img-checkbox"/>
+                            <input type='checkbox' name='map' value='true' checked="true" id="map" class="img-checkbox"/>
                             <label for="map" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
                                 <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Maps"/>
@@ -141,6 +142,7 @@
 
                         <div style="clear:both;"></div>
                     </div><!-- end displayAs -->
+
                     <div style="clear:both;"></div>
 
                     <hr class="no-display"/>
@@ -149,495 +151,784 @@
 
             <main id="answers" class="margin-top-xxs-1">
 
-                <article class="answer">
+                <article class="answer answer-map">
 
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-                        </div>
-                        <div style="clear:both"></div>
+                <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/map.png" alt="Text"/></div>
+                <div class="aOptions feedbackOptions">
+                    <div  class="lookingForWidth float-right">
+                        <label class="img-checkbox-test">
+                            <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                            <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                            <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                        </label>
                     </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    <div class="lookingForWidth float-right">
+                        <label class="img-checkbox-test">
+                            <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                            <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                            <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                        </label>
                     </div>
-                    <div style="clear:both;"></div>
-                </article>
+                    <div class="lookingForWidth float-right">
+                        <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                        <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
 
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
                     </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-                <article class="answer">
-
-                    <div class="aOptions feedbackOptions">
-                        <div  class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
-                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <label class="img-checkbox-test">
-                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
-                            </label>
-                        </div>
-                        <div class="lookingForWidth float-left">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
-                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
-
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="answer-content">
-                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
-                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
-                    </div>
-                    <div style="clear:both;"></div>
-                </article>
-
-
+                    <div style="clear:both"></div>
+                </div>
+                <div class="answer-content">
+                    <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                        Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                        Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                </div>
                 <div style="clear:both;"></div>
+            </article>
+
+                <article class="answer answer-text">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/></div>
+
+                    <div class="aOptions feedbackOptions">
+                    <div  class="lookingForWidth float-right">
+                        <label class="img-checkbox-test">
+                            <input type='checkbox' name='text' value='true' class="img-checkbox"/>
+                            <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                            <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                        </label>
+                    </div>
+                    <div class="lookingForWidth float-right">
+                        <label class="img-checkbox-test">
+                            <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                            <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                            <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                        </label>
+                    </div>
+                    <div class="lookingForWidth float-right">
+                        <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                        <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-text">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-img">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/camera.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-video">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/video.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-img">
+                    <div class="answerImg lookingForWidth float-left"><img class="img-responsive" src="/resources/img/icons/camera.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-video">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/video.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-map">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/map.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-map">
+
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/map.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-text">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/></div>
+
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-text">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-img">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/camera.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-video">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/video.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-img">
+                    <div class="answerImg lookingForWidth float-left"><img class="img-responsive" src="/resources/img/icons/camera.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-video">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/video.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-map">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/map.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-map">
+
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/map.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-text">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/></div>
+
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-text">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-img">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/camera.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-video">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/video.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-img">
+                    <div class="answerImg lookingForWidth float-left"><img class="img-responsive" src="/resources/img/icons/camera.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-video">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/video.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.
+                            Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
+
+                <article class="answer answer-map">
+                    <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/map.png" alt="Text"/></div>
+                    <div class="aOptions feedbackOptions">
+                        <div  class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' name='text' value='true' id="pin3" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
+                                <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <label class="img-checkbox-test">
+                                <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
+                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
+                            </label>
+                        </div>
+                        <div class="lookingForWidth float-right">
+                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id="dislike" class="img-checkbox"/>
+                            <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="answer-content">
+                        <p>Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.</p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </article>
             </main><!--end main-->
 
         </div><!--end wrapper-->
+
         <button onclick="Result.nextPin()">Next</button>
         <button onclick="Result.previousPin()">Previous</button>
+
         <script src="/resources/js/lib/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="/resources/js/test.js"></script>
         <script src="/resources/js/myclass.js"></script>
+
         <script>
             //maybe move this in constructor?
             $('.pinnable').click(function(){
