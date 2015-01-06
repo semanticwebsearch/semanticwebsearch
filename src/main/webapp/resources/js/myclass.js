@@ -52,3 +52,16 @@ var Result = {
     }
 
 };
+
+var Template = {
+  display : function() {
+      var source = $("#answerArticle").html();
+      var template = Handlebars.compile(source);
+      var context = {answerContent: "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
+      + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
+       + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
+        pinId : "1", likeId : "1", dislikeId : "1"};
+      var html = template(context);
+      $('#wrap').append(html);
+  }
+};
