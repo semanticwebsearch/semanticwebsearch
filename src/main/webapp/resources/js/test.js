@@ -93,7 +93,7 @@ function setLayout(name){
     var displayAs = '#displayAs input:checkbox#'+name;
     if($(displayAs).length > 0) {
         console.log($(displayAs));
-        $("#mainLayout").prop("href", $(displayAs).prop('rel'));
+        $("#mainLayout").prop("href", $(displayAs).attr('rel'));
 
         group.prop("checked",false);
         $(displayAs).prop("checked",true);
