@@ -57,11 +57,11 @@ var Template = {
   display : function() {
       var source = $("#answerArticle").html();
       var template = Handlebars.compile(source);
-      var context = {answerContent: "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
+      var context = {answerContent: "222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
       + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
        + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
-        pinId : "1", likeId : "1", dislikeId : "1"};
+        pinId : "1", likeId : "1", dislikeId : "1", answerType : "text" };
       var html = template(context);
-      $('#wrap').append(html);
+      $('#answers').append(html);
   }
 };
