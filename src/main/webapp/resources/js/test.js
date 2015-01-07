@@ -27,19 +27,8 @@ $(window).scroll(function() {
             $("hr").removeClass("no-display");
 
             lookingFor();
-
         }
-        /*
-        var searchHegiht = $('#top-search').height();
-
-        $('.top-header').height(searchHegiht+20);
-        */
-    }/*else {
-        wrap.removeClass("fix-search");
-        wrap.addClass("col-xs-70");
     }
-*/
-
 });
 
 $('#search').keypress(function(){
@@ -47,10 +36,10 @@ $('#search').keypress(function(){
     /* do the search */
 
     /* set up the layout*/
-    detacheSearchBar();
+    detachSearchBar();
 });
 
-function detacheSearchBar(){
+function detachSearchBar(){
     if(!($("#toggled_content").find("#sOptions").length == 1)) {
 
         console.log( "Handler for .keypress() called." );
@@ -84,35 +73,17 @@ function detacheSearchBar(){
 //looking for : check what am i looking for and set the list or gread layout for display of answers
 
  function lookingFor(){
+      var searchTypes = $("#lookFor input:checkbox:checked");
+      var noOfSelectedSearchTypes = searchTypes.length;
 
-      var groupt = $("#lookFor input:checkbox");
-      var count = 0;
-     console.log(groupt);
-      $.each(groupt, function(index, value){
-
-          console.log('lookingFor : '+value.name);
-          if(value.checked){
-              count +=1;
-          }
-
-      });
-      console.log('lookingFor count :'+count);
-
-      if(count == 0){
-          //load grid
-          //set all img to checked
-          $("#lookFor input:checkbox").attr('checked',true);
-          setLayout("grid");
-
-      }else if(count == 1){
-          //load list
-          setLayout("list");
-
-        }else{
-            //load grid
-          setLayout("grid");
-
-        }
+     if(noOfSelectedSearchTypes == 1) {
+         setLayout("list");
+     } else {
+         setLayout("grid");
+         if(noOfSelectedSearchTypes == 0) {
+             $("#lookFor input:checkbox").prop('checked',true);
+         }
+     }
   };
 
 function setLayout(name){
@@ -121,10 +92,10 @@ function setLayout(name){
     var displayAs = '#displayAs input:checkbox#'+name;
     if($(displayAs).length > 0) {
         console.log($(displayAs));
-        $("#mainLayout").attr("href", $(displayAs).attr('rel'));
+        $("#mainLayout").prop("href", $(displayAs).prop('rel'));
 
-        group.attr("checked",false);
-        $(displayAs).attr("checked",true);
+        group.prop("checked",false);
+        $(displayAs).prop("checked",true);
     }else{
         console.log("[setLayout(name)] there is no id :" + name);
     }
@@ -138,7 +109,7 @@ $('.toggler').on('click',function(){
 
 $('#lookFor div label').on('click',function(){
 
-    var name =$(this).parent().find('input').attr('name');
+    var name =$(this).parent().find('input').prop('name');
     console.log('[#lookFor div]  > clicking '+ name);
     var answer = ".answer.answer-"+ name;
 
@@ -162,11 +133,11 @@ $("input:checkbox").click(function(){
 
     if(this.name == "displayOpt") {
 
-        var group = "input:checkbox[name='" + $(this).attr("name") + "']";
+        var group = "input:checkbox[name='" + $(this).prop("name") + "']";
 
-        $(group).attr("checked",false);
-        $(this).attr("checked",true);
+        $(group).prop("checked",false);
+        $(this).prop("checked",true);
 
-        $("#mainLayout").attr("href",$(this).attr('rel'));
+        $("#mainLayout").prop("href",$(this).attr('rel'));
     }
 });

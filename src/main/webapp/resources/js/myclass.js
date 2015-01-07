@@ -60,7 +60,7 @@ var Template = {
       var context = {answerContent: "222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
       + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
        + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
-        pinId : "1", likeId : "1", dislikeId : "1", answerType : "text" };
+        id : "1", answerType : "text" };
       var html = template(context);
       $('#answers').append(html);
   }

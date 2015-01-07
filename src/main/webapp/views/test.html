@@ -12,26 +12,28 @@
         <template id="answerArticle">
             <!-- answerType: map,text,video,picture-->
             <article class="answer answer-{{answerType}}">
+                <div class="answerImg lookingForWidth float-left ">
+                    <img class="img-responsive" src="/resources/img/icons/{{answerType}}.png" alt="Text"/>
+                </div>
 
-                <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/{{answerType}}.png" alt="Text"/></div>
                 <div class="aOptions feedbackOptions">
                     <div  class="lookingForWidth float-right">
                         <label class="img-checkbox-test">
-                            <input type='checkbox' name='text' value='true' id={{likeId}} class="img-checkbox"/>
+                            <input type='radio' name='feedbackOptions{{id}}' value='true' id=like{{id}} class="img-checkbox"/>
                             <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
                             <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
                         </label>
                     </div>
                     <div class="lookingForWidth float-right">
                         <label class="img-checkbox-test">
-                            <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id={{dislikeId}} class="img-checkbox"/>
+                            <input type='radio' rel="/resources/css/listLayout.css" name='feedbackOptions{{id}}' value='true' id=dislike{{id}} class="img-checkbox"/>
                             <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
                             <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
                         </label>
                     </div>
                     <div class="lookingForWidth float-right">
                         <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id={{pinId}} class="img-checkbox"/>
-                        <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" alt="Pin this" title="Pin this" />
+                        <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" onclick="Result.pin(this);" alt="Pin this" title="Pin this" />
                     </div>
                     <div style="clear:both"></div>
                 </div>
@@ -85,7 +87,7 @@
 
                         <!-- Search for text-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='text' value='true' checked="true" id="text" class="img-checkbox"/>
+                            <input type='checkbox' name='text' value='true' checked="checked"  id="text" class="img-checkbox"/>
                             <label for="text" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
                                 <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
@@ -93,7 +95,7 @@
                         </div>
                         <!-- Search for images-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='picture' value='true' checked="true" id="picture" class="img-checkbox"/>
+                            <input type='checkbox' name='picture' value='true' checked="checked" id="picture" class="img-checkbox"/>
                             <label for="picture" class="img-responsive">
                                 <img class="img-responsive " src="/resources/img/icons/picture.png" alt="Pictures"/>
                                 <img class="img-responsive" src="/resources/img/icons/picture-selected.png" alt="Pictures"/>
@@ -101,7 +103,7 @@
                         </div>
                         <!-- Search for videos-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='video' value='true' checked="true" id="video" class="img-checkbox"/>
+                            <input type='checkbox' name='video' value='true' checked="checked" id="video" class="img-checkbox"/>
                             <label for="video" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
                                 <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Videos"/>
@@ -109,7 +111,7 @@
                         </div>
                         <!-- Search for maps-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='map' value='true' checked="true" id="map" class="img-checkbox"/>
+                            <input type='checkbox' name='map' value='true' checked="checked" id="map" class="img-checkbox"/>
                             <label for="map" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
                                 <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Maps"/>
@@ -156,14 +158,14 @@
                 <div class="aOptions feedbackOptions">
                     <div  class="lookingForWidth float-right">
                         <label class="img-checkbox-test">
-                            <input type='checkbox' name='text' value='true' id="pin" class="img-checkbox"/>
+                            <input type='radio' name='feedbackOptions' value='true' id="pin" class="img-checkbox"/>
                             <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
                             <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
                         </label>
                     </div>
                     <div class="lookingForWidth float-right">
                         <label class="img-checkbox-test">
-                            <input type='checkbox' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
+                            <input type='radio' rel="/resources/css/listLayout.css" name='feedbackOptions' value='true' id="like" class="img-checkbox"/>
                             <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
                             <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
                         </label>
@@ -247,7 +249,7 @@
                 </article>
 
 
-                <article class="answer answer-img">
+                <article class="answer answer-picture">
                     <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/picture.png" alt="Text"/></div>
                     <div class="aOptions feedbackOptions">
                         <div  class="lookingForWidth float-right">
@@ -311,7 +313,7 @@
                     <div style="clear:both;"></div>
                 </article>
 
-                <article class="answer answer-img">
+                <article class="answer answer-picture">
                     <div class="answerImg lookingForWidth float-left"><img class="img-responsive" src="/resources/img/icons/picture.png" alt="Text"/></div>
                     <div class="aOptions feedbackOptions">
                         <div  class="lookingForWidth float-right">
@@ -504,7 +506,7 @@
                 </article>
 
 
-                <article class="answer answer-img">
+                <article class="answer answer-picture">
                     <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/picture.png" alt="Text"/></div>
                     <div class="aOptions feedbackOptions">
                         <div  class="lookingForWidth float-right">
@@ -568,7 +570,7 @@
                     <div style="clear:both;"></div>
                 </article>
 
-                <article class="answer answer-img">
+                <article class="answer answer-picture">
                     <div class="answerImg lookingForWidth float-left"><img class="img-responsive" src="/resources/img/icons/picture.png" alt="Text"/></div>
                     <div class="aOptions feedbackOptions">
                         <div  class="lookingForWidth float-right">
@@ -761,7 +763,7 @@
                 </article>
 
 
-                <article class="answer answer-img">
+                <article class="answer answer-picture">
                     <div class="answerImg lookingForWidth float-left "><img class="img-responsive" src="/resources/img/icons/picture.png" alt="Text"/></div>
                     <div class="aOptions feedbackOptions">
                         <div  class="lookingForWidth float-right">
@@ -826,7 +828,7 @@
                 </article>
 
 
-                <article class="answer answer-img">
+                <article class="answer answer-picture">
                     <div class="answerImg lookingForWidth float-left"><img class="img-responsive" src="/resources/img/icons/picture.png" alt="Text"/></div>
                     <div class="aOptions feedbackOptions">
                         <div  class="lookingForWidth float-right">
@@ -934,12 +936,15 @@
         <script src="/resources/js/myclass.js"></script>
 
         <script>
+            Template.display();
             //maybe move this in constructor?
+            //to be removed when dynamically loading the content
             $('.pinnable').click(function(){
+                alert("pin");
                 Result.pin(this);
             });
 
-            Template.display();
+
         </script>
 
     </body>
