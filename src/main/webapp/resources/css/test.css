@@ -4,7 +4,6 @@
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
 }
-
 body {
     margin: 0;
 }
@@ -17,6 +16,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 80;
 }
 
 .container-fluid {
@@ -40,6 +40,7 @@ body {
 .fix-search .search {
     position: fixed;
     top: 10px;
+    z-index: 90;
 }
 
 .fix-search .search input {
@@ -168,8 +169,8 @@ form.go-right label {
 /*end search effect*/
 
 /* displaying content */
-main{
-
+.answer{
+    z-index: -1;
 }
 
 /* width sizes*/
