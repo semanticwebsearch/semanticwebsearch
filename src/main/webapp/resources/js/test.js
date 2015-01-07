@@ -37,6 +37,7 @@ $('#search').keypress(function(){
 
     /* set up the layout*/
     detachSearchBar();
+    Template.display();
 });
 
 function detachSearchBar(){
