@@ -22,5 +22,5 @@ public class TestClass {
     public Viewable redirect() {
         return new Viewable("/index2.html");
     }
-    asdsada
+
 }
