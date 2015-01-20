@@ -49,8 +49,7 @@
         <div class="wrap container-fluid col-xs-70" id="wrap">
 
             <header id="topHeader" class="top-header">
-                <span class="menu-icon"></span>
-
+              <img class="col-xs-10  menu-icon" id="logo-md" src="/resources/img/logo-md.png" alt="Semantic Web Search">
                 <div id="toggle_parent">
 
                     <div class="no-display" id="toggled_content">
@@ -58,8 +57,12 @@
                     </div><!--end toggled_content-->
 
                     <div id="toggleHolder">
-                        <span id="togglerDisplay" class="toggler no-display">Open</span>
-                        <span class="toggler no-display">Close</span>
+                        <span id="togglerDisplay" class="toggler no-display">
+                            <img src="/resources/img/icons/down.png" class="col-xs-3" alt="Click to expand" title="Click to expand">
+                        </span>
+                        <span class="toggler no-display">
+                            <img src="/resources/img/icons/up.png" class="col-xs-3" alt="Click to collapse" title="Click to collapse">
+                        </span>
                     </div><!--end toggleHolder-->
 
                 </div><!--end toggle_parent-->
@@ -77,10 +80,10 @@
                         <label for="search">Search</label>
                     </div>
                 </form>
-                
+
                 <!-- Search option-->
                 <div id="sOptions" class="row">
-                    <hr class="no-display"/>
+                    <hr class="no-display margin-xxs-0"/>
 
                     <!--Selects the type of the search (text/video/images/maps)-->
                     <div id="lookFor" class=" max-width-50 float-left">
@@ -130,16 +133,16 @@
                         <div class="float-left lookingForWidth">
                             <input type='checkbox' rel="/resources/css/listLayout.css" name='displayOpt' value='true' id="list" class="img-checkbox"/>
                             <label for="list" class="img-responsive">
-                                <img class="img-responsive" src="/resources/img/icons/video.png" alt="list"/>
-                                <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="list"/>
+                                <img class="img-responsive" src="/resources/img/icons/display-list.png" alt="list"/>
+                                <img class="img-responsive" src="/resources/img/icons/display-list-selected.png" alt="list"/>
                             </label>
                         </div>
 
                         <div class="float-left lookingForWidth">
                             <input type='checkbox' rel="/resources/css/gridLayout.css" name='displayOpt' value='true' id="grid" class="img-checkbox"/>
                             <label for="grid" class="img-responsive">
-                                <img class="img-responsive" src="/resources/img/icons/map.png" alt="grid"/>
-                                <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="grid"/>
+                                <img class="img-responsive" src="/resources/img/icons/display-grid.png" alt="grid"/>
+                                <img class="img-responsive" src="/resources/img/icons/display-grid-selected.png" alt="grid"/>
                             </label>
                         </div>
 
@@ -148,7 +151,7 @@
 
                     <div style="clear:both;"></div>
 
-                    <hr class="no-display"/>
+                    <hr class="no-display margin-xxs-0"/>
                 </div><!--end sOptions!-->
             </div>
 

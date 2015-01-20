@@ -30,7 +30,7 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 18px 20px;
+    padding: 5px 0;
 }
 .fix-search .top-header {
     background: #eee;
@@ -49,25 +49,24 @@ body {
 /*toggler/lookFor/display*/
 
 #toggle_parent{
-    margin-top: 40px;
+    margin-top: 45px;
 }
 #toggleHolder{
-    margin-left: 48%;
-    padding: 4px;
+    margin: 0 0 0 48%;
+    padding: 0;
+    height: 27px;
 }
 #toggled_content{
-    padding: 4px;
+    padding: 10px 10px 0 10px;
 }
 
 #sOptions{
     display: block;
 }
-#lookFor .lookingForWidth{
-    max-width: 9%;
+#lookFor .lookingForWidth, #displayAs .lookingForWidth{
+    max-width: 6%;
 }
-#displayAs .lookingForWidth{
-    max-width: 9%;
-}
+
 
 .max-width-50 {
     width: 50%;
@@ -179,6 +178,20 @@ form.go-right label {
     width: 70%;
 }
 
+.col-xs-10 {
+    width: 10%;
+}
+.col-xs-3 {
+    width: 3%;
+}
+.col-xs-60 {
+    width: 60%;
+}
+
+.col-xs-100{
+    width: 100%;
+}
+
 /* margin/padding sizes*/
 
 .margin-top-xxs-10 {
@@ -186,6 +199,9 @@ form.go-right label {
 }
 .margin-top-xxs-1{
     margin-top: 1%;
+}
+.margin-xxs-0 {
+    margin: 0;
 }
 .row {
     padding-top: 10px;
@@ -205,6 +221,10 @@ form.go-right label {
     display: block;
     margin-right: auto;
     margin-left: auto;
+}
+
+.block {
+    display: block;
 }
 
 .img-responsive {

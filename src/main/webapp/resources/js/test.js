@@ -60,6 +60,12 @@ function detachSearchBar(){
 
          $('.top-header').height(searchHegiht+20);*/
 
+        /*Show to medium logo*/
+        $("#logo-md").removeClass("no-display");
+
+        /*Delete the alrge logo*/
+        $("#SemanticWebSearchImg").remove();
+
         console.log("detache sOption bar");
 
         $("#sOptions").detach().appendTo("#toggled_content");
