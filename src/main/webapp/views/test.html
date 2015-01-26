@@ -38,10 +38,10 @@
                     </div>
                     <div style="clear:both"></div>
                 </div>
-                <div class="answer-content">
+                <div class="answer-content" itemscope itemtype="{{itemType}}">
                     <p> {{content}}</p>
                     {{#if link}}
-                    <a href="{{link}}" rel="alternate">More..</a>
+                    <a href="{{link}}" rel="alternate" itemprop="url">More..</a>
                     {{/if}}
                 </div>
                 <div style="clear:both;"></div>
