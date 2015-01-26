@@ -10,11 +10,11 @@
     </head>
     <body>
         <template id="answerArticle">
-            <!-- answerType: map,text,video,picture-->
+            <!-- type: map,text,video,picture-->
             {{#each answer}}
-            <article class="answer answer-{{answerType}}">
+            <article class="answer answer-{{type}}">
                 <div class="answerImg lookingForWidth float-left ">
-                    <img class="img-responsive" src="/resources/img/icons/{{answerType}}.png" alt="Text"/>
+                    <img class="img-responsive" src="/resources/img/icons/{{type}}.png" alt="Text"/>
                 </div>
 
                 <div class="aOptions feedbackOptions">
@@ -39,7 +39,10 @@
                     <div style="clear:both"></div>
                 </div>
                 <div class="answer-content">
-                    <p> {{answerContent}}</p>
+                    <p> {{content}}</p>
+                    {{#if link}}
+                    <a href="{{link}}" rel="alternate">More..</a>
+                    {{/if}}
                 </div>
                 <div style="clear:both;"></div>
             </article>

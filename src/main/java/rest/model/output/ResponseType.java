@@ -1,12 +1,19 @@
 package rest.model.output;
 
+import org.codehaus.jackson.annotate.JsonValue;
+import javax.xml.bind.annotation.XmlEnumValue;
+
 /**
  * Created by Spac on 25 Ian 2015.
  */
 public enum ResponseType {
+    @XmlEnumValue("text")
     TEXT("text"),
+    @XmlEnumValue("map")
     MAP("map"),
+    @XmlEnumValue("picture")
     PICTURE("picture"),
+    @XmlEnumValue("video")
     VIDEO("video");
 
     private String value;
@@ -18,5 +25,10 @@ public enum ResponseType {
     @Override
     public String toString() {
         return value;
+    }
+
+    @JsonValue
+    public String value() {
+        return this.value;
     }
 }

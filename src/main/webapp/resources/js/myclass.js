@@ -56,43 +56,16 @@ var Template = {
   display : function() {
       var source = $("#answerArticle").html();
       var template = Handlebars.compile(source);
-      var context = {answer :[
-          {answerContent: "222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-      + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-       + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
-        id : "1", answerType : "text" } ,
-          {answerContent: "222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
-              id : "2", answerType : "map" },
-          {answerContent: "2adadadada22Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neq fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neq fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neq fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neq fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neq fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
-              id : "3", answerType : "picture" },
-          {answerContent: "@@@@222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis s222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis s222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. "
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."
-          + "Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.",
-              id : "4", answerType : "video" }
 
-      ] };
-      var html = template(context);
-      $('#answers').append(html);
+      $.getJSON('/rest/query?q=ada')
+          .done(function(data) {
+              console.log(data);
+              var data2 = { answer : data };
+              var html = template(data2);
+              $('#answers').append(html);
+          })
+          .fail(function() {
+              console.log( "error" );
+          });
   }
 };
