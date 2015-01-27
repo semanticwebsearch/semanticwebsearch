@@ -50,12 +50,16 @@ public class Search {
         ResponseType responseType;
         if(n == 1) {
             responseType = ResponseType.PICTURE;
+            qr.setItemType("photo");
         } else if(n == 2) {
             responseType = ResponseType.MAP;
+            qr.setItemType("map");
         } else if(n == 3) {
             responseType = ResponseType.VIDEO;
+            qr.setItemType("video");
         } else {
             responseType = ResponseType.TEXT;
+            qr.setItemType("article");
         }
 
         qr.setType(responseType);

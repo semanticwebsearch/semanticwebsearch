@@ -14,7 +14,7 @@
             {{#each answer}}
             <article class="answer answer-{{type}}">
                 <div class="answerImg lookingForWidth float-left ">
-                    <img class="img-responsive" src="/resources/img/icons/{{type}}.png" alt="Text"/>
+                    <img class="img-responsive" src="/resources/img/icons/{{type}}.png" alt="{{type}}"/>
                 </div>
 
                 <div class="aOptions feedbackOptions">
@@ -38,10 +38,43 @@
                     </div>
                     <div style="clear:both"></div>
                 </div>
-                <div class="answer-content" itemscope itemtype="{{itemType}}">
-                    <p> {{content}}</p>
+                <div class="answer-content"  itemscope itemtype="{{itemType}}">
+                    {{#ifEqual type "text"}}
+                        <p itemprop="description">{{content}}</p>
+                    {{/ifEqual}}
+
+                    {{#ifEqual type "image"}}
+                        <img itemprop="image" src="{{content.source}}" class="img-responsive" alt="image"  />
+                        {{#if content.description}}
+                            <p>{{content.description}}</p>
+                        {{/if}}
+                    {{/ifEqual}}
+
+                    {{#ifEqual type "video"}}
+                       <!-- <video controls>
+                            <source src="{{content.video}}" type="{{content.mimeType}}">
+                            Your browser does not support HTML5 video.
+                        </video>-->
+                    <!--For youtube embed-->
+                        <embed itemprop="video" src="{{content.source}}">
+                        {{#if content.description}}
+                            <p itemprop="description">{{content.description}}</p>
+                        {{/if}}
+                    {{/ifEqual}}
+
+                    {{#ifEqual type "map"}}
+                        <div itemprop="geo">
+                            <!--here come the map-->
+                            <meta itemprop="latitude" content="{{content.latitude}}" />
+                            <meta itemprop="longitude" content="{{content.longitude}}" />
+                        </div>
+                        {{#if content.description}}
+                            <p itemprop="description">{{content.description}}</p>
+                        {{/if}}
+                    {{/ifEqual}}
+
                     {{#if link}}
-                    <a href="{{link}}" rel="alternate" itemprop="url">More..</a>
+                    <a itemprop="url" href="{{link}}" target="_blank" rel="alternate" >More..</a>
                     {{/if}}
                 </div>
                 <div style="clear:both;"></div>
@@ -103,10 +136,10 @@
                         </div>
                         <!-- Search for images-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='picture' value='true' checked="checked" id="picture" class="img-checkbox"/>
-                            <label for="picture" class="img-responsive">
-                                <img class="img-responsive " src="/resources/img/icons/picture.png" alt="Pictures"/>
-                                <img class="img-responsive" src="/resources/img/icons/picture-selected.png" alt="Pictures"/>
+                            <input type='checkbox' name="image" value='true' checked="checked" id="image" class="img-checkbox"/>
+                            <label for="image" class="img-responsive">
+                                <img class="img-responsive " src="/resources/img/icons/image.png" alt="Images"/>
+                                <img class="img-responsive" src="/resources/img/icons/image-selected.png" alt="Images"/>
                             </label>
                         </div>
                         <!-- Search for videos-->
@@ -171,7 +204,13 @@
         <script type="text/javascript" src="/resources/js/test.js"></script>
         <script type="text/javascript" src="/resources/js/lib/handlebars-v2.0.0.js"></script>
         <script src="/resources/js/myclass.js"></script>
-
+        <script>
+            Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
+                if (val1 === val2) {
+                    return options.fn(this);
+                }
+            });
+        </script>
 
 
     </body>

@@ -11,6 +11,7 @@ public class QueryResponse {
     private ResponseType type;
     private String content;
     private String link;
+    private String itemType; //gen metadata
 
     public QueryResponse(int id, ResponseType type, String content, String link) {
         this.id = id;
@@ -52,5 +53,13 @@ public class QueryResponse {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 }

@@ -11,8 +11,8 @@ public enum ResponseType {
     TEXT("text"),
     @XmlEnumValue("map")
     MAP("map"),
-    @XmlEnumValue("picture")
-    PICTURE("picture"),
+    @XmlEnumValue("image")
+    PICTURE("image"),
     @XmlEnumValue("video")
     VIDEO("video");
 
