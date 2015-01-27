@@ -87,15 +87,23 @@ $('.toggler').on('click',function(){
 
 $('#lookFor div label').on('click',function(){
 
-    var name =$(this).parent().find('input').prop('name');
+    var name = $(this).parent().find('input').prop('name');
     var answer = ".answer.answer-"+ name;
 
     if($(this).parent().find('input').get(0).checked){
         $(answer).fadeOut('fast');
     }else{
-        //testeaza daca exista acele date ....
-        //daca nu exista trebuie aduse altfel ->
-        $(answer).fadeIn('slow').css("display","inline-block");
+        /*If this type of data does not exists on page,
+        * we will call the server and get that data
+        */
+        console.log($("#answers").find(answer).length);
+        if($("#answers").find(answer).length > 0) {
+            $(answer).fadeIn('slow').css("display","inline-block");
+        } else {
+            if($.trim($("#search").val()).length > 0) {
+                Ajax.dataForType(name);
+            }
+        }
     }
 });
 

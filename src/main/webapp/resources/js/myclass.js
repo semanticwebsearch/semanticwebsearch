@@ -69,6 +69,7 @@ var Template = {
 };
 
 var Ajax = {
+    
     submitForm : function() {
         var url = $("#searchForm").prop("action") + "/?q=" + $("#search").val() + "&";
         if($("#text").prop("checked") == true) {
@@ -86,6 +87,12 @@ var Ajax = {
         if($("#map").prop("checked") == true) {
             url += $("#map").serialize();
         }
+        Template.display(url);
+    },
+    
+    dataForType : function(type) {
+        var url = $("#searchForm").prop("action") + "/?q=" + $("#search").val() + "&";
+        url += type + "=true";
         Template.display(url);
     }
 };

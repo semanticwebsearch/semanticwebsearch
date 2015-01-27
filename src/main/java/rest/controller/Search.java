@@ -87,7 +87,7 @@ public class Search {
 
         Video video = new Video();
         video.setSource("https://www.youtube.com/embed/co4YpHTqmfQ");
-        video.setDescription("test image biatches");
+        video.setDescription("test VIDEO biatches");
 
         qr.setContent(video);
         qr.setLink("no link");
