@@ -12,7 +12,7 @@ public enum ResponseType {
     @XmlEnumValue("map")
     MAP("map"),
     @XmlEnumValue("image")
-    PICTURE("image"),
+    IMAGE("image"),
     @XmlEnumValue("video")
     VIDEO("video");
 

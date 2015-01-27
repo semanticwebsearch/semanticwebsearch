@@ -40,7 +40,7 @@
                 </div>
                 <div class="answer-content"  itemscope itemtype="{{itemType}}">
                     {{#ifEqual type "text"}}
-                        <p itemprop="description">{{content}}</p>
+                        <p itemprop="description">{{content.description}}</p>
                     {{/ifEqual}}
 
                     {{#ifEqual type "image"}}
@@ -51,22 +51,26 @@
                     {{/ifEqual}}
 
                     {{#ifEqual type "video"}}
-                       <!-- <video controls>
-                            <source src="{{content.video}}" type="{{content.mimeType}}">
-                            Your browser does not support HTML5 video.
-                        </video>-->
                     <!--For youtube embed-->
-                        <embed itemprop="video" src="{{content.source}}">
+                        <object data="{{content.source}}" width="100%" ></object>
                         {{#if content.description}}
                             <p itemprop="description">{{content.description}}</p>
                         {{/if}}
                     {{/ifEqual}}
 
                     {{#ifEqual type "map"}}
-                        <div itemprop="geo">
-                            <!--here come the map-->
+                        <div id="map-canvas" itemprop="geo">
                             <meta itemprop="latitude" content="{{content.latitude}}" />
                             <meta itemprop="longitude" content="{{content.longitude}}" />
+                          
+                            <!--here come the map-->
+                            <script type="text/javascript">
+                               alert("dada");
+                                loadScript();
+                            </script>
+                            <!--here come the map-->
+
+
                         </div>
                         {{#if content.description}}
                             <p itemprop="description">{{content.description}}</p>
@@ -210,6 +214,27 @@
                     return options.fn(this);
                 }
             });
+
+            function initialize() {
+                var lat = $('#map-canvas > meta:nth-child(1)').prop("content");
+                var lng = $('#map-canvas > meta:nth-child(2)').prop("content");
+                console.log(lat + " " + lng);
+                var mapOptions = {
+                    zoom: 8,
+                    center: new google.maps.LatLng(lat, lng)
+                };
+
+                var map = new google.maps.Map(document.getElementById('map-canvas'),
+                        mapOptions);
+            }
+
+            function loadScript() {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+                        '&callback=initialize';
+                document.body.appendChild(script);
+            }
         </script>
 
 

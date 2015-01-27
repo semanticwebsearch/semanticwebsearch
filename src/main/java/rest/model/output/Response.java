@@ -1,26 +1,28 @@
 package rest.model.output;
 
+import rest.model.output.content.Content;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Spac on 25 Ian 2015.
  */
 @XmlRootElement
-public class QueryResponse {
+public class Response {
     private int id;
     private ResponseType type;
-    private String content;
+    private Content content;
     private String link;
     private String itemType; //gen metadata
 
-    public QueryResponse(int id, ResponseType type, String content, String link) {
+    public Response(int id, ResponseType type, Content content, String link) {
         this.id = id;
         this.type = type;
         this.content = content;
         this.link = link;
     }
 
-    public QueryResponse() {
+    public Response() {
     }
 
     public int getId() {
@@ -39,11 +41,11 @@ public class QueryResponse {
         this.type = type;
     }
 
-    public String getContent() {
+    public Content getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(Content content) {
         this.content = content;
     }
 
