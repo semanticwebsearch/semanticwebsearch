@@ -29,7 +29,7 @@ body {
 .top-header .menu-icon {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 48vw;
     padding: 5px 0;
 }
 .fix-search .top-header {
@@ -193,7 +193,9 @@ form.go-right label {
 }
 
 /* margin/padding sizes*/
-
+.margin-right-d{
+ margin-right: 5px;
+}
 .margin-top-xxs-10 {
     margin-top: 10vh;
 }
@@ -235,7 +237,21 @@ form.go-right label {
 
 /*@media*/
 @media only screen and (min-width: 400px) {
-
+    #lookFor .lookingForWidth, #displayAs .lookingForWidth, .toggler .lookingForWidth{
+        max-width: 15%;
+    }
+    #top-search .max-width-50 {
+        width: 80%;
+    }
+    .fix-search .search input {
+        width: 78vw;
+    }
+    .top-header .menu-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px 0;
+    }
 }
 
 @media only screen and (min-width: 700px) {

@@ -26,9 +26,6 @@ function searchInputTop() {
         var displayAs = document.getElementById("displayAs");
         displayAs.className = "max-width-50 float-right row";
 
-        console.log(window.innerWidth);
-
     }, false);
-
 
 }

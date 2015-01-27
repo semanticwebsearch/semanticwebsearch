@@ -65,7 +65,6 @@
                           
                             <!--here come the map-->
                             <script type="text/javascript">
-                               alert("dada");
                                 loadScript();
                             </script>
                             <!--here come the map-->
@@ -98,10 +97,10 @@
 
                     <div id="toggleHolder">
                         <span id="togglerDisplay" class="toggler no-display">
-                            <img src="/resources/img/icons/down.png" class="col-xs-3" alt="Click to expand" title="Click to expand">
+                            <img src="/resources/img/icons/down.png" class="lookingForWidth" alt="Click to expand" title="Click to expand">
                         </span>
                         <span class="toggler no-display">
-                            <img src="/resources/img/icons/up.png" class="col-xs-3" alt="Click to collapse" title="Click to collapse">
+                            <img src="/resources/img/icons/up.png" class="lookingForWidth" alt="Click to collapse" title="Click to collapse">
                         </span>
                     </div><!--end toggleHolder-->
 
@@ -168,9 +167,9 @@
 
                     <!--Selects the display mode-->
                     <div id="displayAs" class="no-display max-width-50 float-left">
-                        <h5 class="float-left ">Display as: </h5>
+                        <h5 class="float-left  margin-right-d">Display as: </h5>
 
-                        <div class="float-left lookingForWidth">
+                        <div class="float-left margin-right-d lookingForWidth">
                             <input type='checkbox' rel="/resources/css/listLayout.css" name='displayOpt' value='true' id="list" class="img-checkbox"/>
                             <label for="list" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/display-list.png" alt="list"/>
@@ -178,7 +177,7 @@
                             </label>
                         </div>
 
-                        <div class="float-left lookingForWidth">
+                        <div class="float-left margin-right-d lookingForWidth">
                             <input type='checkbox' rel="/resources/css/gridLayout.css" name='displayOpt' value='true' id="grid" class="img-checkbox"/>
                             <label for="grid" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/display-grid.png" alt="grid"/>
@@ -208,7 +207,9 @@
         <script type="text/javascript" src="/resources/js/test.js"></script>
         <script type="text/javascript" src="/resources/js/lib/handlebars-v2.0.0.js"></script>
         <script src="/resources/js/myclass.js"></script>
+
         <script>
+
             Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
                 if (val1 === val2) {
                     return options.fn(this);
