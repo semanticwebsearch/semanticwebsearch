@@ -120,13 +120,67 @@ var myNamespace = {
     },
 
     Helper : {
+        callTimeout : null,
+
+        bindEvents : function() {
+            $('.toggler').on('click',function(){
+                $(this).parent().children().toggle();  //swaps the display:none between the two spans
+                $(this).parent().parent().find('#toggled_content').slideToggle('fast');  //swap the display of the main content with slide action
+            });
+
+            $('#search').on('input',function(){
+                clearTimeout(this.callTimeout);
+                this.callTimeout = setTimeout(myNamespace.Ajax.submitForm, 1000);
+                detachSearchBar();
+
+            });
+
+            $('#lookFor div label').on('click',function(){
+
+                var name = $(this).parent().find('input').prop('name');
+                var answer = ".answer.answer-"+ name;
+
+                if($(this).parent().find('input').get(0).checked){
+                    $(answer).fadeOut('fast');
+                }else{
+                    /*If this type of data does not exists on page,
+                     * we will call the server and get that data
+                     */
+                    console.log($("#answers").find(answer).length);
+                    if($("#answers").find(answer).length > 0) {
+                        $(answer).fadeIn('slow').css("display","block");
+                    } else {
+                        if($.trim($("#search").val()).length > 0) {
+                            myNamespace.Ajax.dataForType(name);
+                        }
+                    }
+                }
+            });
+
+            //swap the css format for answers display
+            $("input:checkbox").click(function(){
+
+                if(this.name == "displayOpt") {
+
+                    var group = "input:checkbox[name='" + $(this).prop("name") + "']";
+
+                    $(group).prop("checked",false);
+                    $(this).prop("checked",true);
+
+                    $("#mainLayout").prop("href",$(this).attr('rel'));
+                }
+            });
+        },
+
         initialize : function() {
             Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
                 if (val1 === val2) {
                     return options.fn(this);
                 }
             });
+            myNamespace.Helper.bindEvents();
         }
+
     }
 };
 

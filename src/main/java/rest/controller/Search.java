@@ -52,13 +52,15 @@ public class Search {
 
     private void populateText(List<Response> list) {
         Response qr = new Response();
-        qr.setContent(new Text("222Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. \"\n" +
-                "          + \"Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.\"\n" +
-                "          + \"Neque, vitae, fugiat, libero corrupti Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut. \"\n" +
-                "          + \"Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut.\"\n" +
-                "          + \"Neque, vitae, fugiat, libero corrupti officiis sint facilis tempora quidem repudiandae praesentium odit similique adipisci aut."));
+        qr.setContent(new Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+                                       + "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
+                                       + "when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
+                                       + "It has survived not only five centuries, but also the leap into electronic typesetting, remaining "
+                                       + "essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing "
+                                       + "Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including "
+                                       + "versions of Lorem Ipsum."));
 
-        qr.setLink("no link");
+        qr.setLink("#");
         qr.setId(id++);
         qr.setType( ResponseType.TEXT);
         qr.setItemType("article");
@@ -71,10 +73,10 @@ public class Search {
 
         Image img = new Image();
         img.setSource("http://www.brockport.edu/career/images/GraduateSchoolTests.jpg");
-        img.setDescription("test image biatches");
+        img.setDescription("A short description of the image");
 
         qr.setContent(img);
-        qr.setLink("no link");
+        qr.setLink("#");
         qr.setId(id++);
         qr.setType(ResponseType.IMAGE);
         qr.setItemType(ResponseType.IMAGE.toString());
@@ -87,10 +89,10 @@ public class Search {
 
         Video video = new Video();
         video.setSource("https://www.youtube.com/embed/co4YpHTqmfQ");
-        video.setDescription("test VIDEO biatches");
+        video.setDescription("A short description of the video");
 
         qr.setContent(video);
-        qr.setLink("no link");
+        qr.setLink("#");
         qr.setId(id++);
         qr.setType(ResponseType.VIDEO);
         qr.setItemType(ResponseType.VIDEO.toString());
@@ -104,10 +106,10 @@ public class Search {
         Map map = new Map();
         map.setLatitude("47.1739348");
         map.setLongitude("27.5749005");
-        map.setDescription("test map");
+        map.setDescription("A short description of the map");
 
         qr.setContent(map);
-        qr.setLink("no link");
+        qr.setLink("#");
         qr.setId(id++);
         qr.setType(ResponseType.MAP);
         qr.setItemType(ResponseType.MAP.toString());
