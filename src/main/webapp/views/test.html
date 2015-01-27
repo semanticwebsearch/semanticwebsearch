@@ -59,13 +59,13 @@
                     {{/ifEqual}}
 
                     {{#ifEqual type "map"}}
-                        <div id="map-canvas" itemprop="geo">
+                        <div id="map-canvas" class="map-canvas" itemprop="geo">
                             <meta itemprop="latitude" content="{{content.latitude}}" />
                             <meta itemprop="longitude" content="{{content.longitude}}" />
                           
                             <!--here come the map-->
                             <script type="text/javascript">
-                                loadScript();
+                                initialize();
                             </script>
                             <!--here come the map-->
 
@@ -207,15 +207,15 @@
         <script type="text/javascript" src="/resources/js/test.js"></script>
         <script type="text/javascript" src="/resources/js/lib/handlebars-v2.0.0.js"></script>
         <script src="/resources/js/myclass.js"></script>
-
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwEElsPAq4kjt8FfBp1uq3qQ2J9yqp94">
+        </script>
         <script>
-
             Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
                 if (val1 === val2) {
                     return options.fn(this);
                 }
             });
-
+            var map;
             function initialize() {
                 var lat = $('#map-canvas > meta:nth-child(1)').prop("content");
                 var lng = $('#map-canvas > meta:nth-child(2)').prop("content");
@@ -225,15 +225,15 @@
                     center: new google.maps.LatLng(lat, lng)
                 };
 
-                var map = new google.maps.Map(document.getElementById('map-canvas'),
+                map = new google.maps.Map(document.getElementById('map-canvas'),
                         mapOptions);
             }
 
             function loadScript() {
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
-                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
-                        '&callback=initialize';
+                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+                'callback=initialize';
                 document.body.appendChild(script);
             }
         </script>

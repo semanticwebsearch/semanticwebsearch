@@ -12,6 +12,12 @@ body {
     position: relative;
 }
 
+.map-canvas {
+    display: block;
+    width: 100%;
+    min-height: 150px;
+}
+
 .top-header {
     position: fixed;
     top: 0;
@@ -73,30 +79,20 @@ body {
 }
 
 /*img checkbox */
-.img-checkbox, .img-checkbox ~ label > img ~ img {
+
+label.img-checkbox-test > .img-checkbox, .img-checkbox ~  img ~ img,
+.img-checkbox, .img-checkbox ~ label > img ~ img,
+.img-checkbox:checked ~ label > img,
+label.img-checkbox-test > .img-checkbox:checked ~ img{
     display:none;
 }
-.img-checkbox:checked ~ label > img {
-    display:none;
-}
-.img-checkbox:checked ~ label > img ~ img{
+
+label.img-checkbox-test > .img-checkbox:checked ~  img ~ img,
+.img-checkbox:checked ~ label > img ~ img,
+.img-checkbox ~ label, label.img-checkbox-test ~ .img-checkbox {
     display:block;
 }
-.img-checkbox ~ label {
-    display: block;
-}
-label.img-checkbox-test > .img-checkbox, .img-checkbox ~  img ~ img {
-    display:none;
-}
-label.img-checkbox-test > .img-checkbox:checked ~ img {
-    display:none;
-}
-label.img-checkbox-test > .img-checkbox:checked ~  img ~ img{
-    display:block;
-}
-label.img-checkbox-test ~ .img-checkbox  {
-    display: block;
-}
+
 /*search efect bar here*/
 
 form.go-right > div {
