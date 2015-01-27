@@ -25,19 +25,16 @@
 }
 
 @media only screen and (min-width: 400px) {
-    .answer{
-        margin-bottom:20px;
-        display:block;
-        max-width:100%;
+    .answer {
+        margin-bottom: 20px;
+        display: block;
+        max-width: 100%;
     }
-    .answer .lookingForWidth{
+
+    .answer .lookingForWidth {
         max-width: 8%;
     }
-    #lookFor .lookingForWidth, #displayAs .lookingForWidth, .toggler .lookingForWidth{
-        max-width: 15%;
-    }
 }
-
 @media only screen and (min-width: 700px) {
     .answer{
         margin-bottom:20px;
