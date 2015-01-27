@@ -3,47 +3,18 @@
  */
 
 var wrap = $("#wrap");
-
-$(window).scroll(function() {
-
-    var width = $('#SemanticWebSearchImg').height();
-
-    var positionFromTop = $(window).scrollTop();
-
-    if (positionFromTop > width) {
-
-        wrap.addClass("fix-search");
-
-        wrap.removeClass("col-xs-70");
-
-        $('#top-search').removeClass("margin-top-xxs-1");
-        $('#togglerDisplay').removeClass("no-display");
-
-        if(!($("#toggled_content").find("#sOptions").length == 1)) {
-            $("#sOptions").detach().appendTo("#toggled_content");
-
-            $("#displayAs").removeClass("no-display");
-            $("#sOptions").removeClass("row");
-            $("hr").removeClass("no-display");
-
-            lookingFor();
-        }
-    }
-});
-
-$('#search').keypress(function(){
-
-    /* do the search */
-
-    /* set up the layout*/
+var callTimeout;
+$('#search').on('input',function(){
+    clearTimeout(callTimeout);
+    callTimeout = setTimeout(Ajax.submitForm, 1000);
     detachSearchBar();
-    Template.display();
+
 });
 
 function detachSearchBar(){
     if(!($("#toggled_content").find("#sOptions").length == 1)) {
 
-        console.log( "Handler for .keypress() called." );
+       // console.log( "Handler for .keypress() called." );
         wrap.addClass("fix-search");
 
         /*remove the margin top from the search search*/
@@ -66,7 +37,7 @@ function detachSearchBar(){
         /*Delete the alrge logo*/
         $("#SemanticWebSearchImg").remove();
 
-        console.log("detache sOption bar");
+    //    console.log("detache sOption bar");
 
         $("#sOptions").detach().appendTo("#toggled_content");
 
@@ -98,13 +69,13 @@ function setLayout(name){
     var group = $('#displayAs input:checkbox');
     var displayAs = '#displayAs input:checkbox#'+name;
     if($(displayAs).length > 0) {
-        console.log($(displayAs));
+      //  console.log($(displayAs));
         $("#mainLayout").prop("href", $(displayAs).attr('rel'));
 
         group.prop("checked",false);
         $(displayAs).prop("checked",true);
     }else{
-        console.log("[setLayout(name)] there is no id :" + name);
+       // console.log("[setLayout(name)] there is no id :" + name);
     }
 }
 
@@ -117,21 +88,15 @@ $('.toggler').on('click',function(){
 $('#lookFor div label').on('click',function(){
 
     var name =$(this).parent().find('input').prop('name');
-    console.log('[#lookFor div]  > clicking '+ name);
     var answer = ".answer.answer-"+ name;
 
     if($(this).parent().find('input').get(0).checked){
-        console.log(name+' was checked');
-        console.log(answer);
         $(answer).fadeOut('fast');
     }else{
-        console.log(name+' was\'nt checked');
         //testeaza daca exista acele date ....
         //daca nu exista trebuie aduse altfel ->
         $(answer).fadeIn('slow').css("display","inline-block");
     }
-
-
 });
 
 

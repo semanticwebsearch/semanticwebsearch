@@ -49,17 +49,15 @@ var Result = {
         var nextPinnedPost = this.pinnedPostsList[this.index];
         this.goto(nextPinnedPost);
     }
-
 };
 
 var Template = {
-  display : function() {
+  display : function(url) {
       var source = $("#answerArticle").html();
       var template = Handlebars.compile(source);
 
-      $.getJSON('/rest/query?q=ada')
+      $.getJSON(url)
           .done(function(data) {
-              console.log(data);
               var data2 = { answer : data };
               var html = template(data2);
               $('#answers').append(html);
@@ -69,20 +67,52 @@ var Template = {
           });
   }
 };
-/*
-function initialize() {
-    var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-    var mapOptions = {
-        zoom: 4,
-        center: myLatlng
+
+var Ajax = {
+    submitForm : function() {
+        var url = $("#searchForm").prop("action") + "/?q=" + $("#search").val() + "&";
+        if($("#text").prop("checked") == true) {
+            url += $("#text").serialize();
+            url += "&";
+        }
+        if($("#video").prop("checked") == true) {
+            url += $("#video").serialize();
+            url += "&";
+        }
+        if($("#image").prop("checked") == true) {
+            url += $("#image").serialize();
+            url += "&";
+        }
+        if($("#map").prop("checked") == true) {
+            url += $("#map").serialize();
+        }
+        Template.display(url);
     }
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+};
+
+function initializeMap() {
+    var map;
+    var lat = $('#map-canvas > meta:nth-child(1)').prop("content");
+    var lng = $('#map-canvas > meta:nth-child(2)').prop("content");
+
+    var coordinates = new google.maps.LatLng(lat,lng);
+    var mapOptions = {
+        zoom: 12,
+        center: coordinates
+    };
+
+    map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
 
     var marker = new google.maps.Marker({
-        position: myLatlng,
+        position: coordinates,
         map: map,
-        title: 'Hello World!'
+        title: 'Faculty of Computer Science, Iasi'
     });
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);*/
+Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
+    if (val1 === val2) {
+        return options.fn(this);
+    }
+});
