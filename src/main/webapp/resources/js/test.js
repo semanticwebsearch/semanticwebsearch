@@ -6,7 +6,7 @@ var wrap = $("#wrap");
 var callTimeout;
 $('#search').on('input',function(){
     clearTimeout(callTimeout);
-    callTimeout = setTimeout(Ajax.submitForm, 1000);
+    callTimeout = setTimeout(myNamespace.Ajax.submitForm, 1000);
     detachSearchBar();
 
 });
@@ -101,7 +101,7 @@ $('#lookFor div label').on('click',function(){
             $(answer).fadeIn('slow').css("display","inline-block");
         } else {
             if($.trim($("#search").val()).length > 0) {
-                Ajax.dataForType(name);
+                myNamespace.Ajax.dataForType(name);
             }
         }
     }
