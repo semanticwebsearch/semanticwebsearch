@@ -248,20 +248,104 @@ form.go-right label {
         right: 0;
         padding: 5px 0;
     }
+    .col-xs-10 {
+        width: 15%;
+    }
 }
 
-@media only screen and (min-width: 700px) {
-
+@media only screen and (min-width: 550px) {
+    .toggler .lookingForWidth {
+        max-width: 11%;
+    }
+    #lookFor .lookingForWidth{
+        max-width: 14%;
+    }
+    #displayAs .lookingForWidth{
+        max-width: 14%;
+    }
+    .fix-search .search input {
+        width: 70vw;
+    }
+    .top-header .menu-icon {
+        position: absolute;
+        top: 0;
+        right: 5vw;
+        padding: 5px 0;
+    }
+    .col-xs-10 {
+        width: 20%;
+    }
 }
+@media only screen and (min-width: 850px) {
+    .toggler .lookingForWidth {
+        max-width: 8%;
+    }
+    #lookFor .lookingForWidth {
+        max-width: 12%;
+    }
+    #displayAs .lookingForWidth{
+        max-width: 12%;
+    }
+}
+
 
 @media only screen and (min-width: 1000px) {
-
+    #lookFor .lookingForWidth {
+        max-width: 10%;
+    }
+    #displayAs .lookingForWidth{
+        max-width: 10%;
+    }
+    .toggler .lookingForWidth {
+        max-width: 6%;
+    }
+    .top-header .menu-icon {
+        position: absolute;
+        top: 0;
+        right: 9vw;
+        padding: 5px 0;
+    }
+    .col-xs-10 {
+        width: 16%;
+    }
 }
 
 @media only screen and (min-width: 1254px) {
-
+    #lookFor .lookingForWidth {
+        max-width: 8%;
+    }
+    #displayAs .lookingForWidth{
+        max-width: 8%;
+    }
+    .top-header .menu-icon {
+        position: absolute;
+        top: 0;
+        right: 13vw;
+        padding: 5px 0;
+    }
+    .col-xs-10 {
+        width: 14%;
+    }
 }
 
-@media only screen and (min-width: 1280px) {
+@media only screen and (min-width: 1400px) {
 
+    #lookFor .lookingForWidth {
+        max-width: 6%;
+    }
+    #displayAs .lookingForWidth{
+        max-width: 6%;
+    }
+    .toggler .lookingForWidth {
+        max-width: 4%;
+    }
+    .top-header .menu-icon {
+        position: absolute;
+        top: 0;
+        right: 18vw;
+        padding: 5px 0;
+    }
+    .col-xs-10 {
+        width: 10%;
+    }
 }

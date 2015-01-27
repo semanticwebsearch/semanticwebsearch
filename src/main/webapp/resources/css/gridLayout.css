@@ -42,9 +42,7 @@
         -webkit-column-count: 1;
         column-count: 1;
     }
-    #lookFor .lookingForWidth, #displayAs .lookingForWidth, .toggler .lookingForWidth{
-        max-width: 15%;
-    }
+
 }
 
 @media only screen and (min-width: 700px) {
