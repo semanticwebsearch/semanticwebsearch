@@ -20,20 +20,20 @@
                 <div class="aOptions feedbackOptions">
                     <div  class="lookingForWidth float-right">
                         <label class="img-checkbox-test">
-                            <input type='radio' name='feedbackOptions{{id}}' value='true' id=like{{id}} class="img-checkbox"/>
+                            <input type="radio" name="feedbackOptions{{id}}" value="true" id=like{{id}} class="img-checkbox"/>
                             <img class="img-responsive" src="/resources/img/icons/text.png" alt="pin"/>
                             <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="pin"/>
                         </label>
                     </div>
                     <div class="lookingForWidth float-right">
                         <label class="img-checkbox-test">
-                            <input type='radio' rel="/resources/css/listLayout.css" name='feedbackOptions{{id}}' value='true' id=dislike{{id}} class="img-checkbox"/>
+                            <input type="radio" rel="/resources/css/listLayout.css" name="feedbackOptions{{id}}" value="true" id=dislike{{id}} class="img-checkbox"/>
                             <img class="img-responsive" src="/resources/img/icons/video.png" alt="like"/>
                             <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="like"/>
                         </label>
                     </div>
                     <div class="lookingForWidth float-right">
-                        <input type='checkbox' rel="/resources/css/gridLayout.css" name='feedbackOptions' value='true' id={{pinId}} class="img-checkbox"/>
+                        <input type="checkbox" rel="/resources/css/gridLayout.css" name="feedbackOptions" value="true" id={{pinId}} class="img-checkbox"/>
                         <img class="img-responsive col-xxs-2 pinnable" src="/resources/img/icons/pin.png" onclick="Result.pin(this);" alt="Pin this" title="Pin this" />
                     </div>
                     <div style="clear:both"></div>
@@ -65,11 +65,8 @@
                           
                             <!--here come the map-->
                             <script type="text/javascript">
-                                initialize();
+                                initializeMap();
                             </script>
-                            <!--here come the map-->
-
-
                         </div>
                         {{#if content.description}}
                             <p itemprop="description">{{content.description}}</p>
@@ -113,13 +110,12 @@
             </div>
 
             <div id="top-search" class="search margin-top-xxs-1">
-                <form class="go-right" onsubmit="return false;">
+                <form id="searchForm" class="go-right" action="/rest/query" method="GET" onsubmit="return false;">
                     <div>
                         <input id="search" type="search" required />
-                        <label for="search">Search</label>
+                        <label for="search" class="search-animation">Search</label>
                     </div>
                 </form>
-
                 <!-- Search option-->
                 <div id="sOptions" class="row">
                     <hr class="no-display margin-xxs-0"/>
@@ -131,7 +127,7 @@
 
                         <!-- Search for text-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='text' value='true' checked="checked"  id="text" class="img-checkbox"/>
+                            <input type="checkbox" name="text" value="true" checked  id="text" class="img-checkbox"/>
                             <label for="text" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
                                 <img class="img-responsive" src="/resources/img/icons/text-selected.png" alt="Text"/>
@@ -139,7 +135,7 @@
                         </div>
                         <!-- Search for images-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name="image" value='true' checked="checked" id="image" class="img-checkbox"/>
+                            <input type="checkbox" name="image" value="true" checked id="image" class="img-checkbox"/>
                             <label for="image" class="img-responsive">
                                 <img class="img-responsive " src="/resources/img/icons/image.png" alt="Images"/>
                                 <img class="img-responsive" src="/resources/img/icons/image-selected.png" alt="Images"/>
@@ -147,7 +143,7 @@
                         </div>
                         <!-- Search for videos-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='video' value='true' checked="checked" id="video" class="img-checkbox"/>
+                            <input type="checkbox" name="video" value="true" checked id="video" class="img-checkbox"/>
                             <label for="video" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
                                 <img class="img-responsive" src="/resources/img/icons/video-selected.png" alt="Videos"/>
@@ -155,7 +151,7 @@
                         </div>
                         <!-- Search for maps-->
                         <div class="float-left lookingForWidth">
-                            <input type='checkbox' name='map' value='true' checked="checked" id="map" class="img-checkbox"/>
+                            <input type="checkbox" name="map" value="true" checked id="map" class="img-checkbox"/>
                             <label for="map" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
                                 <img class="img-responsive" src="/resources/img/icons/map-selected.png" alt="Maps"/>
@@ -170,7 +166,7 @@
                         <h5 class="float-left  margin-right-d">Display as: </h5>
 
                         <div class="float-left margin-right-d lookingForWidth">
-                            <input type='checkbox' rel="/resources/css/listLayout.css" name='displayOpt' value='true' id="list" class="img-checkbox"/>
+                            <input type="checkbox" rel="/resources/css/listLayout.css" name="displayOpt" value="true" id="list" class="img-checkbox"/>
                             <label for="list" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/display-list.png" alt="list"/>
                                 <img class="img-responsive" src="/resources/img/icons/display-list-selected.png" alt="list"/>
@@ -178,7 +174,7 @@
                         </div>
 
                         <div class="float-left margin-right-d lookingForWidth">
-                            <input type='checkbox' rel="/resources/css/gridLayout.css" name='displayOpt' value='true' id="grid" class="img-checkbox"/>
+                            <input type="checkbox" rel="/resources/css/gridLayout.css" name="displayOpt" value="true" id="grid" class="img-checkbox"/>
                             <label for="grid" class="img-responsive">
                                 <img class="img-responsive" src="/resources/img/icons/display-grid.png" alt="grid"/>
                                 <img class="img-responsive" src="/resources/img/icons/display-grid-selected.png" alt="grid"/>
@@ -208,34 +204,6 @@
         <script type="text/javascript" src="/resources/js/lib/handlebars-v2.0.0.js"></script>
         <script src="/resources/js/myclass.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwEElsPAq4kjt8FfBp1uq3qQ2J9yqp94">
-        </script>
-        <script>
-            Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
-                if (val1 === val2) {
-                    return options.fn(this);
-                }
-            });
-            var map;
-            function initialize() {
-                var lat = $('#map-canvas > meta:nth-child(1)').prop("content");
-                var lng = $('#map-canvas > meta:nth-child(2)').prop("content");
-                console.log(lat + " " + lng);
-                var mapOptions = {
-                    zoom: 8,
-                    center: new google.maps.LatLng(lat, lng)
-                };
-
-                map = new google.maps.Map(document.getElementById('map-canvas'),
-                        mapOptions);
-            }
-
-            function loadScript() {
-                var script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-                'callback=initialize';
-                document.body.appendChild(script);
-            }
         </script>
 
 

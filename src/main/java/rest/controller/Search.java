@@ -7,10 +7,7 @@ import rest.model.output.content.Map;
 import rest.model.output.content.Text;
 import rest.model.output.content.Video;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,14 +21,29 @@ public class Search {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Response> query(@QueryParam("q")String queryString) {
-        System.out.println(queryString);
+    public List<Response> query(@QueryParam("q")String queryString,
+                                @QueryParam("text")boolean isText,
+                                @QueryParam("image")boolean isImage,
+                                @QueryParam("map")boolean isMap,
+                                @QueryParam("video")boolean isVideo) {
+
         List<Response> response = new LinkedList<>();
         for(int i = 0; i < 1; i++) {
-            populateText(response);
-            populateImage(response);
-            populateVideo(response);
-            populateMaps(response);
+            if(isText) {
+                populateText(response);
+            }
+
+            if(isMap) {
+                populateMaps(response);
+            }
+
+            if(isImage) {
+                populateImage(response);
+            }
+
+            if(isVideo) {
+                populateVideo(response);
+            }
         }
 
         return response;
@@ -90,8 +102,8 @@ public class Search {
         Response qr = new Response();
 
         Map map = new Map();
-        map.setLatitude("-34.397");
-        map.setLongitude("150.644");
+        map.setLatitude("47.1739348");
+        map.setLongitude("27.5749005");
         map.setDescription("test map");
 
         qr.setContent(map);
