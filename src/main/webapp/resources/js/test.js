@@ -6,7 +6,7 @@ var wrap = $("#wrap");
 
 
 function detachSearchBar(){
-    console.log($("#search").val().length);
+
     if(($("#search").val().length == 1)) {
 
         console.log("DADAWDAWDAWDAWDAWDAWDA");
@@ -40,8 +40,10 @@ function detachSearchBar(){
         $("#displayAs").removeClass("no-display");
         $("#sOptions").removeClass("row");
         $("hr").removeClass("no-display");
+
+        lookingFor();
     }
-    lookingFor();
+
 }
 
 //looking for : check what am i looking for and set the list or gread layout for display of answers
@@ -79,14 +81,14 @@ function setLayout(name){
 }
 function layoutChanger(){
 
-//    var layoutDisplay = $("#displayAs input:checked");
-//    var displayType;
-//
-//    console.log(layoutDisplay[0].id);
-//    if(layoutDisplay[0].id=="grid"){
-//        displayType = "inline-block";
-//    }else{
-//        displayType = "block";
-//    }
-//    $(".answer").css("display",displayType);
+    var layoutDisplay = $("#displayAs input:checked");
+    var displayType;
+
+    console.log(layoutDisplay[0].id);
+    if(layoutDisplay[0].id=="grid"){
+        displayType = "inline-block";
+    }else{
+        displayType = "block";
+    }
+    $(".answer:visible").css("display",displayType);
 }
