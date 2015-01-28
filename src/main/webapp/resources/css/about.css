@@ -8,3 +8,26 @@
     margin: 0 auto;
     text-align: center;
 }
+
+#id {
+    width: 100%;
+}
+
+.two > img {
+    width: 48%;
+    float:left;
+    display: block;
+}
+
+.two {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.two > img:nth-child(1) {
+    margin-right: 2%;
+}
+
+#menu, #feedback, #home {
+    width: 100%;
+}
