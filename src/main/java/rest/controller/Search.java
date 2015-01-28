@@ -63,7 +63,7 @@ public class Search {
         qr.setLink("#");
         qr.setId(id++);
         qr.setType( ResponseType.TEXT);
-        qr.setItemType("article");
+        qr.setItemType("http://schema.org/TechArticle");
 
         list.add(qr);
     }
@@ -76,6 +76,7 @@ public class Search {
         img.setDescription("A short description of the image");
 
         qr.setContent(img);
+        qr.setItemType("http://schema.org/ImageObject");
         qr.setLink("#");
         qr.setId(id++);
         qr.setType(ResponseType.IMAGE);
@@ -88,10 +89,11 @@ public class Search {
         Response qr = new Response();
 
         Video video = new Video();
-        video.setSource("https://www.youtube.com/embed/co4YpHTqmfQ");
+        video.setSource("https://www.youtube.com/embed/pVJv32qj7xA");
         video.setDescription("A short description of the video");
 
         qr.setContent(video);
+        qr.setItemType("http://schema.org/VideoObject");
         qr.setLink("#");
         qr.setId(id++);
         qr.setType(ResponseType.VIDEO);
@@ -110,6 +112,7 @@ public class Search {
 
         qr.setContent(map);
         qr.setLink("#");
+        qr.setItemType("http://schema.org/Place");
         qr.setId(id++);
         qr.setType(ResponseType.MAP);
         qr.setItemType(ResponseType.MAP.toString());
