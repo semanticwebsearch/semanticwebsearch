@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Path("query")
 public class Search {
-    int id = 0;
+    static int id = 0;
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
