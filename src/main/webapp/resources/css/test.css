@@ -48,11 +48,24 @@ body {
     top: 10px;
     z-index: 90;
 }
-.pinAction {
+#pinAction {
     z-index: 80;
     position: fixed;
     bottom: 15px;
     left:44%;
+
+}
+#next{
+    opacity: 0.4;
+}
+#prev{
+    opacity: 0.4;
+}
+#next:hover{
+    opacity: 1;
+}
+#prev:hover{
+    opacity: 1;
 }
 .fix-search .search input {
     width: 50vw;
