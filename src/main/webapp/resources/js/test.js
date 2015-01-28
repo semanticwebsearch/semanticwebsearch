@@ -38,8 +38,8 @@ function detachSearchBar(){
         $("#displayAs").removeClass("no-display");
         $("#sOptions").removeClass("row");
         $("hr").removeClass("no-display");
+        lookingFor();
     }
-    lookingFor();
 }
 
 //looking for : check what am i looking for and set the list or gread layout for display of answers
@@ -66,10 +66,9 @@ function setLayout(name){
       //  console.log($(displayAs));
         $("#mainLayout").prop("href", $(displayAs).attr('rel'));
 
-        layoutChanger();
-
         group.prop("checked",false);
-        $(displayAs).prop("checked",true);
+        $(displayAs).prop("checked",true)
+        layoutChanger();
 
     }else{
        // console.log("[setLayout(name)] there is no id :" + name);

@@ -141,6 +141,7 @@ var myNamespace = {
 
             $('#search').on('input',function(){
                 clearTimeout(this.callTimeout);
+                console.log("dada");
                 this.callTimeout = setTimeout(myNamespace.Ajax.submitForm, 1000);
                 detachSearchBar();
 
