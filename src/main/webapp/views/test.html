@@ -44,7 +44,7 @@
                     {{/ifEqual}}
 
                     {{#ifEqual type "image"}}
-                        <img itemprop="image" src="{{content.source}}" class="img-responsive" alt="image"  />
+                        <img itemprop="image" src="{{content.source}}" class="display-center img-responsive" alt="image"  />
                         {{#if content.description}}
                             <p>{{content.description}}</p>
                         {{/if}}
@@ -52,7 +52,7 @@
 
                     {{#ifEqual type "video"}}
                     <!--For youtube embed-->
-                        <object data="{{content.source}}" width="100%" ></object>
+                        <object data="{{content.source}}" class=" margin-left-15" width="70%" ></object>
                         {{#if content.description}}
                             <p itemprop="description">{{content.description}}</p>
                         {{/if}}
