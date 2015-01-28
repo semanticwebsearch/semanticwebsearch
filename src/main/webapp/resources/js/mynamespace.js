@@ -5,6 +5,7 @@ var myNamespace = {
         index : 0,
 
         pin : function (post) {
+            $("#pinAction").removeClass("no-display");
             $(post).toggleClass("pinned");
             if ($(post).hasClass('pinned')) {
                 $(post).attr("src", "/resources/img/icons/pinned.png");
@@ -35,6 +36,8 @@ var myNamespace = {
         previousPin : function () {
             if(this.index > 0) {
                 this.index --;
+            } else if(this.index == 0) {
+                this.index = this.pinnedPostsList.length - 1;
             }
 
             var previousPinnedPost = this.pinnedPostsList[this.index];
@@ -44,8 +47,8 @@ var myNamespace = {
         nextPin : function () {
             if(this.index < this.pinnedPostsList.length - 1) {
                 this.index++;
-            } else if(this.index > this.pinnedPostsList.length - 1) {
-                this.index = this.pinnedPostsList.length - 1;
+            } else if(this.index >= this.pinnedPostsList.length - 1) {
+                this.index = 0;
             }
 
             var nextPinnedPost = this.pinnedPostsList[this.index];
