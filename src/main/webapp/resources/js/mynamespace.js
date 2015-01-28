@@ -72,6 +72,8 @@ var myNamespace = {
                     var data2 = { answer : data };
                     var html = template(data2);
                     $('#answers').append(html);
+
+                    layoutChanger();
                 })
                 .fail(function() {
                     console.log( "error" );
@@ -157,13 +159,16 @@ var myNamespace = {
                      */
                     console.log($("#answers").find(answer).length);
                     if($("#answers").find(answer).length > 0) {
-                        $(answer).fadeIn('slow').css("display","block");
+                        $(answer).fadeIn('slow');
+                        layoutChanger();
+
                     } else {
                         if($.trim($("#search").val()).length > 0) {
                             myNamespace.Ajax.dataForType(name);
                         }
                     }
                 }
+
             });
 
             //swap the css format for answers display
@@ -177,6 +182,8 @@ var myNamespace = {
                     $(this).prop("checked",true);
 
                     $("#mainLayout").prop("href",$(this).attr('rel'));
+
+                    layoutChanger();
                 }
             });
         },

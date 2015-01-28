@@ -66,9 +66,23 @@ function setLayout(name){
       //  console.log($(displayAs));
         $("#mainLayout").prop("href", $(displayAs).attr('rel'));
 
+        layoutChanger();
+
         group.prop("checked",false);
         $(displayAs).prop("checked",true);
+
     }else{
        // console.log("[setLayout(name)] there is no id :" + name);
     }
+}
+function layoutChanger(){
+    var layoutDisplay = $("#displayAs input:checked");
+    var displayType;
+    console.log(layoutDisplay[0].id);
+    if(layoutDisplay[0].id=="grid"){
+        displayType = "inline-block";
+    }else{
+        displayType = "block";
+    }
+    $(".answer").css("display",displayType);
 }
