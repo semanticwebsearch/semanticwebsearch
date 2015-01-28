@@ -144,7 +144,6 @@ var myNamespace = {
                 console.log("dada");
                 this.callTimeout = setTimeout(myNamespace.Ajax.submitForm, 1000);
                 detachSearchBar();
-
             });
 
             $('#lookFor div label').on('click',function(){
