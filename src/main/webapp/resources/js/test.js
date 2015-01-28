@@ -64,6 +64,9 @@ function detachSearchBar(){
 
   };
 
+/*
+ *   Changes the display mode -> grid / linear
+ */
 function setLayout(name){
 
     var group = $('#displayAs input:checkbox');
@@ -79,6 +82,10 @@ function setLayout(name){
         console.log("[setLayout(name)] there is no id :" + name);
     }
 }
+
+/*
+*   Changes the display mode -> grid / linear
+*/
 function layoutChanger(){
 
     var layoutDisplay = $("#displayAs input:checked");

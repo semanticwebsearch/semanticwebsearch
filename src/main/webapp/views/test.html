@@ -61,10 +61,10 @@
                     {{#ifEqual type "map"}}
                         <meta itemprop="latitude" content="{{content.latitude}}" />
                         <meta itemprop="longitude" content="{{content.longitude}}" />
-                        <div id="map-canvas" class="map-canvas" itemprop="geo">
+                        <div id="map-canvas{{id}}" class="map-canvas" itemprop="geo">
                             <!--here come the map-->
                             <script type="text/javascript">
-                                myNamespace.Template.initializeMap();
+                                myNamespace.Template.initializeMap("{{id}}");
                             </script>
                         </div>
                         {{#if content.description}}
