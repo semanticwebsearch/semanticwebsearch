@@ -6,8 +6,10 @@ var wrap = $("#wrap");
 
 
 function detachSearchBar(){
-    if(!($("#toggled_content").find("#sOptions").length == 1)) {
+    console.log($("#search").val().length);
+    if(($("#search").val().length == 1)) {
 
+        console.log("DADAWDAWDAWDAWDAWDAWDA");
        // console.log( "Handler for .keypress() called." );
         wrap.addClass("fix-search");
 
@@ -45,6 +47,7 @@ function detachSearchBar(){
 //looking for : check what am i looking for and set the list or gread layout for display of answers
 
  function lookingFor(){
+
       var searchTypes = $("#lookFor input:checkbox:checked");
       var noOfSelectedSearchTypes = searchTypes.length;
 
@@ -56,6 +59,7 @@ function detachSearchBar(){
              $("#lookFor input:checkbox").prop('checked',true);
          }
      }
+
   };
 
 function setLayout(name){
@@ -65,24 +69,24 @@ function setLayout(name){
     if($(displayAs).length > 0) {
       //  console.log($(displayAs));
         $("#mainLayout").prop("href", $(displayAs).attr('rel'));
-
-        layoutChanger();
-
         group.prop("checked",false);
         $(displayAs).prop("checked",true);
 
+        layoutChanger();
     }else{
-       // console.log("[setLayout(name)] there is no id :" + name);
+        console.log("[setLayout(name)] there is no id :" + name);
     }
 }
 function layoutChanger(){
-    var layoutDisplay = $("#displayAs input:checked");
-    var displayType;
-    console.log(layoutDisplay[0].id);
-    if(layoutDisplay[0].id=="grid"){
-        displayType = "inline-block";
-    }else{
-        displayType = "block";
-    }
-    $(".answer").css("display",displayType);
+
+//    var layoutDisplay = $("#displayAs input:checked");
+//    var displayType;
+//
+//    console.log(layoutDisplay[0].id);
+//    if(layoutDisplay[0].id=="grid"){
+//        displayType = "inline-block";
+//    }else{
+//        displayType = "block";
+//    }
+//    $(".answer").css("display",displayType);
 }
