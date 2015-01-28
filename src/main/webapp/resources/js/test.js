@@ -4,6 +4,7 @@
 
 var wrap = $("#wrap");
 var callTimeout;
+
 $('#search').on('input',function(){
     clearTimeout(callTimeout);
     callTimeout = setTimeout(Ajax.submitForm, 1000);

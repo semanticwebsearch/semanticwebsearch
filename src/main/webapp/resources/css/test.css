@@ -48,7 +48,12 @@ body {
     top: 10px;
     z-index: 90;
 }
-
+.pinAction {
+    z-index: 80;
+    position: fixed;
+    bottom: 15px;
+    left:44%;
+}
 .fix-search .search input {
     width: 50vw;
 }
@@ -166,6 +171,10 @@ form.go-right label.search-animation {
 /* displaying content */
 .answer{
     z-index: -1;
+
+}
+main{
+    margin-top: 80px ;
 }
 
 /* width sizes*/
@@ -250,6 +259,9 @@ form.go-right label.search-animation {
     }
     .col-xs-10 {
         width: 15%;
+    }
+    .margin-right-d {
+        margin-right: 1px;
     }
 }
 

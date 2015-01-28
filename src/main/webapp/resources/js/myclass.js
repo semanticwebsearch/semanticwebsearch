@@ -3,6 +3,11 @@ var Result = {
     index : 0,
 
     pin : function (post) {
+
+        // set the pinAction to be displayed
+
+        $("#pinAction").removeClass("no-display");
+
         $(post).toggleClass("pinned");
         if ($(post).hasClass('pinned')) {
             $(post).attr("src", "/resources/img/icons/pinned.png");
