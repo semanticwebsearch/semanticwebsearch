@@ -52,7 +52,7 @@
 
                     {{#ifEqual type "video"}}
                     <!--For youtube embed-->
-                        <object data="{{content.source}}" class=" margin-left-15" width="70%" ></object>
+                        <object data="{{content.source}}" class="video-height margin-left-15" width="70%" ></object>
                         {{#if content.description}}
                             <p itemprop="description">{{content.description}}</p>
                         {{/if}}
@@ -123,7 +123,7 @@
                     <!--Selects the type of the search (text/video/images/maps)-->
                     <div id="lookFor" class=" max-width-50 float-left">
 
-                        <h5 class="float-left">Looking for: </h5>
+                        <h5 class="margin-top-xxs-4 float-left margin-right-d">Looking for: </h5>
 
                         <!-- Search for text-->
                         <div class="float-left lookingForWidth margin-right-d">
@@ -163,7 +163,7 @@
 
                     <!--Selects the display mode-->
                     <div id="displayAs" class="no-display max-width-50 float-left">
-                        <h5 class="float-left  margin-right-d">Display as: </h5>
+                        <h5 class="margin-top-xxs-4 float-left  margin-right-d">Display as: </h5>
 
                         <div class="float-left margin-right-d lookingForWidth">
                             <input type="checkbox" rel="/resources/css/listLayout.css" name="displayOpt" value="true" id="list" class="img-checkbox"/>
@@ -194,15 +194,12 @@
 
             </main><!--end main-->
 
+            <div id="pinAction" class="pinAction no-display">
+                <img id="prev" src="/resources/img/icons/previous.png" onclick="myNamespace.Result.previousPin()">
+                <img id="next" src="/resources/img/icons/next.png" onclick="myNamespace.Result.nextPin()">
+            </div>
+
         </div><!--end wrapper-->
-
-        <div id="pinAction" class="pinAction no-display">
-            <button onclick="myNamespace.Result.nextPin()">Next</button>
-            <button onclick="myNamespace.Result.previousPin()">Previous</button>
-            <img id="prev" src="/resources/img/icons/previous.png" onclick="Result.previousPin()">
-            <img id="next" src="/resources/img/icons/next.png" onclick="Result.nextPin()">
-        </div>
-
 
         <script src="/resources/js/lib/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="/resources/js/lib/handlebars-v2.0.0.js"></script>

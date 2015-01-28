@@ -272,14 +272,23 @@ main{
     .top-header .menu-icon {
         position: absolute;
         top: 0;
-        right: 0;
+        right: 3vw;
         padding: 5px 0;
     }
     .col-xs-10 {
-        width: 15%;
+        width: 11%;
     }
     .margin-right-d {
         margin-right: 1px;
+    }
+    #logo-md{
+        content: url(/resources/img/logo-sm.png);
+    }
+    .margin-top-xxs-4 {
+        margin-top: 4.5%;
+    }
+    .video-height{
+        min-height: 150px;
     }
 }
 
@@ -299,14 +308,31 @@ main{
     .top-header .menu-icon {
         position: absolute;
         top: 0;
+        right: 2vw;
+        padding: 5px 0;
+    }
+    .col-xs-10 {
+        width: 23%;
+    }
+    #logo-md{
+        content: url(/resources/img/logo-md.png);
+    }
+}
+@media only screen and (min-width: 700px){
+
+    .top-header .menu-icon {
+        position: absolute;
+        top: 0;
         right: 5vw;
         padding: 5px 0;
     }
     .col-xs-10 {
         width: 20%;
     }
+
 }
 @media only screen and (min-width: 850px) {
+
     .toggler .lookingForWidth {
         max-width: 8%;
     }
@@ -316,10 +342,16 @@ main{
     #displayAs .lookingForWidth{
         max-width: 12%;
     }
+    .video-height{
+        min-height: 200px;
+    }
 }
 
 
 @media only screen and (min-width: 1000px) {
+    .margin-top-xxs-4 {
+        margin-top: 3.5%;
+    }
     #lookFor .lookingForWidth {
         max-width: 10%;
     }
@@ -359,7 +391,9 @@ main{
 }
 
 @media only screen and (min-width: 1400px) {
-
+    .margin-top-xxs-4 {
+        margin-top: 2%;
+    }
     #lookFor .lookingForWidth {
         max-width: 6%;
     }
@@ -377,5 +411,8 @@ main{
     }
     .col-xs-10 {
         width: 10%;
+    }
+    .video-height{
+        min-height: 250px;
     }
 }

@@ -7,6 +7,7 @@ var myNamespace = {
         pin : function (post) {
             $("#pinAction").removeClass("no-display");
             $(post).toggleClass("pinned");
+
             if ($(post).hasClass('pinned')) {
                 $(post).attr("src", "/resources/img/icons/pinned.png");
                 this.pinnedPostsList.push(post);
@@ -15,6 +16,11 @@ var myNamespace = {
                 $(post).attr("src", "/resources/img/icons/pin.png");
                 this.pinnedPostsList.splice( $.inArray(post, this.pinnedPostsList), 1);
                 this.index--;
+
+                console.log(this.pinnedPostsList.length);
+                if(this.pinnedPostsList.length==0){
+                    $("#pinAction").addClass("no-display");
+                }
             }
         },
 
