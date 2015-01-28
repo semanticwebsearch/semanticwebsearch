@@ -3,14 +3,7 @@
  */
 
 var wrap = $("#wrap");
-var callTimeout;
 
-$('#search').on('input',function(){
-    clearTimeout(callTimeout);
-    callTimeout = setTimeout(Ajax.submitForm, 1000);
-    detachSearchBar();
-
-});
 
 function detachSearchBar(){
     if(!($("#toggled_content").find("#sOptions").length == 1)) {
@@ -80,26 +73,35 @@ function setLayout(name){
     }
 }
 
-$('.toggler').on('click',function(){
+/*$('.toggler').on('click',function(){
 
     $(this).parent().children().toggle();  //swaps the display:none between the two spans
     $(this).parent().parent().find('#toggled_content').slideToggle('fast');  //swap the display of the main content with slide action
-});
-
+});*/
+/*
 $('#lookFor div label').on('click',function(){
 
-    var name =$(this).parent().find('input').prop('name');
+    var name = $(this).parent().find('input').prop('name');
     var answer = ".answer.answer-"+ name;
 
     if($(this).parent().find('input').get(0).checked){
         $(answer).fadeOut('fast');
     }else{
-        //testeaza daca exista acele date ....
-        //daca nu exista trebuie aduse altfel ->
-        $(answer).fadeIn('slow').css("display","inline-block");
+        *//*If this type of data does not exists on page,
+        * we will call the server and get that data
+        *//*
+        console.log($("#answers").find(answer).length);
+        if($("#answers").find(answer).length > 0) {
+            $(answer).fadeIn('slow').css("display","inline-block");
+        } else {
+            if($.trim($("#search").val()).length > 0) {
+                myNamespace.Ajax.dataForType(name);
+            }
+        }
     }
-});
+});*/
 
+/*
 
 //swap the css format for answers display
 $("input:checkbox").click(function(){
@@ -113,4 +115,4 @@ $("input:checkbox").click(function(){
 
         $("#mainLayout").prop("href",$(this).attr('rel'));
     }
-});
+});*/
