@@ -2,12 +2,10 @@ package rest.model.output;
 
 import rest.model.output.content.Content;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Created by Spac on 25 Ian 2015.
  */
-@XmlRootElement
+
 public class Response {
     private int id;
     private ResponseType type;

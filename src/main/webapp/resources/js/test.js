@@ -40,10 +40,8 @@ function detachSearchBar(){
         $("#displayAs").removeClass("no-display");
         $("#sOptions").removeClass("row");
         $("hr").removeClass("no-display");
-
-        lookingFor();
     }
-
+    lookingFor();
 }
 
 //looking for : check what am i looking for and set the list or gread layout for display of answers
