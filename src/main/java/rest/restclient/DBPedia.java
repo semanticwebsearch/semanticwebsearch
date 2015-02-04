@@ -8,9 +8,9 @@ import com.hp.hpl.jena.query.ResultSet;
 /**
  * Created by valentin.spac on 2/4/2015.
  */
-public class DBPediaClient {
+class DBPedia implements RestClient {
 
-    public static ResultSet query(String queryString) {
+    public ResultSet query(String queryString) {
         ParameterizedSparqlString qs = new ParameterizedSparqlString(queryString);
 
         QueryExecution exec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", qs.asQuery());

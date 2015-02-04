@@ -61,4 +61,14 @@ public class SearchData {
     public void setImage(boolean isPicture) {
         this.isImage = isPicture;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SearchData: \n\tquery: ").append(query).append("\n\ttext: ").append(isText)
+                .append("\n\tmap: ").append(isMap).append("\n\tvideo: ").append(isVideo)
+                .append("\n\timage: ").append(isImage);
+
+        return sb.toString();
+    }
 }

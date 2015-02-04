@@ -1,5 +1,7 @@
 package rest.example.model;
 
+import rest.restclient.RestClient;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement

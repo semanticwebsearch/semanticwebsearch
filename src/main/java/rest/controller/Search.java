@@ -1,5 +1,6 @@
 package rest.controller;
 
+import org.apache.log4j.Logger;
 import rest.model.SearchData;
 import rest.model.output.Response;
 import rest.model.output.ResponseType;
@@ -7,6 +8,8 @@ import rest.model.output.content.Image;
 import rest.model.output.content.Map;
 import rest.model.output.content.Text;
 import rest.model.output.content.Video;
+import rest.restclient.RestClient;
+import rest.restclient.RestClientFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,9 +23,14 @@ import java.util.List;
 public class Search {
     static int id = 0;
 
+    public static Logger log = Logger.getLogger(Search.class.getCanonicalName());
+
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Response> query(@BeanParam SearchData searchData) {
+        if(log.isInfoEnabled()) {
+            log.info(searchData.toString());
+        }
 
         List<Response> response = new LinkedList<>();
         for(int i = 0; i < 1; i++) {
