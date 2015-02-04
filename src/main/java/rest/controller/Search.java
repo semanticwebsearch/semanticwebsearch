@@ -1,5 +1,6 @@
 package rest.controller;
 
+import rest.model.SearchData;
 import rest.model.output.Response;
 import rest.model.output.ResponseType;
 import rest.model.output.content.Image;
@@ -21,27 +22,23 @@ public class Search {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Response> query(@QueryParam("q")String queryString,
-                                @QueryParam("text")boolean isText,
-                                @QueryParam("image")boolean isImage,
-                                @QueryParam("map")boolean isMap,
-                                @QueryParam("video")boolean isVideo) {
+    public List<Response> query(@BeanParam SearchData searchData) {
 
         List<Response> response = new LinkedList<>();
         for(int i = 0; i < 1; i++) {
-            if(isText) {
+            if(searchData.isText()) {
                 populateText(response);
             }
 
-            if(isMap) {
+            if(searchData.isMap()) {
                 populateMaps(response);
             }
 
-            if(isImage) {
+            if(searchData.isImage()) {
                 populateImage(response);
             }
 
-            if(isVideo) {
+            if(searchData.isVideo()) {
                 populateVideo(response);
             }
         }

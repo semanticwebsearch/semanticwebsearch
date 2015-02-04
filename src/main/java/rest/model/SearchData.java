@@ -1,24 +1,25 @@
 package rest.model;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.QueryParam;
 
 public class SearchData {
 
     // region Private Field
-    @FormParam("query")
+    @QueryParam("q")
     private String query;
 
-    @FormParam("text")
+    @QueryParam("text")
     private boolean isText;
 
-    @FormParam("map")
+    @QueryParam("map")
     private boolean isMap;
 
-    @FormParam("video")
+    @QueryParam("video")
     private boolean isVideo;
 
-    @FormParam("picture")
-    private boolean isPicture;
+    @QueryParam("image")
+    private boolean isImage;
     //endregion
 
     public String getQuery() {
@@ -53,11 +54,11 @@ public class SearchData {
         this.isVideo = isVideo;
     }
 
-    public boolean isPicture() {
-        return isPicture;
+    public boolean isImage() {
+        return isImage;
     }
 
-    public void setPicture(boolean isPicture) {
-        this.isPicture = isPicture;
+    public void setImage(boolean isPicture) {
+        this.isImage = isPicture;
     }
 }

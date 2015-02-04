@@ -13,16 +13,6 @@ public class Response {
     private String link;
     private String itemType; //gen metadata
 
-    public Response(int id, ResponseType type, Content content, String link) {
-        this.id = id;
-        this.type = type;
-        this.content = content;
-        this.link = link;
-    }
-
-    public Response() {
-    }
-
     public int getId() {
         return id;
     }
