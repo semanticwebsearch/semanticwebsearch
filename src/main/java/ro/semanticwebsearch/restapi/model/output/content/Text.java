@@ -1,4 +1,4 @@
-package rest.model.output.content;
+package ro.semanticwebsearch.restapi.model.output.content;
 
 /**
  * Created by valentin.spac on 1/27/2015.

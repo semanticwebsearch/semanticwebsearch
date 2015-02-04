@@ -1,7 +1,7 @@
-package rest.restclient;
+package ro.semanticwebsearch.restclient;
 
 import org.apache.log4j.Logger;
-import rest.restclient.exception.IllegalClassConstructorException;
+import ro.semanticwebsearch.restclient.exception.IllegalClassConstructorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,8 @@ public class RestClientFactory {
         registeredClients.put("DBPedia", DBPedia.class);
     }
 
-    public static RestClient getInstanceFor(String clientType) throws InstantiationException, IllegalAccessException {
+    public static RestClient getInstanceFor(String clientType)
+            throws InstantiationException, IllegalAccessException, IllegalArgumentException{
 
         if(registeredClients.containsKey(clientType)) {
             if(log.isInfoEnabled()) {
@@ -56,7 +57,7 @@ public class RestClientFactory {
 
         if(!RestClient.class.isAssignableFrom(client)) {
             throw new IllegalArgumentException("The added class must implement " + RestClient.class.getCanonicalName() + " interface!");
-        } else if(hasNoArgsConstructor(client)) {
+        } else if(!hasNoArgsConstructor(client)) {
             throw new IllegalClassConstructorException("Class " + client.getCanonicalName() + " must have a no-args constructor!");
         } else {
             registeredClients.put(tag, client);

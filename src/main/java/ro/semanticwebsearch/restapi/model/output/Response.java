@@ -1,6 +1,6 @@
-package rest.model.output;
+package ro.semanticwebsearch.restapi.model.output;
 
-import rest.model.output.content.Content;
+import ro.semanticwebsearch.restapi.model.output.content.Content;
 
 /**
  * Created by Spac on 25 Ian 2015.

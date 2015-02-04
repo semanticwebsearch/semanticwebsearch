@@ -1,4 +1,4 @@
-package rest.restclient;
+package ro.semanticwebsearch.restclient;
 
 import com.hp.hpl.jena.query.ResultSet;
 

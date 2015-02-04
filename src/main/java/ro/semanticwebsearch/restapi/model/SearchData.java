@@ -1,6 +1,5 @@
-package rest.model;
+package ro.semanticwebsearch.restapi.model;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.QueryParam;
 
 public class SearchData {

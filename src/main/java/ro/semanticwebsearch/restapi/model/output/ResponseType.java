@@ -1,4 +1,4 @@
-package rest.model.output;
+package ro.semanticwebsearch.restapi.model.output;
 
 
 import com.fasterxml.jackson.annotation.JsonValue;

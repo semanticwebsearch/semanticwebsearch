@@ -1,13 +1,13 @@
-package rest.model.output.content;
+package ro.semanticwebsearch.restapi.model.output.content;
 
 /**
  * Created by valentin.spac on 1/27/2015.
  */
-public class Image implements Content {
+public class Video implements Content {
     private String source;
     private String description;
 
-    public Image() {
+    public Video() {
     }
 
     public String getSource() {

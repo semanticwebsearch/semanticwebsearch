@@ -11,7 +11,7 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                rest
+                ro.semanticwebsearch.restapi
                 com.fasterxml.jackson.jaxrs.json  <!-- JSON -->
                 com.fasterxml.jackson.jaxrs.xml
             </param-value>
@@ -24,6 +24,6 @@
     </context-param>
     <servlet-mapping>
         <servlet-name>Jersey 2</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/ro.semanticwebsearch.restapi/*</url-pattern>
     </servlet-mapping>
 </web-app>

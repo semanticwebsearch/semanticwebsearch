@@ -1,15 +1,13 @@
-package rest.controller;
+package ro.semanticwebsearch.restapi.endpoint;
 
 import org.apache.log4j.Logger;
-import rest.model.SearchData;
-import rest.model.output.Response;
-import rest.model.output.ResponseType;
-import rest.model.output.content.Image;
-import rest.model.output.content.Map;
-import rest.model.output.content.Text;
-import rest.model.output.content.Video;
-import rest.restclient.RestClient;
-import rest.restclient.RestClientFactory;
+import ro.semanticwebsearch.restapi.model.SearchData;
+import ro.semanticwebsearch.restapi.model.output.Response;
+import ro.semanticwebsearch.restapi.model.output.ResponseType;
+import ro.semanticwebsearch.restapi.model.output.content.Image;
+import ro.semanticwebsearch.restapi.model.output.content.Map;
+import ro.semanticwebsearch.restapi.model.output.content.Text;
+import ro.semanticwebsearch.restapi.model.output.content.Video;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
