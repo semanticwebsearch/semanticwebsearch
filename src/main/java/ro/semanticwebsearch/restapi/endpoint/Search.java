@@ -1,6 +1,7 @@
 package ro.semanticwebsearch.restapi.endpoint;
 
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.dbmanager.DbManager;
 import ro.semanticwebsearch.restapi.model.SearchData;
 import ro.semanticwebsearch.restapi.model.output.Response;
 import ro.semanticwebsearch.restapi.model.output.ResponseType;
@@ -8,9 +9,14 @@ import ro.semanticwebsearch.restapi.model.output.content.Image;
 import ro.semanticwebsearch.restapi.model.output.content.Map;
 import ro.semanticwebsearch.restapi.model.output.content.Text;
 import ro.semanticwebsearch.restapi.model.output.content.Video;
+import ro.semanticwebsearch.training.Person;
 
-import javax.ws.rs.*;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,10 +31,23 @@ public class Search {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Response> query(@BeanParam SearchData searchData) {
+    public List<Response> query(@BeanParam SearchData searchData) throws Exception {
         if(log.isInfoEnabled()) {
             log.info(searchData.toString());
         }
+
+
+        Collection<SearchData> users = DbManager.selectQuery("from Person", SearchData.class);
+
+        for(SearchData u : users) {
+            System.out.println(u);
+        }
+
+        Person s = new Person();
+        s.setFunctie("dada");
+        s.setNume("numeeeee");
+        s.setPrenume("dda231");
+
 
         List<Response> response = new LinkedList<>();
         for(int i = 0; i < 1; i++) {

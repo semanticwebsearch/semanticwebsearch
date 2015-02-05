@@ -4,6 +4,16 @@
 
 <web-app>
   <display-name>Semantic Web Search</display-name>
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/log4j.properties</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>
+            ro.semanticwebsearch.dbmanager.HibernateListener
+        </listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>Jersey 2</servlet-name>
@@ -18,12 +28,8 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>/WEB-INF/classes/log4j.properties</param-value>
-    </context-param>
     <servlet-mapping>
         <servlet-name>Jersey 2</servlet-name>
-        <url-pattern>/ro.semanticwebsearch.restapi/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 </web-app>
