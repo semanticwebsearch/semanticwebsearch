@@ -2,7 +2,7 @@ package ro.semanticwebsearch.restapi.model;
 
 import javax.ws.rs.QueryParam;
 
-public class SearchData {
+public class SearchDAO {
 
     // region Private Field
     @QueryParam("q")

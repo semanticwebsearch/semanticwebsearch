@@ -2,7 +2,7 @@ package ro.semanticwebsearch.restapi.endpoint;
 
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.dbmanager.DbManager;
-import ro.semanticwebsearch.restapi.model.SearchData;
+import ro.semanticwebsearch.restapi.model.SearchDAO;
 import ro.semanticwebsearch.restapi.model.output.Response;
 import ro.semanticwebsearch.restapi.model.output.ResponseType;
 import ro.semanticwebsearch.restapi.model.output.content.Image;
@@ -31,15 +31,15 @@ public class Search {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Response> query(@BeanParam SearchData searchData) throws Exception {
+    public List<Response> query(@BeanParam SearchDAO searchDAO) throws Exception {
         if(log.isInfoEnabled()) {
-            log.info(searchData.toString());
+            log.info(searchDAO.toString());
         }
 
 
-        Collection<SearchData> users = DbManager.selectQuery("from Person", SearchData.class);
+        Collection<SearchDAO> users = DbManager.selectQuery("from Person", SearchDAO.class);
 
-        for(SearchData u : users) {
+        for(SearchDAO u : users) {
             System.out.println(u);
         }
 
@@ -51,19 +51,19 @@ public class Search {
 
         List<Response> response = new LinkedList<>();
         for(int i = 0; i < 1; i++) {
-            if(searchData.isText()) {
+            if(searchDAO.isText()) {
                 populateText(response);
             }
 
-            if(searchData.isMap()) {
+            if(searchDAO.isMap()) {
                 populateMaps(response);
             }
 
-            if(searchData.isImage()) {
+            if(searchDAO.isImage()) {
                 populateImage(response);
             }
 
-            if(searchData.isVideo()) {
+            if(searchDAO.isVideo()) {
                 populateVideo(response);
             }
         }
