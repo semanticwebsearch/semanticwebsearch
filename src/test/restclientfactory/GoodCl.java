@@ -1,4 +1,4 @@
-package restclientfactorytestclasses;
+package restclientfactory;
 
 import com.hp.hpl.jena.query.ResultSet;
 import ro.semanticwebsearch.restclient.RestClient;

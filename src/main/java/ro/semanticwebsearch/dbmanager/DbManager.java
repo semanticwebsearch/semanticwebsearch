@@ -4,9 +4,9 @@ import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import ro.semanticwebsearch.training.AuditInterceptor;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,11 +47,19 @@ public class DbManager {
 
 
     /**
-     * Returns the current session
-     * @return current session
+     * Returns a new opened session
+     * @return new opened session
      */
     public static Session getSession() {
         return sessionFactory.openSession();
+    }
+
+    /**
+     * Returns the current session
+     * @return current session
+     */
+    public static Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 
 
@@ -65,13 +73,15 @@ public class DbManager {
      */
     public static <T> Collection<T> selectQuery(String queryString, Class<T> objTypeReturned) throws ClassCastException {
         Query query = getSession().createQuery(queryString);
-        List w = query.list();
+        List results = query.list();
 
-        if(!objTypeReturned.isInstance(w.get(0))) {
-            throw new ClassCastException("Type mismatch. Expected " + objTypeReturned.getName()+ " got " + w.get(0).getClass());
+        if(results.isEmpty()) {
+            return Collections.emptyList();
+        } else if(!objTypeReturned.isInstance(results.get(0))) {
+            throw new ClassCastException("Type mismatch. Expected " + objTypeReturned.getName()+ " got " + results.get(0).getClass());
         } else {
             Collection<T> response = new LinkedList<>();
-            response.addAll(w);
+            response.addAll(results);
             return response;
         }
     }
@@ -82,9 +92,10 @@ public class DbManager {
      * @param obj object to be persisted
      */
     public static void persist(Object obj) {
-        Transaction tx = getSession().beginTransaction();
-        getSession().persist(obj);
-        getSession().flush();
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(obj);
+        session.flush();
         tx.commit();
     }
 
@@ -94,9 +105,10 @@ public class DbManager {
      * @param obj object to be saved
      */
     public static void save(Object obj) {
-        Transaction tx = getSession().beginTransaction();
-        getSession().save(obj);
-        getSession().flush();
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        session.save(obj);
+        session.flush();
         tx.commit();
     }
 
@@ -106,9 +118,10 @@ public class DbManager {
      * @param obj object to be saved (or updated)
      */
     public static void saveOrUpdate(Object obj) {
-        Transaction tx = getSession().beginTransaction();
-        getSession().saveOrUpdate(obj);
-        getSession().flush();
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        session.saveOrUpdate(obj);
+        session.flush();
         tx.commit();
     }
 
@@ -118,11 +131,27 @@ public class DbManager {
      * @param obj object to be updated
      */
     public static void update(Object obj) {
-        Transaction tx = getSession().beginTransaction();
-        getSession().update(obj);
-        getSession().flush();
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        session.update(obj);
+        session.flush();
         tx.commit();
     }
 
+    public static void deleteAllFrom(Class<?> tableName) {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("DELETE FROM " + tableName.getSimpleName());
+        q.executeUpdate();
+        session.flush();
+        tx.commit();
+
+    }
+
+    private static boolean isClassMapped(Class<?> tableName) {
+       return sessionFactory.getClassMetadata(tableName) != null;
+    }
+
+    //saveAll, persistAll, updateAll
 
 }

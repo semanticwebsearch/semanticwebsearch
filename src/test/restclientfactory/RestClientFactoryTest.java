@@ -1,10 +1,10 @@
+package restclientfactory;
+
 import com.hp.hpl.jena.query.ResultSet;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import restclientfactorytestclasses.GoodCl;
-import restclientfactorytestclasses.GoodCl2;
 import ro.semanticwebsearch.restclient.RestClient;
 import ro.semanticwebsearch.restclient.RestClientFactory;
 import ro.semanticwebsearch.restclient.exception.IllegalClassConstructorException;
