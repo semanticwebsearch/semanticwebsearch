@@ -14,7 +14,6 @@ class AuditInterceptor extends EmptyInterceptor{
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) {
-		// TODO Auto-generated method stub
 		if(log.isInfoEnabled()) {
             log.info("Entity saved! " + entity.toString());
         }

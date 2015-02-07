@@ -49,4 +49,19 @@ public class DbManagerTest extends TestCase {
         assertTrue(1 == list.size());
     }
 
+    @Test
+    public void testUpdateObject() {
+        String newName = "modified";
+        Collection<PersonTest> list = DbManager.selectQuery("from PersonTest where nume = 'nume1'", PersonTest.class);
+        PersonTest modified = list.iterator().next();
+        modified.setNume(newName);
+        DbManager.update(modified);
+
+        list = DbManager.selectQuery("from PersonTest where nume = 'modified'", PersonTest.class);
+        PersonTest isModified = list.iterator().next();
+
+        assertTrue(isModified.getNume().equals(newName));
+    }
+
+
 }

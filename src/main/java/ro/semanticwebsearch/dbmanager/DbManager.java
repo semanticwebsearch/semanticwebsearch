@@ -138,6 +138,10 @@ public class DbManager {
         tx.commit();
     }
 
+    /**
+     * Deletes all entries from the table mapped to the object of class {@code tableName}
+     * @param tableName the class of the table-mapped object which is wanted to be deleted
+     */
     public static void deleteAllFrom(Class<?> tableName) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();

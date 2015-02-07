@@ -1,6 +1,5 @@
 package restclientfactory;
 
-import com.hp.hpl.jena.query.ResultSet;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +59,7 @@ public class RestClientFactoryTest extends TestCase {
         }
 
         @Override
-        public ResultSet query(String queryString) {
+        public String query(String queryString) {
             return null;
         }
     }

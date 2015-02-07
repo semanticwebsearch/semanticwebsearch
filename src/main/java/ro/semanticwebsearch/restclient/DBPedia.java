@@ -1,21 +1,44 @@
 package ro.semanticwebsearch.restclient;
 
-import com.hp.hpl.jena.query.ParameterizedSparqlString;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.query.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 /**
  * Created by valentin.spac on 2/4/2015.
  */
 class DBPedia implements RestClient {
 
-    public ResultSet query(String queryString) {
+    private static String DBPEDIA_ENDPOINT = "http://dbpedia.org/sparql";
+
+    /**
+     * Queries the DBPedia endpoint using the {@code queryString} given as parameter
+     * @param queryString query to be executed against Freebase endpoint
+     * @return a {@code String} object representing a JSON which contains the response
+     */
+    @Override
+    public String query(String queryString) {
+        //needed as workaround to an error throw when outputting as JSON
+        ARQ.getContext().setTrue(ARQ.useSAX) ;
+
         ParameterizedSparqlString qs = new ParameterizedSparqlString(queryString);
+        QueryExecution exec = QueryExecutionFactory.sparqlService(DBPEDIA_ENDPOINT, qs.asQuery());
 
-        QueryExecution exec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", qs.asQuery());
+        return outputAsJsonString(exec.execSelect());
+    }
 
-        return exec.execSelect();
+    /**
+     * Translates the {@code resultSet} given as parameter into a {@code String} object
+     * representing a JSON which contains the response
+     * @param resultSet the result set to be transformed
+     * @return {@code String} object representing a JSON which contains the response
+     */
+    private String outputAsJsonString(ResultSet resultSet) {
+        OutputStream outputStream = new ByteArrayOutputStream();
+        ResultSetFormatter.outputAsJSON(outputStream, resultSet);
+
+        return outputStream.toString();
     }
 }
 /*

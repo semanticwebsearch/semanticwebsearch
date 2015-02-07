@@ -1,6 +1,5 @@
 package restclientfactory;
 
-import com.hp.hpl.jena.query.ResultSet;
 import ro.semanticwebsearch.restclient.RestClient;
 
 /**
@@ -17,7 +16,7 @@ public class GoodCl2 implements RestClient{
         }
 
         @Override
-        public ResultSet query(String queryString) {
+        public String query(String queryString) {
             return null;
         }
 

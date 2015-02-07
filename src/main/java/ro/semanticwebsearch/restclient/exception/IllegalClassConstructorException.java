@@ -9,7 +9,4 @@ public class IllegalClassConstructorException extends Exception {
         super(cause);
     }
 
-    public IllegalClassConstructorException(){
-        super();
-    }
 }
