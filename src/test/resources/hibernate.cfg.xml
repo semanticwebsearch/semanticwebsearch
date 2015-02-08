@@ -18,8 +18,8 @@
         <property name="hibernate.c3p0.max_statements">50</property>
         <property name="hibernate.c3p0.idle_test_period">3000</property>
 
-        <!-- Bind the getCurrentSession() method to the thread. -->
-        <property name="current_session_context_class">jta</property>
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
 
         <mapping class="ro.semanticwebsearch.training.Person"></mapping>
         <!-- Used for testing purposes-->

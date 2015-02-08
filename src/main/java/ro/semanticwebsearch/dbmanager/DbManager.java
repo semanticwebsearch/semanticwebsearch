@@ -1,19 +1,21 @@
 package ro.semanticwebsearch.dbmanager;
 
+import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
+import ro.semanticwebsearch.training.Person;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by valentin.spac on 2/5/2015.
  */
 public class DbManager {
+    public static Logger log = Logger.getLogger(DbManager.class.getCanonicalName());
+
     private static SessionFactory sessionFactory;
 
     /**
@@ -21,19 +23,42 @@ public class DbManager {
      */
     static {
         try {
+            if(log.isInfoEnabled()) {
+                log.info("Initializing Hibernate sessionFactory");
+            }
+
             Configuration configuration = new Configuration()
+                    .setProperty(Environment.GENERATE_STATISTICS, "true")
                     .setInterceptor(new AuditInterceptor())
                     .configure();
 
             StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
-
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         } catch (HibernateException e) {
-            e.printStackTrace();
-            System.out.println("Problem creating session factory");
+            if(log.isInfoEnabled()) {
+                log.info("Problem initializing Hibernate sessionFactory", e);
+            }
         }
     }
+
+    public static void test2() {
+
+        Random random = new Random();
+        Person person;
+        for(int idx = 0; idx < 2000; idx++) {
+            person = new Person();
+            person.setPrenume("prenume" + random.nextInt(200));
+            person.setNume("nume" + idx);
+            person.setFunctie("functie" + idx);
+            DbManager.save(person);
+        }
+    }
+
+    public static void stats() {
+        System.out.println(sessionFactory.getStatistics());
+    }
+
 
 
     /**
@@ -72,8 +97,13 @@ public class DbManager {
      * @throws ClassCastException if the expected type {@code T} does not match the one retrieved
      */
     public static <T> Collection<T> selectQuery(String queryString, Class<T> objTypeReturned) throws ClassCastException {
-        Query query = getSession().createQuery(queryString);
+        Session session = getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.createQuery(queryString);
         List results = query.list();
+        tx.commit();
+
+        logStatistics();
 
         if(results.isEmpty()) {
             return Collections.emptyList();
@@ -92,11 +122,13 @@ public class DbManager {
      * @param obj object to be persisted
      */
     public static void persist(Object obj) {
-        Session session = getSession();
+        Session session = getCurrentSession();
         Transaction tx = session.beginTransaction();
         session.persist(obj);
         session.flush();
         tx.commit();
+
+        logStatistics();
     }
 
     /**
@@ -105,11 +137,13 @@ public class DbManager {
      * @param obj object to be saved
      */
     public static void save(Object obj) {
-        Session session = getSession();
+        Session session = getCurrentSession();
         Transaction tx = session.beginTransaction();
         session.save(obj);
         session.flush();
         tx.commit();
+
+        logStatistics();
     }
 
     /**
@@ -118,11 +152,13 @@ public class DbManager {
      * @param obj object to be saved (or updated)
      */
     public static void saveOrUpdate(Object obj) {
-        Session session = getSession();
+        Session session = getCurrentSession();
         Transaction tx = session.beginTransaction();
         session.saveOrUpdate(obj);
         session.flush();
         tx.commit();
+
+        logStatistics();
     }
 
     /**
@@ -131,11 +167,13 @@ public class DbManager {
      * @param obj object to be updated
      */
     public static void update(Object obj) {
-        Session session = getSession();
+        Session session = getCurrentSession();
         Transaction tx = session.beginTransaction();
         session.update(obj);
         session.flush();
         tx.commit();
+
+        logStatistics();
     }
 
     /**
@@ -143,12 +181,14 @@ public class DbManager {
      * @param tableName the class of the table-mapped object which is wanted to be deleted
      */
     public static void deleteAllFrom(Class<?> tableName) {
-        Session session = getSession();
+        Session session = getCurrentSession();
         Transaction tx = session.beginTransaction();
         Query q = session.createQuery("DELETE FROM " + tableName.getSimpleName());
         q.executeUpdate();
         session.flush();
         tx.commit();
+
+        logStatistics();
 
     }
 
@@ -158,4 +198,9 @@ public class DbManager {
 
     //saveAll, persistAll, updateAll
 
+    private static void logStatistics() {
+        if(log.isInfoEnabled()) {
+            log.info("Hibernate statistics :" + sessionFactory.getStatistics());
+        }
+    }
 }

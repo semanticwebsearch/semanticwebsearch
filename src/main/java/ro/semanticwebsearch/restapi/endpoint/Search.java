@@ -9,14 +9,12 @@ import ro.semanticwebsearch.restapi.model.output.content.Image;
 import ro.semanticwebsearch.restapi.model.output.content.Map;
 import ro.semanticwebsearch.restapi.model.output.content.Text;
 import ro.semanticwebsearch.restapi.model.output.content.Video;
-import ro.semanticwebsearch.training.Person;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,19 +33,6 @@ public class Search {
         if(log.isInfoEnabled()) {
             log.info(searchDAO.toString());
         }
-
-
-        Collection<SearchDAO> users = DbManager.selectQuery("from Person", SearchDAO.class);
-
-        for(SearchDAO u : users) {
-            System.out.println(u);
-        }
-
-        Person s = new Person();
-        s.setFunctie("dada");
-        s.setNume("numeeeee");
-        s.setPrenume("dda231");
-
 
         List<Response> response = new LinkedList<>();
         for(int i = 0; i < 1; i++) {
@@ -70,6 +55,22 @@ public class Search {
 
         return response;
 
+    }
+
+    @GET
+    @Path("t")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void test() {
+        DbManager.test2();
+        DbManager.stats();
+    }
+
+
+    @GET
+    @Path("s")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void tests() {
+        DbManager.stats();
     }
 
     private void populateText(List<Response> list) {

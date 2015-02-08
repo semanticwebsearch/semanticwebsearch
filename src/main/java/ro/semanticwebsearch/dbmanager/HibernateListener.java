@@ -18,7 +18,7 @@ public class HibernateListener implements ServletContextListener {
             log.info("Start up hibernate");
         }
 
-        DbManager.getSession();// Just call the static initializer of that class
+        DbManager.getCurrentSession();// Just call the static initializer of that class
     }
 
     @Override
