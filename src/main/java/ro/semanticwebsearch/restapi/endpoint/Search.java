@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ro.semanticwebsearch.dbmanager.DbManager;
 import ro.semanticwebsearch.restapi.model.SearchDAO;
 import ro.semanticwebsearch.restapi.model.output.Response;
+import ro.semanticwebsearch.restapi.model.output.ResponseListWrapper;
 import ro.semanticwebsearch.restapi.model.output.ResponseType;
 import ro.semanticwebsearch.restapi.model.output.content.Image;
 import ro.semanticwebsearch.restapi.model.output.content.Map;
@@ -29,7 +30,7 @@ public class Search {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Response> query(@BeanParam SearchDAO searchDAO) throws Exception {
+    public ResponseListWrapper query(@BeanParam SearchDAO searchDAO) throws Exception {
         if(log.isInfoEnabled()) {
             log.info(searchDAO.toString());
         }
@@ -53,7 +54,7 @@ public class Search {
             }
         }
 
-        return response;
+        return new ResponseListWrapper(response);
 
     }
 

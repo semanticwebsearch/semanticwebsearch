@@ -5,7 +5,6 @@ import ro.semanticwebsearch.restapi.model.output.content.Content;
 /**
  * Created by Spac on 25 Ian 2015.
  */
-
 public class Response {
     private int id;
     private ResponseType type;
