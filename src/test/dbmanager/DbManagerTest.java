@@ -1,7 +1,6 @@
 package dbmanager;
 
 import junit.framework.TestCase;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +12,7 @@ import java.util.Collection;
 @RunWith(JUnit4.class)
 public class DbManagerTest extends TestCase {
 
-    private Session session;
-    private static int nrOfRecords = 3;
+    private static int nrOfRecords = 10;
 
     @Before
     public void setUp() throws Exception {
