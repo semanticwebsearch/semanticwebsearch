@@ -11,7 +11,7 @@
 
     <listener>
         <listener-class>
-            ro.semanticwebsearch.dbmanager.HibernateListener
+            ro.semanticwebsearch.ContextListener
         </listener-class>
     </listener>
 
