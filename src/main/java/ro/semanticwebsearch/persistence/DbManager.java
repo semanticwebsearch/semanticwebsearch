@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.dbmanager;
+package ro.semanticwebsearch.persistence;
 
 import org.apache.log4j.Logger;
 import org.hibernate.*;
@@ -6,6 +6,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import ro.semanticwebsearch.exception.HibernateInitializeException;
+import ro.semanticwebsearch.exception.InvalidPersistentObjectException;
 import ro.semanticwebsearch.training.Person;
 
 import java.util.*;
@@ -17,11 +19,13 @@ public class DbManager {
     public static Logger log = Logger.getLogger(DbManager.class.getCanonicalName());
 
     private static SessionFactory sessionFactory;
+    private static final int MAX_UNFLUSHED_OBJ = 100;
 
     /**
-     * Static block used to initialize hibernate session factory
+     * Initializes hibernate
+     * @throws HibernateInitializeException if an exception occurs
      */
-    static {
+    public static void initialize() throws HibernateInitializeException {
         try {
             if(log.isInfoEnabled()) {
                 log.info("Initializing Hibernate sessionFactory");
@@ -39,6 +43,7 @@ public class DbManager {
             if(log.isInfoEnabled()) {
                 log.info("Problem initializing Hibernate sessionFactory", e);
             }
+            throw new HibernateInitializeException("Problem initializing Hibernate sessionFactory", e);
         }
     }
 
@@ -192,11 +197,120 @@ public class DbManager {
 
     }
 
-    private static boolean isClassMapped(Class<?> tableName) {
-       return sessionFactory.getClassMetadata(tableName) != null;
+    /**
+     * Checks if the class is mapped in the hibernate configuration file
+     * @param className the class to be checked
+     * @return true, if the class is mapped, false otherwise
+     */
+    private static boolean isClassMapped(Class<?> className) {
+        return sessionFactory.getClassMetadata(className) != null;
     }
 
-    //saveAll, persistAll, updateAll
+
+    /**
+     * Saves a collection of objects to database
+     * @param collection the collection to be saved
+     * @throws InvalidPersistentObjectException if the class of the objects found in collection is not mapped.
+     * In this case, the database is rollbacked.
+     */
+    public static void saveAll(Collection<Object> collection) throws InvalidPersistentObjectException {
+
+        if (collection != null && !collection.isEmpty()) {
+            Session session = getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            int noOfSavedObjects = 0;
+            for (Object obj : collection) {
+                if(!isClassMapped(obj.getClass())) {
+                    tx.rollback();
+                    throw new InvalidPersistentObjectException("Class " + obj.getClass().getCanonicalName() + " is not mapped!");
+                } else {
+                    session.save(obj);
+                    noOfSavedObjects++;
+
+                    if (MAX_UNFLUSHED_OBJ < noOfSavedObjects) {
+                        session.flush();
+                    }
+                }
+            }
+
+            session.flush();
+            tx.commit();
+
+            logStatistics();
+        }
+
+    }
+
+    /**
+     * Persists a collection of objects to database
+     * @param collection the collection to be persisted
+     * @throws InvalidPersistentObjectException if the class of the objects found in collection is not mapped.
+     * In this case, the database is rollbacked.
+     */
+    public static void persistAll(Collection<Object> collection) throws InvalidPersistentObjectException {
+
+        if (collection != null && !collection.isEmpty()) {
+            Session session = getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            int noOfSavedObjects = 0;
+            for (Object obj : collection) {
+                if(!isClassMapped(obj.getClass())) {
+                    tx.rollback();
+                    throw new InvalidPersistentObjectException("Class " + obj.getClass().getCanonicalName() + " is not mapped!");
+                } else {
+                    session.persist(obj);
+                    noOfSavedObjects++;
+
+                    if (MAX_UNFLUSHED_OBJ < noOfSavedObjects) {
+                        session.flush();
+                    }
+                }
+            }
+
+            session.flush();
+            tx.commit();
+
+            logStatistics();
+        }
+
+    }
+
+    /**
+     * Updates a collection of objects to database
+     * @param collection the collection to be updated
+     * @throws InvalidPersistentObjectException if the class of the objects found in collection is not mapped.
+     * In this case, the database is rollbacked.
+     */
+    public static void updateAll(Collection<Object> collection) throws InvalidPersistentObjectException {
+
+        if (collection != null && !collection.isEmpty()) {
+            Session session = getCurrentSession();
+            Transaction tx = session.beginTransaction();
+
+            int noOfSavedObjects = 0;
+            for (Object obj : collection) {
+                if(!isClassMapped(obj.getClass())) {
+                    tx.rollback();
+                    throw new InvalidPersistentObjectException("Class " + obj.getClass().getCanonicalName() + " is not mapped!");
+                } else {
+                    session.update(obj);
+                    noOfSavedObjects++;
+
+                    if (MAX_UNFLUSHED_OBJ < noOfSavedObjects) {
+                        session.flush();
+                    }
+                }
+            }
+
+            session.flush();
+            tx.commit();
+
+            logStatistics();
+        }
+
+    }
 
     private static void logStatistics() {
         if(log.isInfoEnabled()) {

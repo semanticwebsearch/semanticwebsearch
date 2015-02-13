@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.dbmanager;
+package ro.semanticwebsearch.persistence;
 
 import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;

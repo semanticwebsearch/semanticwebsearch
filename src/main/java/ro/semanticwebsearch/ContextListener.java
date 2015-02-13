@@ -1,7 +1,8 @@
 package ro.semanticwebsearch;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.dbmanager.DbManager;
+import ro.semanticwebsearch.exception.HibernateInitializeException;
+import ro.semanticwebsearch.persistence.DbManager;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -20,7 +21,7 @@ public class ContextListener implements ServletContextListener {
     private static final String LOCALHOST = "127.0.0.1";
 
     @Override
-    public void contextInitialized(ServletContextEvent event) {
+    public void contextInitialized(ServletContextEvent event){
         initializeHibernate();
         startQuepyServer();
     }
@@ -54,8 +55,8 @@ public class ContextListener implements ServletContextListener {
         }
     }
 
-    private void initializeHibernate() {
-        destroyHibernate();
+    private void initializeHibernate() throws HibernateInitializeException {
+        DbManager.initialize();
     }
 
     private void destroyHibernate() {

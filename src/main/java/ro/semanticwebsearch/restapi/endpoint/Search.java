@@ -1,7 +1,7 @@
 package ro.semanticwebsearch.restapi.endpoint;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.dbmanager.DbManager;
+import ro.semanticwebsearch.persistence.DbManager;
 import ro.semanticwebsearch.restapi.model.SearchDAO;
 import ro.semanticwebsearch.restapi.model.output.Response;
 import ro.semanticwebsearch.restapi.model.output.ResponseListWrapper;
