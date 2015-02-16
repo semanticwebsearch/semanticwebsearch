@@ -1,7 +1,7 @@
 package ro.semanticwebsearch;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.exception.HibernateInitializeException;
+import ro.semanticwebsearch.persistence.exception.HibernateInitializeException;
 import ro.semanticwebsearch.persistence.DbManager;
 
 import javax.servlet.ServletContextEvent;

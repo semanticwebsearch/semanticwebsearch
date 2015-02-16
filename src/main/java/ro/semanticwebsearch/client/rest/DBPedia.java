@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.restclient;
+package ro.semanticwebsearch.client.rest;
 
 import com.hp.hpl.jena.query.*;
 
@@ -18,7 +18,7 @@ class DBPedia implements RestClient {
      * @return a {@code String} object representing a JSON which contains the response
      */
     @Override
-    public String query(String queryString) {
+    public String GET(String queryString) {
         //needed as workaround to an error throw when outputting as JSON
         ARQ.getContext().setTrue(ARQ.useSAX) ;
 

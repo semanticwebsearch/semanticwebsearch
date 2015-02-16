@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.exception;
+package ro.semanticwebsearch.persistence.exception;
 
 /**
  * Created by valentin.spac on 2/13/2015.

@@ -6,8 +6,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import ro.semanticwebsearch.exception.HibernateInitializeException;
-import ro.semanticwebsearch.exception.InvalidPersistentObjectException;
+import ro.semanticwebsearch.persistence.exception.HibernateInitializeException;
+import ro.semanticwebsearch.persistence.exception.InvalidPersistentObjectException;
 import ro.semanticwebsearch.training.Person;
 
 import java.util.*;
@@ -94,8 +94,8 @@ public class DbManager {
 
 
     /**
-     * Executes the select query given as parameter
-     * @param queryString select query to be executed
+     * Executes the select GET given as parameter
+     * @param queryString select GET to be executed
      * @param objTypeReturned class of the expected return type
      * @param <T> the expected return type
      * @return a collection of {@code T}'s

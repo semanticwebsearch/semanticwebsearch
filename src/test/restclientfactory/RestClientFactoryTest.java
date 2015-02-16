@@ -4,9 +4,9 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ro.semanticwebsearch.restclient.RestClient;
-import ro.semanticwebsearch.restclient.RestClientFactory;
-import ro.semanticwebsearch.restclient.exception.IllegalClassConstructorException;
+import ro.semanticwebsearch.client.rest.RestClient;
+import ro.semanticwebsearch.client.rest.RestClientFactory;
+import ro.semanticwebsearch.client.rest.exception.IllegalClassConstructorException;
 
 @RunWith(JUnit4.class)
 public class RestClientFactoryTest extends TestCase {
@@ -59,7 +59,7 @@ public class RestClientFactoryTest extends TestCase {
         }
 
         @Override
-        public String query(String queryString) {
+        public String GET(String queryString) {
             return null;
         }
     }

@@ -1,7 +1,7 @@
-package ro.semanticwebsearch.restclient;
+package ro.semanticwebsearch.client.rest;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.restclient.exception.IllegalClassConstructorException;
+import ro.semanticwebsearch.client.rest.exception.IllegalClassConstructorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,12 +16,13 @@ public class RestClientFactory {
     private static Logger log = Logger.getLogger(RestClientFactory.class.getCanonicalName());
 
     /**
-     * Initialises the standard rest clients, Freebase and DBPedia
+     * Initialises the standard rest clients, Freebase, DBPedia and Generic clients
      */
     static {
         registeredClients = new HashMap<>();
-        registeredClients.put("Freebase", Freebase.class);
-        registeredClients.put("DBPedia", DBPedia.class);
+        registeredClients.put("freebase", Freebase.class);
+        registeredClients.put("dbpedia", DBPedia.class);
+        registeredClients.put("generic", GenericClient.class);
     }
 
     /**

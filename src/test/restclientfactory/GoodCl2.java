@@ -1,6 +1,6 @@
 package restclientfactory;
 
-import ro.semanticwebsearch.restclient.RestClient;
+import ro.semanticwebsearch.client.rest.RestClient;
 
 /**
  * Created by valentin.spac on 2/4/2015.
@@ -16,7 +16,7 @@ public class GoodCl2 implements RestClient{
         }
 
         @Override
-        public String query(String queryString) {
+        public String GET(String queryString) {
             return null;
         }
 

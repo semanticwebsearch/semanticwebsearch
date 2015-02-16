@@ -1,9 +1,9 @@
-package ro.semanticwebsearch.restclient;
+package ro.semanticwebsearch.client.rest;
 
 /**
  * Created by valentin.spac on 2/4/2015.
  */
 public interface RestClient {
 
-    String query(String queryString);
+    String GET(String queryString);
 }

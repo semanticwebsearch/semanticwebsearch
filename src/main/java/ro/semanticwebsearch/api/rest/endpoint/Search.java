@@ -1,15 +1,15 @@
-package ro.semanticwebsearch.restapi.endpoint;
+package ro.semanticwebsearch.api.rest.endpoint;
 
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.api.rest.model.output.ResponseListWrapper;
 import ro.semanticwebsearch.persistence.DbManager;
-import ro.semanticwebsearch.restapi.model.SearchDAO;
-import ro.semanticwebsearch.restapi.model.output.Response;
-import ro.semanticwebsearch.restapi.model.output.ResponseListWrapper;
-import ro.semanticwebsearch.restapi.model.output.ResponseType;
-import ro.semanticwebsearch.restapi.model.output.content.Image;
-import ro.semanticwebsearch.restapi.model.output.content.Map;
-import ro.semanticwebsearch.restapi.model.output.content.Text;
-import ro.semanticwebsearch.restapi.model.output.content.Video;
+import ro.semanticwebsearch.api.rest.model.SearchDAO;
+import ro.semanticwebsearch.api.rest.model.output.Response;
+import ro.semanticwebsearch.api.rest.model.output.ResponseType;
+import ro.semanticwebsearch.api.rest.model.output.content.Image;
+import ro.semanticwebsearch.api.rest.model.output.content.Map;
+import ro.semanticwebsearch.api.rest.model.output.content.Text;
+import ro.semanticwebsearch.api.rest.model.output.content.Video;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;

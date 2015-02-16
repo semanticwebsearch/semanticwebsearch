@@ -1,9 +1,9 @@
-package ro.semanticwebsearch;
+package ro.semanticwebsearch.training;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ro.semanticwebsearch.restclient.RestClient;
-import ro.semanticwebsearch.restclient.RestClientFactory;
+import ro.semanticwebsearch.client.rest.RestClient;
+import ro.semanticwebsearch.client.rest.RestClientFactory;
 
 /**
  * Created by Spac on 07 Feb 2015.
@@ -11,8 +11,8 @@ import ro.semanticwebsearch.restclient.RestClientFactory;
 public class Main {
     public static void main(String[] args)
             throws IllegalAccessException, InstantiationException {
-        RestClient freebase = RestClientFactory.getInstanceFor("DBPedia");
-        String set = freebase.query("" +
+       /* RestClient freebase = RestClientFactory.getInstanceFor("dbpedia");
+        String set = freebase.GET("" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>" +
                 "PREFIX foaf: <http://xmlns.com/foaf/0.1/>" +
@@ -27,10 +27,10 @@ public class Main {
             System.out.println(mapper.writeValueAsString(set));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        RestClient db = RestClientFactory.getInstanceFor("Freebase");
-        String set2 = db.query("[{\n" +
+        RestClient db = RestClientFactory.getInstanceFor("freebase");
+        String set2 = db.GET("[{\n" +
                 "  \"type\": \"/type/property\",\n" +
                 "  \"schema\": {\n" +
                 "    \"id\": \"/music/artist\"\n" +

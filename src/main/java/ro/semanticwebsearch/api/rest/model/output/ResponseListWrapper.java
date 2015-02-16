@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.restapi.model.output;
+package ro.semanticwebsearch.api.rest.model.output;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
