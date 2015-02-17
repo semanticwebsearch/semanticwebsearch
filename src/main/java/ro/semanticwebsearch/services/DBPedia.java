@@ -1,16 +1,20 @@
-package ro.semanticwebsearch.client.rest;
+package ro.semanticwebsearch.services;
 
 import com.hp.hpl.jena.query.*;
+import ro.semanticwebsearch.services.exception.InvalidConfigurationFileException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 
 /**
  * Created by valentin.spac on 2/4/2015.
  */
-class DBPedia implements RestClient {
+class DBPedia implements Service {
 
-    private static String DBPEDIA_ENDPOINT = "http://dbpedia.org/sparql";
+    private static String DBPEDIA_ENDPOINT;
 
     /**
      * Queries the DBPedia endpoint using the {@code queryString} given as parameter
@@ -18,7 +22,12 @@ class DBPedia implements RestClient {
      * @return a {@code String} object representing a JSON which contains the response
      */
     @Override
-    public String GET(String queryString) {
+    public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
+
+        if(DBPEDIA_ENDPOINT == null) {
+            initialize();
+        }
+
         //needed as workaround to an error throw when outputting as JSON
         ARQ.getContext().setTrue(ARQ.useSAX) ;
 
@@ -26,6 +35,19 @@ class DBPedia implements RestClient {
         QueryExecution exec = QueryExecutionFactory.sparqlService(DBPEDIA_ENDPOINT, qs.asQuery());
 
         return outputAsJsonString(exec.execSelect());
+    }
+
+    private void initialize() {
+        try {
+            DBPEDIA_ENDPOINT = PropertiesLoader.getInstance().getProperties().getProperty("dbpedia_endpoint");
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading services.properties file", e);
+        }
+
+        if(DBPEDIA_ENDPOINT == null) {
+            throw new InvalidConfigurationFileException("[dbpedia_endpoint] property was not set.");
+        }
     }
 
     /**

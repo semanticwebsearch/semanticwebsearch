@@ -94,8 +94,8 @@ public class DbManager {
 
 
     /**
-     * Executes the select GET given as parameter
-     * @param queryString select GET to be executed
+     * Executes the select query given as parameter
+     * @param queryString select query to be executed
      * @param objTypeReturned class of the expected return type
      * @param <T> the expected return type
      * @return a collection of {@code T}'s

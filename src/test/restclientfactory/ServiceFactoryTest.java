@@ -4,62 +4,65 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ro.semanticwebsearch.client.rest.RestClient;
-import ro.semanticwebsearch.client.rest.RestClientFactory;
-import ro.semanticwebsearch.client.rest.exception.IllegalClassConstructorException;
+import ro.semanticwebsearch.services.Service;
+import ro.semanticwebsearch.services.ServiceFactory;
+import ro.semanticwebsearch.services.exception.IllegalClassConstructorException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 
 @RunWith(JUnit4.class)
-public class RestClientFactoryTest extends TestCase {
+public class ServiceFactoryTest extends TestCase {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetInstanceForBadClient() throws Exception {
-        RestClientFactory.getInstanceFor("dada");
+        ServiceFactory.getInstanceFor("dada");
     }
 
     @Test
     public void getInstanceForGoodClient() throws Exception{
-        RestClientFactory.getInstanceFor("Freebase");
-        RestClientFactory.getInstanceFor("DBPedia");
+        ServiceFactory.getInstanceFor("freebase");
+        ServiceFactory.getInstanceFor("dbpedia");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRegisterClientNotImplementInterface() throws Exception {
-        RestClientFactory.registerClient("test", Object.class);
+        ServiceFactory.registerClient("test", Object.class);
     }
 
     @Test(expected = IllegalClassConstructorException.class)
     public void testRegisterBadClientNoNOARGSConstructors() throws Exception {
-        RestClientFactory.registerClient("test2", BadCl.class);
+        ServiceFactory.registerClient("test2", BadCl.class);
     }
 
     @Test
     public void testRegisterClient() throws Exception {
-        RestClientFactory.registerClient("test", GoodCl.class);
+        ServiceFactory.registerClient("test", GoodCl.class);
     }
 
     @Test
     public void testRegisterClient2Constructors() throws Exception {
-        RestClientFactory.registerClient("test", GoodCl2.class);
+        ServiceFactory.registerClient("test", GoodCl2.class);
     }
 
     @Test
     public void testClientExists() throws Exception {
-        assertTrue(RestClientFactory.clientExists("Freebase"));
+        assertTrue(ServiceFactory.clientExists("freebase"));
     }
 
     @Test
     public void testClientNotExists() throws Exception {
-        assertFalse(RestClientFactory.clientExists("Fre"));
+        assertFalse(ServiceFactory.clientExists("fre"));
     }
 
-    public class BadCl implements RestClient {
+    public class BadCl implements Service {
 
         public BadCl(String g) {
             System.out.println("dada");
         }
 
         @Override
-        public String GET(String queryString) {
+        public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
             return null;
         }
     }

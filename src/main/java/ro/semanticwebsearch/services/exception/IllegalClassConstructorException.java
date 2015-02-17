@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.client.rest.exception;
+package ro.semanticwebsearch.services.exception;
 
 /**
  * Created by valentin.spac on 2/4/2015.

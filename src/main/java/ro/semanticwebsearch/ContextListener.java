@@ -26,6 +26,12 @@ public class ContextListener implements ServletContextListener {
         startQuepyServer();
     }
 
+    @Override
+    public void contextDestroyed(ServletContextEvent event) {
+        destroyHibernate();
+        stopQuepyServer();
+    }
+
     private void startQuepyServer() {
         if(log.isInfoEnabled()) {
             log.info("Start up quepy server. Fails: " + noOfFails);
@@ -65,12 +71,6 @@ public class ContextListener implements ServletContextListener {
         }
 
         DbManager.getCurrentSession();// Just call the static initializer of that class
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent event) {
-        destroyHibernate();
-        stopQuepyServer();
     }
 
     private void stopQuepyServer() {

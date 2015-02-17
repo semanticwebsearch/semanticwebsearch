@@ -2,6 +2,7 @@ package dbmanager;
 
 import junit.framework.TestCase;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -14,8 +15,13 @@ public class DbManagerTest extends TestCase {
 
     private static int nrOfRecords = 10;
 
+    @BeforeClass
+    public static void initializeDb() {
+        DbManager.initialize();
+    }
+
     @Before
-    public void setUp() throws Exception {
+    public void beforeEachTest() throws Exception {
         DbManager.deleteAllFrom(PersonTest.class);
 
         PersonTest person;

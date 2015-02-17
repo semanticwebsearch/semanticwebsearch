@@ -1,9 +1,23 @@
 package ro.semanticwebsearch.client.rest;
 
 /**
- * Created by valentin.spac on 2/4/2015.
+ * Created by Spac on 17 Feb 2015.
  */
-public interface RestClient {
+public class RestClient {
 
-    String GET(String queryString);
+    public static String GET(String url, String params) {
+        return null;
+    }
+
+    public static String PUT(String url, String params) {
+        return null;
+    }
+
+    public static String POST(String url, String params) {
+        return null;
+    }
+
+    public static String DELETE(String url, String params) {
+        return null;
+    }
 }
