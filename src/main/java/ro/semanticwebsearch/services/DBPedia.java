@@ -18,29 +18,32 @@ class DBPedia implements Service {
 
     /**
      * Queries the DBPedia endpoint using the {@code queryString} given as parameter
-     * @param queryString query to be executed against Freebase endpoint
      * @return a {@code String} object representing a JSON which contains the response
      */
     @Override
     public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
-
         if(DBPEDIA_ENDPOINT == null) {
             initialize();
         }
 
-        //needed as workaround to an error throw when outputting as JSON
-        ARQ.getContext().setTrue(ARQ.useSAX) ;
+        Quepy quepy = new Quepy("sparql", queryString);
+        String transformedQuery = quepy.query();
 
-        ParameterizedSparqlString qs = new ParameterizedSparqlString(queryString);
+        ParameterizedSparqlString qs = new ParameterizedSparqlString(transformedQuery);
         QueryExecution exec = QueryExecutionFactory.sparqlService(DBPEDIA_ENDPOINT, qs.asQuery());
 
         return outputAsJsonString(exec.execSelect());
     }
 
+    /**
+     * Initializes the dbpedia endpoint read from properties file and
+     * sets the client target to that endpoint
+     */
     private void initialize() {
         try {
             DBPEDIA_ENDPOINT = PropertiesLoader.getInstance().getProperties().getProperty("dbpedia_endpoint");
-
+            //needed as workaround to an error throw when outputting as JSON
+            ARQ.getContext().setTrue(ARQ.useSAX);
         } catch (IOException e) {
             throw new RuntimeException("Error reading services.properties file", e);
         }

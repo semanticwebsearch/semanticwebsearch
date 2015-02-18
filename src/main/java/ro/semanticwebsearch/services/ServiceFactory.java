@@ -22,7 +22,6 @@ public class ServiceFactory {
         registeredServices = new HashMap<>();
         registeredServices.put("freebase", Freebase.class);
         registeredServices.put("dbpedia", DBPedia.class);
-        registeredServices.put("quepy", Quepy.class);
     }
 
     /**

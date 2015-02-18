@@ -24,21 +24,26 @@ class Freebase implements Service {
      */
     @Override
     public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
-
         if(FREEBASE_ENDPOINT == null) {
             initialize();
         }
 
         Client client = ClientBuilder.newClient();
-        //queryString = UriComponent.encode(queryString, UriComponent.Type.QUERY_PARAM_SPACE_ENCODED);
 
-        URI s = new URI(FREEBASE_ENDPOINT + URLEncoder.encode(queryString, "UTF-8"));
+        Quepy quepy = new Quepy("mql", queryString);
+        String transformedQuery = quepy.query();
+
+        URI s = new URI(FREEBASE_ENDPOINT + "?query=" + URLEncoder.encode(transformedQuery, "UTF-8"));
         return client.target(s)
                 .request()
                 .get(String.class);
 
     }
 
+    /**
+     * Initializes the freebase endpoint read from properties file and
+     * sets the client target to that endpoint
+     */
     private void initialize() {
         try {
             FREEBASE_ENDPOINT = PropertiesLoader.getInstance().getProperties().getProperty("freebase_endpoint");
