@@ -1,6 +1,7 @@
 package ro.semanticwebsearch.services;
 
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Model;
 import ro.semanticwebsearch.services.exception.InvalidConfigurationFileException;
 
 import java.io.ByteArrayOutputStream;
@@ -17,29 +18,10 @@ class DBPedia implements Service {
     private static String DBPEDIA_ENDPOINT;
 
     /**
-     * Queries the DBPedia endpoint using the {@code queryString} given as parameter
-     * @return a {@code String} object representing a JSON which contains the response
-     */
-    @Override
-    public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
-        if(DBPEDIA_ENDPOINT == null) {
-            initialize();
-        }
-
-        Quepy quepy = new Quepy("sparql", queryString);
-        String transformedQuery = quepy.query();
-
-        ParameterizedSparqlString qs = new ParameterizedSparqlString(transformedQuery);
-        QueryExecution exec = QueryExecutionFactory.sparqlService(DBPEDIA_ENDPOINT, qs.asQuery());
-
-        return outputAsJsonString(exec.execSelect());
-    }
-
-    /**
      * Initializes the dbpedia endpoint read from properties file and
      * sets the client target to that endpoint
      */
-    private void initialize() {
+    static {
         try {
             DBPEDIA_ENDPOINT = PropertiesLoader.getInstance().getProperties().getProperty("dbpedia_endpoint");
             //needed as workaround to an error throw when outputting as JSON
@@ -51,6 +33,31 @@ class DBPedia implements Service {
         if(DBPEDIA_ENDPOINT == null) {
             throw new InvalidConfigurationFileException("[dbpedia_endpoint] property was not set.");
         }
+    }
+
+    /**
+     * Queries the DBPedia endpoint using the {@code queryString} given as parameter
+     * @return a {@code String} object representing a JSON which contains the response
+     */
+    @Override
+    public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
+        Quepy quepy = new Quepy(QueryType.SPARQL, queryString);
+        String transformedQuery = quepy.query();
+
+        ParameterizedSparqlString qs = new ParameterizedSparqlString(transformedQuery);
+        Model dataset = TBDManager.getModel(queryString);
+        if(dataset != null) {
+            try (QueryExecution qe = QueryExecutionFactory.create(String.valueOf(qs), dataset)) {
+                ResultSet rs = qe.execSelect();
+                ResultSetFormatter.out(rs);
+            }
+        }
+
+        QueryExecution exec = QueryExecutionFactory.sparqlService(DBPEDIA_ENDPOINT, qs.asQuery());
+        ResultSet resultSet = exec.execSelect();
+
+        return outputAsJsonString(resultSet);
+
     }
 
     /**
@@ -66,18 +73,3 @@ class DBPedia implements Service {
         return outputStream.toString();
     }
 }
-/*
-ParameterizedSparqlString qs = new ParameterizedSparqlString();
-qs.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        qs.setNsPrefix("dbpedia-owl", "http://dbpedia.org/ontology/");
-        qs.append("SELECT DISTINCT ?museum ?label ?thumbnail");
-        qs.append("  WHERE{ \n");
-        qs.append("?museum ?p ?label.");
-        qs.append("?museum a ?type.");
-        qs.append("?museum dbpedia-owl:thumbnail ?thumbnail.");
-        qs.append("FILTER (?p=<http://www.w3.org/2000/01/rdf-schema#label>).");
-        qs.append("FILTER regex(?label, \"^" + prefix + "\", \"i\").\r\n");
-        qs.append("FILTER (?type IN (<http://dbpedia.org/ontology/Museum>, <http://schema.org/Museum>)).");
-        qs.append("FILTER ( lang(?label) = 'en') } LIMIT " + number);
-
-        */

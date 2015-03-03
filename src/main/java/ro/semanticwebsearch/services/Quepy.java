@@ -16,8 +16,24 @@ class Quepy  {
     private static String QUEPY_ENDPOINT;
     private WebTarget client;
 
-    public Quepy(String type, String queryString) {
-        initialize();
+    /**
+     * Initializes the quepy endpoint read from properties file and
+     * sets the client target to that endpoint
+     */
+    static {
+        try {
+            QUEPY_ENDPOINT = PropertiesLoader.getInstance().getProperties().getProperty("quepy_endpoint");
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading services.properties file", e);
+        }
+
+        if(QUEPY_ENDPOINT == null) {
+            throw new InvalidConfigurationFileException("[quepy_endpoint] property was not set.");
+        }
+    }
+
+    public Quepy(QueryType type, String queryString) {
+        client  = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
         client = client.queryParam("type", type).queryParam("q", queryString);
     }
 
@@ -29,20 +45,4 @@ class Quepy  {
         return client.request().get(String.class);
     }
 
-    /**
-     * Initializes the quepy endpoint read from properties file and
-     * sets the client target to that endpoint
-     */
-    private void initialize() {
-        try {
-            QUEPY_ENDPOINT = PropertiesLoader.getInstance().getProperties().getProperty("quepy_endpoint");
-            client  = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading services.properties file", e);
-        }
-
-        if(QUEPY_ENDPOINT == null) {
-            throw new InvalidConfigurationFileException("[quepy_endpoint] property was not set.");
-        }
-    }
 }
