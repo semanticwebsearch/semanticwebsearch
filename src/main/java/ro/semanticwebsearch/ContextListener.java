@@ -39,14 +39,25 @@ public class ContextListener implements ServletContextListener {
 
         Properties properties = new Properties();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = classLoader.getResourceAsStream("quepy.properties");
+        //InputStream stream = classLoader.getResourceAsStream("quepy_old.properties");
+        InputStream stream2 = classLoader.getResourceAsStream("services.properties");
 
         try {
-            properties.load(stream);
+            properties.load(stream2);
 
             StringBuilder execPath = new StringBuilder();
+           /* execPath.append("python ").append(properties.getProperty("quepyStartServerPath"))
+                    .append(" ").append(LOCALHOST).append(":").append(properties.getProperty("port"));*/
+            String quepyEndpoint = properties.getProperty("quepy_endpoint");
+
+            //removing the http:// from endpoint
+            if(quepyEndpoint.contains("//")) {
+                int start = quepyEndpoint.indexOf("//");
+                quepyEndpoint = quepyEndpoint.substring(start);
+            }
+
             execPath.append("python ").append(properties.getProperty("quepyStartServerPath"))
-                    .append(" ").append(LOCALHOST).append(":").append(properties.getProperty("port"));
+                    .append(" ").append(quepyEndpoint);
 
             quepyServer = Runtime.getRuntime()
                     .exec(execPath.toString());

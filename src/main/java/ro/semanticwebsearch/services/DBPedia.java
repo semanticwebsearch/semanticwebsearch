@@ -1,7 +1,6 @@
 package ro.semanticwebsearch.services;
 
 import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.Model;
 import ro.semanticwebsearch.services.exception.InvalidConfigurationFileException;
 
 import java.io.ByteArrayOutputStream;
@@ -45,13 +44,13 @@ class DBPedia implements Service {
         String transformedQuery = quepy.query();
 
         ParameterizedSparqlString qs = new ParameterizedSparqlString(transformedQuery);
-        Model dataset = TBDManager.getModel(queryString);
+        /*Model dataset = TBDManager.getModel(queryString);
         if(dataset != null) {
             try (QueryExecution qe = QueryExecutionFactory.create(String.valueOf(qs), dataset)) {
                 ResultSet rs = qe.execSelect();
                 ResultSetFormatter.out(rs);
             }
-        }
+        }*/
 
         QueryExecution exec = QueryExecutionFactory.sparqlService(DBPEDIA_ENDPOINT, qs.asQuery());
         ResultSet resultSet = exec.execSelect();

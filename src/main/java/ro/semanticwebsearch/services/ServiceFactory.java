@@ -34,7 +34,7 @@ public class ServiceFactory {
      * @throws IllegalArgumentException if the {@code clientType} received as parameter is not registered
      */
     public static Service getInstanceFor(String clientType)
-            throws InstantiationException, IllegalAccessException, IllegalArgumentException{
+            throws IllegalArgumentException, InstantiationException, IllegalAccessException {
         Service serviceInstance;
 
         if(!registeredServices.containsKey(clientType)) {
@@ -46,7 +46,7 @@ public class ServiceFactory {
             if(log.isInfoEnabled()) {
                 log.info("getInstanceFor: " + clientType);
             }
-            serviceInstance = newRestClientInstance(clientType);
+            serviceInstance = newServiceInstance(clientType);
         }
 
         return serviceInstance;
@@ -60,7 +60,7 @@ public class ServiceFactory {
      * @throws IllegalAccessException if a new instance of the {@code clientType} could not be created
      * @throws InstantiationException if a new instance of the {@code clientType} could not be created
      */
-    private static Service newRestClientInstance(String clientType)
+    private static Service newServiceInstance(String clientType)
             throws IllegalAccessException, InstantiationException {
 
         Class client = registeredServices.get(clientType);

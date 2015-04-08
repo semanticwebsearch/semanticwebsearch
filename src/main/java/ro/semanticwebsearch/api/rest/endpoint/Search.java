@@ -1,23 +1,15 @@
 package ro.semanticwebsearch.api.rest.endpoint;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.api.rest.model.output.ResponseListWrapper;
-import ro.semanticwebsearch.persistence.DbManager;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
-import ro.semanticwebsearch.api.rest.model.output.Response;
-import ro.semanticwebsearch.api.rest.model.output.ResponseType;
-import ro.semanticwebsearch.api.rest.model.output.content.Image;
-import ro.semanticwebsearch.api.rest.model.output.content.Map;
-import ro.semanticwebsearch.api.rest.model.output.content.Text;
-import ro.semanticwebsearch.api.rest.model.output.content.Video;
+import ro.semanticwebsearch.api.rest.model.output.ResponseListWrapper;
+import ro.semanticwebsearch.businesslogic.Dispatcher;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Spac on 25 Ian 2015.
@@ -29,6 +21,19 @@ public class Search {
     public static Logger log = Logger.getLogger(Search.class.getCanonicalName());
 
     @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ResponseListWrapper query(@BeanParam SearchDAO searchDAO) throws Exception {
+        if (log.isInfoEnabled()) {
+            log.info("Search query : " + searchDAO.toString());
+        }
+
+        Dispatcher.executeQuery(searchDAO);
+
+        return new ResponseListWrapper(null);
+    }
+
+    //region was here for testing
+   /* @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public ResponseListWrapper query(@BeanParam SearchDAO searchDAO) throws Exception {
         if(log.isInfoEnabled()) {
@@ -142,5 +147,6 @@ public class Search {
         qr.setItemType(ResponseType.MAP.toString());
 
         list.add(qr);
-    }
+    }*/
+    //endregion
 }

@@ -64,7 +64,7 @@ public class SearchDAO {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("SearchData: \n\tGET: ").append(query).append("\n\ttext: ").append(isText)
+        sb.append("SearchData: \n\tQuery string: ").append(query).append("\n\ttext: ").append(isText)
                 .append("\n\tmap: ").append(isMap).append("\n\tvideo: ").append(isVideo)
                 .append("\n\timage: ").append(isImage);
 
