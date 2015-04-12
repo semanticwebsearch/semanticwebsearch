@@ -2,8 +2,9 @@ package ro.semanticwebsearch.businesslogic;
 
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
-import ro.semanticwebsearch.services.Service;
-import ro.semanticwebsearch.services.ServiceFactory;
+import ro.semanticwebsearch.businesslogic.questions.QuestionFactory;
+import ro.semanticwebsearch.businesslogic.questions.QuestionType;
+import ro.semanticwebsearch.services.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -18,6 +19,8 @@ public class Dispatcher {
         if (log.isInfoEnabled()) {
             log.info("Execute query : " + searchDAO.toString());
         }
+        mappingStuff();
+
         String[] responses = new String[2];
         try {
             responses[0] = queryDbpedia(searchDAO);
@@ -43,15 +46,47 @@ public class Dispatcher {
 
     }
 
+    private static void mappingStuff() {
+        try {
+            QuestionType q = QuestionFactory.getInstance().getInstanceFor("band");
+            QuestionType m = QuestionFactory.getInstance().getInstanceFor("bandmembers");
+            q.doSomething();
+            m.doSomething();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static String queryFreebase(SearchDAO searchDAO)
             throws IllegalAccessException, InstantiationException, UnsupportedEncodingException, URISyntaxException {
         Service service = ServiceFactory.getInstanceFor("freebase");
-        return service.query(searchDAO.getQuery());
+        Quepy quepy = new Quepy(QueryType.MQL, searchDAO.getQuery());
+        QuepyResponse response = quepy.query();
+
+
+        String qt = sanitizeRule(response.getRule());
+        QuestionType q = QuestionFactory.getInstance().getInstanceFor(qt);
+        q.doSomething();
+
+        return service.query(response.getQuery());
     }
 
     private static String queryDbpedia(SearchDAO searchDAO)
             throws IllegalAccessException, InstantiationException, UnsupportedEncodingException, URISyntaxException {
         Service service = ServiceFactory.getInstanceFor("dbpedia");
-        return service.query(searchDAO.getQuery());
+        Quepy quepy = new Quepy(QueryType.SPARQL, searchDAO.getQuery());
+        QuepyResponse response = quepy.query();
+
+        //get the type of the question and find more infos
+        String qt = sanitizeRule(response.getRule());
+        QuestionType q = QuestionFactory.getInstance().getInstanceFor(qt);
+        q.doSomething();
+
+
+        return service.query(response.getQuery());
+    }
+
+    private static String sanitizeRule(String rule) {
+        return rule.replace("Question", "").toLowerCase();
     }
 }

@@ -40,10 +40,10 @@ class DBPedia implements Service {
      */
     @Override
     public String query(String queryString) throws UnsupportedEncodingException, URISyntaxException {
-        Quepy quepy = new Quepy(QueryType.SPARQL, queryString);
-        String transformedQuery = quepy.query();
+/*        Quepy quepy = new Quepy(QueryType.SPARQL, queryString);
+        Test transformedQuery = quepy.query();*/
 
-        ParameterizedSparqlString qs = new ParameterizedSparqlString(transformedQuery);
+        ParameterizedSparqlString qs = new ParameterizedSparqlString(queryString);
         /*Model dataset = TBDManager.getModel(queryString);
         if(dataset != null) {
             try (QueryExecution qe = QueryExecutionFactory.create(String.valueOf(qs), dataset)) {

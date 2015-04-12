@@ -4,6 +4,7 @@ import ro.semanticwebsearch.services.exception.InvalidConfigurationFileException
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -11,7 +12,7 @@ import java.net.URISyntaxException;
 /**
  * Created by Spac on 17 Feb 2015.
  */
-class Quepy  {
+public class Quepy  {
 
     private static String QUEPY_ENDPOINT;
     private WebTarget client;
@@ -41,8 +42,8 @@ class Quepy  {
      * Queries the Quepy endpoint using the {@code queryString} given as parameter
      * @return a {@code String} object representing the response (transformed query)
      */
-    public String query() throws UnsupportedEncodingException, URISyntaxException {
-        return client.request().get(String.class);
+    public QuepyResponse query() throws UnsupportedEncodingException, URISyntaxException {
+        return client.request(MediaType.APPLICATION_JSON_TYPE).get(QuepyResponse.class);
     }
 
 }

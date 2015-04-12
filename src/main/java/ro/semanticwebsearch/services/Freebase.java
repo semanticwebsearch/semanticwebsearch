@@ -44,10 +44,10 @@ class Freebase implements Service {
 
         Client client = ClientBuilder.newClient();
 
-        Quepy quepy = new Quepy(QueryType.MQL, queryString);
-        String transformedQuery = quepy.query();
+        /*Quepy quepy = new Quepy(QueryType.MQL, queryString);
+        Test transformedQuery = quepy.query();*/
 
-        URI s = new URI(FREEBASE_ENDPOINT + "?query=" + URLEncoder.encode(transformedQuery, "UTF-8"));
+        URI s = new URI(FREEBASE_ENDPOINT + "?query=" + URLEncoder.encode(queryString, "UTF-8"));
         return client.target(s)
                 .request()
                 .get(String.class);

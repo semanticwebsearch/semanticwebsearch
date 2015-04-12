@@ -3,7 +3,7 @@ package ro.semanticwebsearch.services;
 /**
  * Created by Spac on 01 Mar 2015.
  */
-enum QueryType {
+public enum QueryType {
     MQL("mql"),
     SPARQL("sparql");
 
