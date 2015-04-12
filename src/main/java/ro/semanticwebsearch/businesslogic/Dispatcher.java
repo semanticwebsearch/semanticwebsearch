@@ -14,16 +14,26 @@ import java.net.URISyntaxException;
  */
 public class Dispatcher {
     public static Logger log = Logger.getLogger(Dispatcher.class.getCanonicalName());
+    public static final String DBPEDIA = "dbpedia";
+    public static final String FREEBASE = "freebase";
 
-    public static void executeQuery(SearchDAO searchDAO) {
+    public static void executeQuery(SearchDAO searchDAO) throws IllegalAccessException {
+
         if (log.isInfoEnabled()) {
             log.info("Execute query : " + searchDAO.toString());
         }
-        mappingStuff();
 
         String[] responses = new String[2];
+        String questionType = "";
         try {
-            responses[0] = queryDbpedia(searchDAO);
+            QuepyResponse quepyResponse = queryQuepy(QueryType.SPARQL, searchDAO.getQuery());
+            responses[0] = queryService(DBPEDIA, quepyResponse.getQuery());
+            questionType = sanitizeRule(quepyResponse.getRule());
+
+            if (log.isInfoEnabled()) {
+                log.info("DBPedia quepy response: " + quepyResponse.toString());
+            }
+
         } catch (InstantiationException | IllegalArgumentException |
                 IllegalAccessException | UnsupportedEncodingException | URISyntaxException e) {
             if (log.isDebugEnabled()) {
@@ -32,7 +42,14 @@ public class Dispatcher {
         }
 
         try {
-            responses[1] = queryFreebase(searchDAO);
+            QuepyResponse quepyResponse = queryQuepy(QueryType.MQL, searchDAO.getQuery());
+            responses[0] = queryService(FREEBASE, quepyResponse.getQuery());
+            questionType = sanitizeRule(quepyResponse.getRule());
+
+            if (log.isInfoEnabled()) {
+                log.info("Freebase quepy response: " + quepyResponse.toString());
+            }
+
         } catch (InstantiationException | IllegalArgumentException |
                 IllegalAccessException | UnsupportedEncodingException | URISyntaxException e) {
             if (log.isDebugEnabled()) {
@@ -43,50 +60,38 @@ public class Dispatcher {
         System.out.println("DBPedia : " + responses[0]);
         System.out.println("Freebase : " + responses[1]);
 
-
-    }
-
-    private static void mappingStuff() {
         try {
-            QuestionType q = QuestionFactory.getInstance().getInstanceFor("band");
-            QuestionType m = QuestionFactory.getInstance().getInstanceFor("bandmembers");
-            q.doSomething();
-            m.doSomething();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            QuestionType qt = QuestionFactory.getInstance().getInstanceFor(questionType);
+            qt.doSomethingUseful(searchDAO.getQuery());
+
+        } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Could not query for additional info ", e);
+            }
         }
+
     }
 
-    private static String queryFreebase(SearchDAO searchDAO)
+    public static String queryService(String serviceType, String query)
             throws IllegalAccessException, InstantiationException, UnsupportedEncodingException, URISyntaxException {
-        Service service = ServiceFactory.getInstanceFor("freebase");
-        Quepy quepy = new Quepy(QueryType.MQL, searchDAO.getQuery());
-        QuepyResponse response = quepy.query();
-
-
-        String qt = sanitizeRule(response.getRule());
-        QuestionType q = QuestionFactory.getInstance().getInstanceFor(qt);
-        q.doSomething();
-
-        return service.query(response.getQuery());
+        Service service = ServiceFactory.getInstanceFor(serviceType);
+        return service.query(query);
     }
 
-    private static String queryDbpedia(SearchDAO searchDAO)
-            throws IllegalAccessException, InstantiationException, UnsupportedEncodingException, URISyntaxException {
-        Service service = ServiceFactory.getInstanceFor("dbpedia");
-        Quepy quepy = new Quepy(QueryType.SPARQL, searchDAO.getQuery());
-        QuepyResponse response = quepy.query();
-
-        //get the type of the question and find more infos
-        String qt = sanitizeRule(response.getRule());
-        QuestionType q = QuestionFactory.getInstance().getInstanceFor(qt);
-        q.doSomething();
-
-
-        return service.query(response.getQuery());
-    }
 
     private static String sanitizeRule(String rule) {
         return rule.replace("Question", "").toLowerCase();
+    }
+
+    public static QuepyResponse queryQuepy(QueryType queryType, String query)
+            throws UnsupportedEncodingException, URISyntaxException {
+        Quepy quepy = new Quepy(queryType, query);
+        return quepy.query();
+    }
+
+    public static QuepyResponse queryQuepy(String queryType, String query)
+            throws UnsupportedEncodingException, URISyntaxException {
+        Quepy quepy = new Quepy(queryType, query);
+        return quepy.query();
     }
 }

@@ -5,5 +5,5 @@ package ro.semanticwebsearch.businesslogic.questions;
  */
 public abstract class AbstractQuestion implements QuestionType {
 
-    public abstract void doSomething();
+    public abstract void doSomethingUseful(String query);
 }

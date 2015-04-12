@@ -11,7 +11,7 @@ public class BandMembers extends AbstractQuestion {
     }
 
     @Override
-    public void doSomething() {
+    public void doSomethingUseful(String query) {
         System.out.println("Do BandMembers");
     }
 

@@ -24,4 +24,11 @@ public class QuepyResponse {
     public void setRule(String rule) {
         this.rule = rule;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("QuepyResponse: [ rule: ").append(rule).append("\nquery: ").append(query);
+        return sb.toString();
+    }
 }

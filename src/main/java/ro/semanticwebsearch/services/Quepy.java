@@ -38,6 +38,11 @@ public class Quepy  {
         client = client.queryParam("type", type).queryParam("q", queryString);
     }
 
+    public Quepy(String type, String queryString) {
+        client  = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
+        client = client.queryParam("type", type).queryParam("q", queryString);
+    }
+
     /**
      * Queries the Quepy endpoint using the {@code queryString} given as parameter
      * @return a {@code String} object representing the response (transformed query)
