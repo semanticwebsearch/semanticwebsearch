@@ -1,5 +1,8 @@
 package ro.semanticwebsearch.businesslogic;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
 import ro.semanticwebsearch.businesslogic.questions.QuestionFactory;
@@ -8,6 +11,7 @@ import ro.semanticwebsearch.services.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 /**
  * Created by Spac on 4/8/2015.
@@ -17,18 +21,18 @@ public class Dispatcher {
     public static final String DBPEDIA = "dbpedia";
     public static final String FREEBASE = "freebase";
 
-    public static void executeQuery(SearchDAO searchDAO) throws IllegalAccessException {
+    public static String executeQuery(SearchDAO searchDAO) throws IllegalAccessException {
 
         if (log.isInfoEnabled()) {
             log.info("Execute query : " + searchDAO.toString());
         }
 
-        String[] responses = new String[2];
-        String questionType = "";
+        ServiceResponse response = new ServiceResponse();
+        //region querying DBPedia
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.SPARQL, searchDAO.getQuery());
-            responses[0] = queryService(DBPEDIA, quepyResponse.getQuery());
-            questionType = sanitizeRule(quepyResponse.getRule());
+            response.setDbpediaResponse(queryService(DBPEDIA, quepyResponse.getQuery()));
+            response.setQuestionType(quepyResponse.getRule());
 
             if (log.isInfoEnabled()) {
                 log.info("DBPedia quepy response: " + quepyResponse.toString());
@@ -40,11 +44,13 @@ public class Dispatcher {
                 log.debug("Could not query DBPedia ", e);
             }
         }
+        //endregion
 
+        //region querying FREEBASE
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.MQL, searchDAO.getQuery());
-            responses[0] = queryService(FREEBASE, quepyResponse.getQuery());
-            questionType = sanitizeRule(quepyResponse.getRule());
+            response.setFreebaseResponse(queryService(FREEBASE, quepyResponse.getQuery()));
+            response.setQuestionType(quepyResponse.getRule());
 
             if (log.isInfoEnabled()) {
                 log.info("Freebase quepy response: " + quepyResponse.toString());
@@ -56,13 +62,14 @@ public class Dispatcher {
                 log.debug("Could not query DBPedia ", e);
             }
         }
+        //endregion
 
-        System.out.println("DBPedia : " + responses[0]);
-        System.out.println("Freebase : " + responses[1]);
-
+        System.out.println("DBPedia : " + response.getDbpediaResponse());
+        System.out.println("Freebase : " + response.getFreebaseResponse());
+        Map<String, JsonNode> res = null;
         try {
-            QuestionType qt = QuestionFactory.getInstance().getInstanceFor(questionType);
-            qt.doSomethingUseful(searchDAO.getQuery());
+            QuestionType qt = QuestionFactory.getInstance().getInstanceFor(sanitizeRule(response.getQuestionType()));
+            res = qt.doSomethingUseful(response);
 
         } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
             if (log.isDebugEnabled()) {
@@ -70,6 +77,13 @@ public class Dispatcher {
             }
         }
 
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(res);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static String queryService(String serviceType, String query)

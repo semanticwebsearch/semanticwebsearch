@@ -2,7 +2,6 @@ package ro.semanticwebsearch.api.rest.endpoint;
 
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
-import ro.semanticwebsearch.api.rest.model.output.ResponseListWrapper;
 import ro.semanticwebsearch.businesslogic.Dispatcher;
 
 import javax.ws.rs.BeanParam;
@@ -22,14 +21,14 @@ public class Search {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public ResponseListWrapper query(@BeanParam SearchDAO searchDAO) throws Exception {
+    public String query(@BeanParam SearchDAO searchDAO) throws Exception {
         if (log.isInfoEnabled()) {
             log.info("Search query : " + searchDAO.toString());
         }
 
-        Dispatcher.executeQuery(searchDAO);
 
-        return new ResponseListWrapper(null);
+
+        return Dispatcher.executeQuery(searchDAO);
     }
 
     //region was here for testing
