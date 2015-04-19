@@ -14,6 +14,7 @@ import javax.ws.rs.client.WebTarget;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -88,25 +89,30 @@ public class WhoIs implements QuestionType {
                 person.setName(aux);
 
 
-                aux = getBirthdate(personInfo);
+                aux = getDBpediaBirthdate(personInfo);
                 person.setBirthdate(aux);
 
-                aux = getDeathdate(personInfo);
+                aux = getDBpediaDeathdate(personInfo);
                 person.setDeathdate(aux);
 
                 person.setBirthplace(getBirthplace(personInfo));
 
-                aux = getAbstractDescription(personInfo);
+                aux = getDBpediaAbstractDescription(personInfo);
                 person.setDescription(aux);
 
-                aux = getShortDescription(personInfo);
+                aux = getDBpediaShortDescription(personInfo);
                 person.setShortDescription(aux);
 
-                aux = getPrimaryTopicOf(personInfo);
+                aux = getDBpediaPrimaryTopicOf(personInfo);
                 person.setWikiPageExternal(aux);
 
                 person.setEducation(getDBpediaEducation(personInfo));
                 person.setNationality(getDBPediaNationality(personInfo));
+
+                person.setParents(getDBpediaParents(personInfo));
+                person.setThumbnail(getDBpediaThumbnail(personInfo));
+                person.setSpouse(getDBpediaSpouse(personInfo));
+                person.setChildren(getDBpediaChildren(personInfo));
                 System.out.println(person);
 
             }catch (IOException e) {
@@ -114,6 +120,79 @@ public class WhoIs implements QuestionType {
             }
 
         }
+
+    }
+
+    private ArrayList<Pair<String, String>> getDBpediaChildren(JsonNode personInfo) {
+        ArrayList<Pair<String, String>> children = new ArrayList<>();
+        ArrayNode childrenArray = (ArrayNode)personInfo.findValue(MetadataProperties.CHILDREN.getDbpedia());
+        if (childrenArray != null) {
+            for(JsonNode child : childrenArray) {
+                if (isLiteral(child)) {
+                    children.add(new MutablePair<>("", extractValue(child.findValue("value"))));
+                } else if(isUri(child)) {
+                    String uri = extractValue(child.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String spouseName = pieces[pieces.length - 1];
+                    children.add(new MutablePair<>(uri, spouseName.replace("_", " ")));
+                }
+            }
+        }
+
+        return children;
+
+    }
+
+    private ArrayList<Pair<String, String>> getDBpediaSpouse(JsonNode personInfo) {
+        ArrayList<Pair<String, String>> parents = new ArrayList<>();
+        ArrayNode spouses = (ArrayNode)personInfo.findValue(MetadataProperties.SPOUSE.getDbpedia());
+        if (spouses != null) {
+            for(JsonNode spouse : spouses) {
+                if (isLiteral(spouse)) {
+                    parents.add(new MutablePair<>("", extractValue(spouse.findValue("value"))));
+                } else if(isUri(spouse)) {
+                    String uri = extractValue(spouse.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String spouseName = pieces[pieces.length - 1];
+                    parents.add(new MutablePair<>(uri, spouseName.replace("_", " ")));
+                }
+            }
+        }
+
+        return parents;
+
+    }
+
+    private String getDBpediaThumbnail(JsonNode personInfo) {
+        ArrayNode thumbnails = (ArrayNode)personInfo.findValue(MetadataProperties.THUMBNAIL.getDbpedia());
+        if(thumbnails != null) {
+            for (JsonNode thumbnail : thumbnails) {
+                if (isUri(thumbnail)) {
+                    return extractValue(thumbnails.findValue("value"));
+                }
+            }
+        }
+        return "";
+
+    }
+
+    private ArrayList<Pair<String, String>> getDBpediaParents(JsonNode personInfo) {
+        ArrayList<Pair<String, String>> parents = new ArrayList<>();
+        ArrayNode parentsArray = (ArrayNode)personInfo.findValue(MetadataProperties.PARENTS.getDbpedia());
+        if (parentsArray != null) {
+            for(JsonNode parent : parentsArray) {
+                if (isLiteral(parent)) {
+                    parents.add(new MutablePair<>("", extractValue(parent.findValue("value"))));
+                } else if(isUri(parent)) {
+                    String uri = extractValue(parent.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String parentName = pieces[pieces.length - 1];
+                    parents.add(new MutablePair<>(uri, parentName.replace("_", " ")));
+                }
+            }
+        }
+
+        return parents;
 
     }
 
@@ -126,8 +205,8 @@ public class WhoIs implements QuestionType {
                 } else if(isUri(nationality)) {
                     String uri = extractValue(nationality.findValue("value"));
                     String[] pieces = uri.split("/");
-                    String education = pieces[pieces.length - 1];
-                    return new MutablePair<>(uri, education.replace("_", " "));
+                    String name = pieces[pieces.length - 1];
+                    return new MutablePair<>(uri, name.replace("_", " "));
                 }
             }
         }
@@ -169,7 +248,7 @@ public class WhoIs implements QuestionType {
 
     }
 
-    private String getPrimaryTopicOf(JsonNode personInfo) {
+    private String getDBpediaPrimaryTopicOf(JsonNode personInfo) {
         ArrayNode topics = (ArrayNode)personInfo.findValue(MetadataProperties.PRIMARY_TOPIC_OF.getDbpedia());
         if(topics != null) {
             for (JsonNode topic : topics) {
@@ -181,7 +260,7 @@ public class WhoIs implements QuestionType {
         return "";
     }
 
-    private String getShortDescription(JsonNode personInfo) {
+    private String getDBpediaShortDescription(JsonNode personInfo) {
         ArrayNode descriptions = (ArrayNode)personInfo.findValue(MetadataProperties.SHORT_DESCRIPTION.getDbpedia());
         if (descriptions != null) {
             for(JsonNode description : descriptions) {
@@ -193,7 +272,7 @@ public class WhoIs implements QuestionType {
         return "";
     }
 
-    private String getAbstractDescription(JsonNode personInfo) {
+    private String getDBpediaAbstractDescription(JsonNode personInfo) {
         ArrayNode descriptions = (ArrayNode)personInfo.findValue(MetadataProperties.ABSTRACT.getDbpedia());
         if(descriptions != null) {
             for (JsonNode abstractDescription : descriptions) {
@@ -211,7 +290,7 @@ public class WhoIs implements QuestionType {
         return "";
     }
 
-    private String getDeathdate(JsonNode personInfo) {
+    private String getDBpediaDeathdate(JsonNode personInfo) {
         ArrayNode dates = (ArrayNode) personInfo.findValue(MetadataProperties.DEATHDATE.getDbpedia());
         if(dates != null) {
             for (JsonNode deathDate : dates) {
@@ -240,7 +319,7 @@ public class WhoIs implements QuestionType {
         return null;
     }
 
-    private String getBirthdate(JsonNode personInfo) {
+    private String getDBpediaBirthdate(JsonNode personInfo) {
         ArrayNode dates = (ArrayNode)personInfo.findValue(MetadataProperties.BIRTHDATE.getDbpedia());
         if(dates != null) {
             for (JsonNode birthdate : dates) {

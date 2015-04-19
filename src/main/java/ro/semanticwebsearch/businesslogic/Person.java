@@ -10,14 +10,18 @@ import java.util.ArrayList;
 public class Person {
     private String name;
     private String birthdate;
+    private String thumbnail;
     private String deathdate;
-    private Pair<String, String> birthplace;
+    private String shortDescription;
     private String description;
+    private String wikiPageExternal;
     private Pair<String, String> education;
     private Pair<String, String> nationality;
-    private String shortDescription;
-    private ArrayList<String> parents;
-    private String wikiPageExternal;
+    private Pair<String, String> birthplace;
+    private ArrayList<Pair<String, String>> children;
+    private ArrayList<Pair<String, String>> parents;
+    private ArrayList<Pair<String, String>> spouse;
+
 
     public String getName() {
         return name;
@@ -59,7 +63,6 @@ public class Person {
         this.description = description;
     }
 
-
     public Pair<String, String> getEducation() {
         return education;
     }
@@ -67,8 +70,6 @@ public class Person {
     public void setEducation(Pair<String, String> education) {
         this.education = education;
     }
-
-
 
     public String getShortDescription() {
         return shortDescription;
@@ -78,11 +79,11 @@ public class Person {
         this.shortDescription = shortDescription;
     }
 
-    public ArrayList<String> getParents() {
+    public ArrayList<Pair<String, String>> getParents() {
         return parents;
     }
 
-    public void setParents(ArrayList<String> parents) {
+    public void setParents(ArrayList<Pair<String, String>> parents) {
         this.parents = parents;
     }
 
@@ -100,5 +101,29 @@ public class Person {
 
     public void setNationality(Pair<String, String> nationality) {
         this.nationality = nationality;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public ArrayList<Pair<String, String>> getSpouse() {
+        return spouse;
+    }
+
+    public void setSpouse(ArrayList<Pair<String, String>> spouse) {
+        this.spouse = spouse;
+    }
+
+    public ArrayList<Pair<String, String>> getChildren() {
+        return children;
+    }
+
+    public void setChildren(ArrayList<Pair<String, String>> children) {
+        this.children = children;
     }
 }

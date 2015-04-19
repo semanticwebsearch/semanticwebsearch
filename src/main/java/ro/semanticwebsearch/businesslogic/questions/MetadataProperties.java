@@ -14,6 +14,10 @@ public enum MetadataProperties {
     EDUCATION_ONTOLOGY("http://dbpedia.org/ontology/education", ""),
     ALMA_MATER("http://dbpedia.org/ontology/almaMater", ""),
     NATIONALITY("http://dbpedia.org/ontology/nationality", ""),
+    THUMBNAIL("http://dbpedia.org/ontology/thumbnail", ""),
+    SPOUSE("http://dbpedia.org/ontology/spouse", ""),
+    PARENTS("http://dbpedia.org/property/parents", ""),
+    CHILDREN("http://dbpedia.org/property/children", ""),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;
