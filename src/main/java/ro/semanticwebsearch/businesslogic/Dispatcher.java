@@ -66,6 +66,7 @@ public class Dispatcher {
 
         System.out.println("DBPedia : " + response.getDbpediaResponse());
         System.out.println("Freebase : " + response.getFreebaseResponse());
+
         Map<String, JsonNode> res = null;
         try {
             QuestionType qt = QuestionFactory.getInstance().getInstanceFor(sanitizeRule(response.getQuestionType()));
