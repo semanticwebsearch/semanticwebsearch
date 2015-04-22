@@ -1,7 +1,6 @@
 package ro.semanticwebsearch.businesslogic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
@@ -67,7 +66,7 @@ public class Dispatcher {
         System.out.println("DBPedia : " + response.getDbpediaResponse());
         System.out.println("Freebase : " + response.getFreebaseResponse());
 
-        Map<String, JsonNode> res = null;
+        Map<String, Object> res = null;
         try {
             QuestionType qt = QuestionFactory.getInstance().getInstanceFor(sanitizeRule(response.getQuestionType()));
             res = qt.doSomethingUseful(response);
@@ -100,6 +99,8 @@ public class Dispatcher {
 
     public static QuepyResponse queryQuepy(QueryType queryType, String query)
             throws UnsupportedEncodingException, URISyntaxException {
+        //byte[] data = query.getBytes("ASCII");
+       // String ascii = new String(data);
         Quepy quepy = new Quepy(queryType, query);
         return quepy.query();
     }

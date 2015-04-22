@@ -1,7 +1,5 @@
 package ro.semanticwebsearch.businesslogic;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.ArrayList;
 
 /**
@@ -10,17 +8,17 @@ import java.util.ArrayList;
 public class Person {
     private String name;
     private String birthdate;
-    private String thumbnail;
+    private ArrayList<String> thumbnails;
     private String deathdate;
     private String shortDescription;
     private String description;
     private String wikiPageExternal;
-    private Pair<String, String> education;
-    private Pair<String, String> nationality;
-    private Pair<String, String> birthplace;
-    private ArrayList<Pair<String, String>> children;
-    private ArrayList<Pair<String, String>> parents;
-    private ArrayList<Pair<String, String>> spouse;
+    private StringPair birthplace;
+    private ArrayList<StringPair> nationality;
+    private ArrayList<StringPair> education;
+    private ArrayList<StringPair> children;
+    private ArrayList<StringPair> parents;
+    private ArrayList<StringPair> spouse;
 
 
     public String getName() {
@@ -47,11 +45,11 @@ public class Person {
         this.deathdate = deathdate;
     }
 
-    public Pair<String, String> getBirthplace() {
+    public StringPair getBirthplace() {
         return birthplace;
     }
 
-    public void setBirthplace(Pair<String, String> birthplace) {
+    public void setBirthplace(StringPair birthplace) {
         this.birthplace = birthplace;
     }
 
@@ -63,11 +61,11 @@ public class Person {
         this.description = description;
     }
 
-    public Pair<String, String> getEducation() {
+    public ArrayList<StringPair> getEducation() {
         return education;
     }
 
-    public void setEducation(Pair<String, String> education) {
+    public void setEducation(ArrayList<StringPair> education) {
         this.education = education;
     }
 
@@ -79,11 +77,11 @@ public class Person {
         this.shortDescription = shortDescription;
     }
 
-    public ArrayList<Pair<String, String>> getParents() {
+    public ArrayList<StringPair> getParents() {
         return parents;
     }
 
-    public void setParents(ArrayList<Pair<String, String>> parents) {
+    public void setParents(ArrayList<StringPair> parents) {
         this.parents = parents;
     }
 
@@ -95,35 +93,35 @@ public class Person {
         this.wikiPageExternal = wikiPageExternal;
     }
 
-    public Pair<String, String> getNationality() {
+    public ArrayList<StringPair> getNationality() {
         return nationality;
     }
 
-    public void setNationality(Pair<String, String> nationality) {
+    public void setNationality(ArrayList<StringPair> nationality) {
         this.nationality = nationality;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public ArrayList<String> getThumbnails() {
+        return thumbnails;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbnails(ArrayList<String> thumbnails) {
+        this.thumbnails = thumbnails;
     }
 
-    public ArrayList<Pair<String, String>> getSpouse() {
+    public ArrayList<StringPair> getSpouse() {
         return spouse;
     }
 
-    public void setSpouse(ArrayList<Pair<String, String>> spouse) {
+    public void setSpouse(ArrayList<StringPair> spouse) {
         this.spouse = spouse;
     }
 
-    public ArrayList<Pair<String, String>> getChildren() {
+    public ArrayList<StringPair> getChildren() {
         return children;
     }
 
-    public void setChildren(ArrayList<Pair<String, String>> children) {
+    public void setChildren(ArrayList<StringPair> children) {
         this.children = children;
     }
 }

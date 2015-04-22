@@ -1,6 +1,5 @@
 package ro.semanticwebsearch.businesslogic.questions;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import ro.semanticwebsearch.businesslogic.ServiceResponse;
 
 import java.util.Map;
@@ -16,7 +15,7 @@ public class Band extends AbstractQuestion {
     }
 
     @Override
-    public Map<String, JsonNode> doSomethingUseful(ServiceResponse response) {
+    public Map<String, Object> doSomethingUseful(ServiceResponse response) {
         System.out.println("Do Band si atat");
         return null;
     }

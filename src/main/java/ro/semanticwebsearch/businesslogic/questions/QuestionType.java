@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by Spac on 4/8/2015.
  */
 public interface QuestionType {
-    Map<String, JsonNode> doSomethingUseful(ServiceResponse response)
+    Map<String, Object> doSomethingUseful(ServiceResponse response)
             throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException;
 
 }

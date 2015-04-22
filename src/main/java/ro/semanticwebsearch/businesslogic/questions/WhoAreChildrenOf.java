@@ -28,7 +28,7 @@ public class WhoAreChildrenOf implements QuestionType {
     }
 
     @Override
-    public Map<String, JsonNode> doSomethingUseful(ServiceResponse response)
+    public Map<String, Object> doSomethingUseful(ServiceResponse response)
             throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
 
         if (log.isInfoEnabled()) {
@@ -157,8 +157,8 @@ public class WhoAreChildrenOf implements QuestionType {
      * Returns a map containing the @param dbpediaChildrenInfo and @param freebaseChildrenInfo in a format like :
      *  dbpedia/freebase -> {name : childrenName, additionalInfo : the value from map}
      */
-    private Map<String, JsonNode> prepareResponse(Map<String, String> dbpediaChildrenInfo, Map<String, JsonNode> freebaseChildrenInfo) {
-        Map<String, JsonNode> results = new HashMap<>();
+    private Map<String, Object> prepareResponse(Map<String, String> dbpediaChildrenInfo, Map<String, JsonNode> freebaseChildrenInfo) {
+        Map<String, Object> results = new HashMap<>();
         ObjectNode aux;
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode auxArray = new ArrayNode(JsonNodeFactory.instance);

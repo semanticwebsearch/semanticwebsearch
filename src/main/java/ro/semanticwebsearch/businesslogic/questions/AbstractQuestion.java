@@ -1,6 +1,5 @@
 package ro.semanticwebsearch.businesslogic.questions;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import ro.semanticwebsearch.businesslogic.ServiceResponse;
 
 import java.util.Map;
@@ -10,5 +9,5 @@ import java.util.Map;
  */
 public abstract class AbstractQuestion implements QuestionType {
 
-    public abstract Map<String, JsonNode> doSomethingUseful(ServiceResponse response);
+    public abstract Map<String, Object> doSomethingUseful(ServiceResponse response);
 }
