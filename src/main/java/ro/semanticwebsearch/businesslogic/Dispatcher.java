@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
-import ro.semanticwebsearch.businesslogic.questions.QuestionFactory;
-import ro.semanticwebsearch.businesslogic.questions.QuestionType;
+import ro.semanticwebsearch.responsegenerator.QuestionFactory;
+import ro.semanticwebsearch.responsegenerator.QuestionType;
 import ro.semanticwebsearch.services.*;
 
 import java.io.UnsupportedEncodingException;

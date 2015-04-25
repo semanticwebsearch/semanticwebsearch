@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.businesslogic;
+package ro.semanticwebsearch.responsegenerator.model;
 
 import java.util.ArrayList;
 

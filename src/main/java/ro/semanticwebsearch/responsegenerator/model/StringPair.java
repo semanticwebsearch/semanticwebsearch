@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.businesslogic;
+package ro.semanticwebsearch.responsegenerator.model;
 
 /**
  * Created by Spac on 4/22/2015.

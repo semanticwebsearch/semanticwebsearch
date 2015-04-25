@@ -1,6 +1,5 @@
-package ro.semanticwebsearch.businesslogic.questions;
+package ro.semanticwebsearch.responsegenerator;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import ro.semanticwebsearch.businesslogic.ServiceResponse;
 
 import java.io.UnsupportedEncodingException;

@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.businesslogic.questions;
+package ro.semanticwebsearch.responsegenerator;
 
 import com.google.common.reflect.ClassPath;
 import org.apache.log4j.Logger;
