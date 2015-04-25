@@ -44,9 +44,8 @@ class WhoAreChildrenOf implements QuestionType {
 
         //freebase response parsing
         String freebase = response.getFreebaseResponse();
-        Map<String, String> freebaseChildUri = new HashMap<>();
         Map<String, String> freebaseChildrenInfo = new HashMap<>();
-        parseFreebaseForUriAndName(freebase, freebaseChildUri);
+        parseFreebaseForUriAndName(freebase, freebaseChildrenInfo);
         //fac get pe uris, la freebase, adaug la serviceResponse si apelez whois
 
         //get for uris
