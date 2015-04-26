@@ -239,7 +239,7 @@ public class DBPediaParser {
         if(sb.length() > 3) {
             sb.replace(sb.length() - 3, sb.length() - 1, "");
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     /**
@@ -378,16 +378,17 @@ public class DBPediaParser {
     }
 
     public static StringPair getOrigin(JsonNode personInfo) {
-        ArrayNode names = (ArrayNode)personInfo.findValue(MetadataProperties.ORIGIN.getDbpedia());
-        if(names != null) {
-            for (JsonNode name : names) {
-                if (isLiteral(name)) {
-                    return new StringPair("", extractValue(name.findValue("value")));
-                } else if (isUri(name)) {
-                    String uri = extractValue(name.findValue("value"));
+        ArrayNode origins = (ArrayNode)personInfo.findValue(MetadataProperties.ORIGIN.getDbpedia());
+        if(origins != null) {
+            for (JsonNode item : origins) {
+                if (isLiteral(item)) {
+                    return new StringPair("", extractValue(item.findValue("value")));
+                } else if (isUri(item)) {
+                    String uri = extractValue(item.findValue("value"));
                     String[] pieces = uri.split("/");
-                    String birthPlace = pieces[pieces.length - 1];
-                    return new StringPair(uri, birthPlace.replace("_", " "));
+                    String origin = pieces[pieces.length - 1];
+                    return new StringPair(getLink(AdditionalQuestion.PLACE_INFO, origin.replace("_", " ")),
+                            origin.replace("_", " "));
                 }
                /* if (isLiteral(name)) {
                     sb.append(extractValue(name.findValue("value"))).append(" / ");
@@ -398,5 +399,53 @@ public class DBPediaParser {
             }
         }
         return null;
+    }
+
+    public static StringPair getPlace(JsonNode personInfo) {
+        ArrayNode names = (ArrayNode)personInfo.findValue(MetadataProperties.PLACE.getDbpedia());
+        if(names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    return new StringPair("", extractValue(name.findValue("value")));
+                } else if (isUri(name)) {
+                    String uri = extractValue(name.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String birthPlace = pieces[pieces.length - 1];
+                    return new StringPair(getLink(AdditionalQuestion.PLACE_INFO, birthPlace.replace("_", " ")),
+                            birthPlace.replace("_", " "));
+                }
+               /* if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                } else {
+                    //todo we need to treat uris too
+                    System.out.println("DESIGNER IS URI!");
+                }*/
+            }
+        }
+        return null;
+    }
+
+    public static String getResult(JsonNode info) {
+        ArrayNode descriptions = (ArrayNode)info.findValue(MetadataProperties.RESULT.getDbpedia());
+        if (descriptions != null) {
+            for(JsonNode description : descriptions) {
+                if(isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getDate(JsonNode info) {
+        ArrayNode descriptions = (ArrayNode)info.findValue(MetadataProperties.DATE.getDbpedia());
+        if (descriptions != null) {
+            for(JsonNode description : descriptions) {
+                if(isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
     }
 }

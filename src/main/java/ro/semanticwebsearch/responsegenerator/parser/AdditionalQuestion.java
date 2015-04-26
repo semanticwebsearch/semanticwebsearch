@@ -4,7 +4,8 @@ package ro.semanticwebsearch.responsegenerator.parser;
  * Created by Spac on 4/22/2015.
  */
 public enum AdditionalQuestion {
-    WHO_IS("Who is %s?");
+    WHO_IS("Who is %s?"),
+    PLACE_INFO("Place %s?");
 
     private String value;
 

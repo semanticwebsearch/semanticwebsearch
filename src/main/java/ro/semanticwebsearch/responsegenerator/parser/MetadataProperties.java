@@ -26,6 +26,9 @@ public enum MetadataProperties {
     CALIBER("http://dbpedia.org/property/caliber", ""),
     DESIGNER("http://dbpedia.org/property/designer", ""),
     PROP_SERVICE("http://dbpedia.org/property/service", ""),
+    RESULT("http://dbpedia.org/ontology/result", ""),
+    DATE("http://dbpedia.org/ontology/date", ""),
+    PLACE("http://dbpedia.org/ontology/place", ""),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;

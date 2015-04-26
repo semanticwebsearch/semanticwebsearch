@@ -23,7 +23,8 @@ class WhereIs implements QuestionType {
 
 
     @Override
-    public Map<String, Object> doSomethingUseful(ServiceResponse response) throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
+    public Map<String, Object> doSomethingUseful(ServiceResponse response)
+            throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
         if (log.isInfoEnabled()) {
             log.info(QUESTION + " : " + response);
         }
