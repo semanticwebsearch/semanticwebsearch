@@ -102,33 +102,21 @@ class WhoIs implements QuestionType {
         return map;
     }
 
-    //region FREEBASE Methods
     public Person freebaseWhoIs(URI freebaseURI) {
+        if(freebaseURI == null || freebaseURI.toString().trim().isEmpty()) {
+            return null;
+        }
+
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            /*JsonNode results = mapper.readTree(freebaseResponse).findValue("result");
-            if(results.isArray()) {
-                for(JsonNode item : results) {
-                    personUri = FreebaseParser.getFreebaseLink(FreebaseParser.extractFreebaseId(item));
-                    if(personUri != null && !personUri.trim().isEmpty()) {
-                        break;
-                    }
-                }
-            }
-
-            //no match
-            if(personUri == null) {
-                return null;
-            }*/
-
             WebTarget client;
             String personInfoResponse, aux;
+            ObjectMapper mapper = new ObjectMapper();
 
             client = ClientBuilder.newClient().target(freebaseURI);
             personInfoResponse = client.request().get(String.class);
             JsonNode personInfo = mapper.readTree(personInfoResponse).findValue("property");
-            Person person = new Person();
 
+            Person person = new Person();
             aux = FreebaseParser.getPersonName(personInfo);
             person.setName(aux);
 
@@ -166,87 +154,59 @@ class WhoIs implements QuestionType {
 
         return null;
     }
-    //endregion
 
-    //region DBPEDIA Methods
     public Person dbpediaWhoIs(URI dbpediaUri) {
+        if(dbpediaUri == null || dbpediaUri.toString().trim().isEmpty()) {
+            return null;
+        }
 
-        //region Extract person Uri from x0
-        /*try {
+        try {
+            WebTarget client;
+            String personInfoResponse, aux;
+            JsonNode personInfo;
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(dbpediaResponse);
 
-            if(response.has("results")) {
-                response = response.findValue("results").findValue("bindings");
-            }
-
-            if(response.isArray()) {
-                JsonNode aux;
-
-                //iterates through object in bindings array
-                for (JsonNode node : response) {
-                    //elements from every object (x0,x1..) these are properties
-                    aux = node.findValue("x0");
-                    if(aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        personUri = DBPediaParser.extractValue(aux.findValue("value"));
-                        break;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        //endregion
-
-        WebTarget client;
-        String personInfoResponse, aux;
-        JsonNode personInfo;
-        //am facut get pe person uri, am luat datele sale
-        if(dbpediaUri != null) {
             client = ClientBuilder.newClient().target(DBPediaParser.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             personInfoResponse = client.request().get(String.class);
+            personInfo = mapper.readTree(personInfoResponse).findValue(dbpediaUri.toString());
+
             Person person = new Person();
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                //in person info avem informatii despre persoana respectiva data nasterii/death, birthplace, etc
-                personInfo = mapper.readTree(personInfoResponse).findValue(dbpediaUri.toString());
+            aux = DBPediaParser.getName(personInfo);
+            person.setName(aux);
 
-                aux = DBPediaParser.getName(personInfo);
-                person.setName(aux);
+            aux = DBPediaParser.getBirthdate(personInfo);
+            person.setBirthdate(aux);
 
-                aux = DBPediaParser.getBirthdate(personInfo);
-                person.setBirthdate(aux);
+            aux = DBPediaParser.getDeathdate(personInfo);
+            person.setDeathdate(aux);
 
-                aux = DBPediaParser.getDeathdate(personInfo);
-                person.setDeathdate(aux);
+            person.setBirthplace(DBPediaParser.getBirthplace(personInfo));
 
-                person.setBirthplace(DBPediaParser.getBirthplace(personInfo));
+            aux = DBPediaParser.getAbstractDescription(personInfo);
+            person.setDescription(aux);
 
-                aux = DBPediaParser.getAbstractDescription(personInfo);
-                person.setDescription(aux);
+            aux = DBPediaParser.getShortDescription(personInfo);
+            person.setShortDescription(aux);
 
-                aux = DBPediaParser.getShortDescription(personInfo);
-                person.setShortDescription(aux);
+            aux = DBPediaParser.getPrimaryTopicOf(personInfo);
+            person.setWikiPageExternal(aux);
 
-                aux = DBPediaParser.getPrimaryTopicOf(personInfo);
-                person.setWikiPageExternal(aux);
+            person.setEducation(DBPediaParser.getEducation(personInfo));
+            person.setNationality(DBPediaParser.getNationality(personInfo));
 
-                person.setEducation(DBPediaParser.getEducation(personInfo));
-                person.setNationality(DBPediaParser.getNationality(personInfo));
+            person.setParents(DBPediaParser.getParents(personInfo));
+            person.setThumbnails(DBPediaParser.getThumbnail(personInfo));
+            person.setSpouse(DBPediaParser.getSpouse(personInfo));
+            person.setChildren(DBPediaParser.getChildren(personInfo));
 
-                person.setParents(DBPediaParser.getParents(personInfo));
-                person.setThumbnails(DBPediaParser.getThumbnail(personInfo));
-                person.setSpouse(DBPediaParser.getSpouse(personInfo));
-                person.setChildren(DBPediaParser.getChildren(personInfo));
+            return person;
 
-                return person;
-
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
+        }catch (IOException e) {
+            e.printStackTrace();
         }
+
 
         return null;
     }
-    //endregion
+
 }

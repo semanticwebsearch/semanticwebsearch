@@ -20,6 +20,14 @@ public class Dispatcher {
     public static final String DBPEDIA = "dbpedia";
     public static final String FREEBASE = "freebase";
 
+    /**
+     * Queries Quepy to transform natural language into sparql or mql.
+     * After that queries DBPedia and Freebase using the criteria given by the user and also gets additional
+     * information about the entitites found in response
+     * @param searchDAO the searching criteria selected by the user
+     * @return string representing the JSON response
+     * @throws IllegalAccessException
+     */
     public static String executeQuery(SearchDAO searchDAO) throws IllegalAccessException {
 
         if (log.isInfoEnabled()) {
@@ -63,8 +71,8 @@ public class Dispatcher {
         }
         //endregion
 
-        System.out.println("DBPedia : " + response.getDbpediaResponse());
-        System.out.println("Freebase : " + response.getFreebaseResponse());
+        /*System.out.println("DBPedia : " + response.getDbpediaResponse());
+        System.out.println("Freebase : " + response.getFreebaseResponse());*/
 
         Map<String, Object> res = null;
         try {
@@ -94,13 +102,15 @@ public class Dispatcher {
 
 
     private static String sanitizeRule(String rule) {
-        return rule.replace("Question", "").toLowerCase();
+        if(rule != null) {
+            return rule.replace("Question", "").toLowerCase();
+        } else {
+            return "";
+        }
     }
 
     public static QuepyResponse queryQuepy(QueryType queryType, String query)
             throws UnsupportedEncodingException, URISyntaxException {
-        //byte[] data = query.getBytes("ASCII");
-       // String ascii = new String(data);
         Quepy quepy = new Quepy(queryType, query);
         return quepy.query();
     }

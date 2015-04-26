@@ -26,8 +26,6 @@ public class Search {
             log.info("Search query : " + searchDAO.toString());
         }
 
-
-
         return Dispatcher.executeQuery(searchDAO);
     }
 
