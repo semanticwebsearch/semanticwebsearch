@@ -3,7 +3,6 @@ package ro.semanticwebsearch.responsegenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.businesslogic.ServiceResponse;
 import ro.semanticwebsearch.responsegenerator.model.Person;
 import ro.semanticwebsearch.responsegenerator.parser.DBPediaParser;
 import ro.semanticwebsearch.responsegenerator.parser.FreebaseParser;
@@ -11,16 +10,13 @@ import ro.semanticwebsearch.responsegenerator.parser.FreebaseParser;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Spac on 4/18/2015.
  */
-class WhoIs implements QuestionType {
+class WhoIs extends AbstractQuestionType {
 
     private static final String QUESTION = "Who is";
     private static Logger log = Logger.getLogger(WhoIs.class.getCanonicalName());
@@ -29,7 +25,7 @@ class WhoIs implements QuestionType {
         System.out.println("constructor WhoIs");
     }
 
-    @Override
+/*    @Override
     public Map<String, Object> doSomethingUseful(ServiceResponse response)
             throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
 
@@ -100,6 +96,75 @@ class WhoIs implements QuestionType {
         map.put("freebase", freebasePerson);
         map.put("dbpedia", dbpediaPerson);
         return map;
+    }*/
+
+    @Override
+    public Person parseDBPediaResponse(String dbpediaResponse) {
+        String extractedUri = "";
+        //extract uri from dbpedia response
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode responseNode = mapper.readTree(dbpediaResponse);
+
+            if(responseNode.has("results")) {
+                responseNode = responseNode.findValue("results").findValue("bindings");
+            }
+
+            if(responseNode.isArray()) {
+                JsonNode aux;
+
+                //iterates through object in bindings array
+                for (JsonNode node : responseNode) {
+                    //elements from every object (x0,x1..) these are properties
+                    aux = node.findValue("x0");
+                    if(aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
+                        extractedUri = DBPediaParser.extractValue(aux.findValue("value"));
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(extractedUri != null && !extractedUri.trim().isEmpty()) {
+            try {
+                return dbpediaWhoIs(new URI(extractedUri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Person parseFreebaseResponse(String freebaseResponse) {
+        String extractedUri = "";
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode results = mapper.readTree(freebaseResponse).findValue("result");
+            if (results.isArray()) {
+                for (JsonNode item : results) {
+                    extractedUri = FreebaseParser.getFreebaseLink(FreebaseParser.extractFreebaseId(item));
+                    if (extractedUri != null && !extractedUri.trim().isEmpty()) {
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(extractedUri != null && !extractedUri.trim().isEmpty()) {
+            try {
+                return freebaseWhoIs(new URI(extractedUri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     public Person freebaseWhoIs(URI freebaseURI) {
@@ -208,5 +273,6 @@ class WhoIs implements QuestionType {
 
         return null;
     }
+
 
 }

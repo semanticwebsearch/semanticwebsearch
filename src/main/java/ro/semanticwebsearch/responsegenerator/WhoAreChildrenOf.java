@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.businesslogic.ServiceResponse;
 import ro.semanticwebsearch.responsegenerator.model.Person;
 import ro.semanticwebsearch.responsegenerator.parser.DBPediaParser;
+import ro.semanticwebsearch.responsegenerator.parser.FreebaseParser;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Spac on 4/12/2015.
  */
-class WhoAreChildrenOf implements QuestionType {
+class WhoAreChildrenOf extends AbstractQuestionType {
     private static final String QUESTION = "Who are the children of";
     private static final String FREEBASE_RESOURCE_LINK = "https://www.googleapis.com/freebase/v1/topic%s?filter=all";
     private static Logger log = Logger.getLogger(WhoAreChildrenOf.class.getCanonicalName());
@@ -28,7 +27,7 @@ class WhoAreChildrenOf implements QuestionType {
         System.out.println("constructor who are children of");
     }
 
-    @Override
+   /* @Override
     public Map<String, Object> doSomethingUseful(ServiceResponse response)
             throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
 
@@ -46,40 +45,58 @@ class WhoAreChildrenOf implements QuestionType {
         String freebase = response.getFreebaseResponse();
         Map<String, String> freebaseChildrenInfo = new HashMap<>();
         parseFreebaseForUriAndName(freebase, freebaseChildrenInfo);
-        //fac get pe uris, la freebase, adaug la serviceResponse si apelez whois
-
-        //get for uris
-        /*WebTarget client;
-        String additionalInfo;
-
-        for(Map.Entry<String, String> child : dbpediaChildrenInfo.entrySet()) {
-            client = ClientBuilder.newClient().target(child.getValue());
-            additionalInfo = client.request().get(String.class);
-            dbpediaChildrenInfo.put(child.getKey(), additionalInfo);
-
-        }
-
-        for(Map.Entry<String, String> child : freebaseChildUri.entrySet()) {
-            client = ClientBuilder.newClient().target(child.getValue());
-            additionalInfo = client.request().get(String.class);
-            freebaseChildrenInfo.put(child.getKey(), additionalInfo);
-
-        }*/
 
         return prepareResponse(dbpediaChildrenInfo, freebaseChildrenInfo);
 
 
     }
+*/
 
-    /**
+    @Override
+    public Object parseFreebaseResponse(String freebaseResponse) {
+        Map<String, String> freebaseChildrenInfo = new HashMap<>();
+        parseFreebaseForUriAndName(freebaseResponse, freebaseChildrenInfo);
+
+        ArrayList<Person> freebasePersons = new ArrayList<>();
+        WhoIs whoIs = new WhoIs();
+
+        for(Map.Entry<String, String> child : freebaseChildrenInfo.entrySet()) {
+            try {
+                freebasePersons.add(whoIs.freebaseWhoIs(new URI(child.getValue())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return freebasePersons;
+    }
+
+    @Override
+    public Object parseDBPediaResponse(String dbpediaResponse) {
+        Map<String, String> dbpediaChildrenInfo = new HashMap<>();
+        parseDBPediaForUriAndName(dbpediaResponse, dbpediaChildrenInfo);
+
+        ArrayList<Person> dbpediaPersons = new ArrayList<>();
+        WhoIs whoIs = new WhoIs();
+
+        for(Map.Entry<String, String> child : dbpediaChildrenInfo.entrySet()) {
+            try {
+                dbpediaPersons.add(whoIs.dbpediaWhoIs(new URI(child.getValue())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return dbpediaPersons;
+    }
+
+  /*  *//**
      * Returns a map containing the @param dbpediaChildrenInfo and @param freebaseChildrenInfo in a format like :
      *  dbpedia/freebase -> {name : childrenName, additionalInfo : the value from map}
-     */
+     *//*
     private Map<String, Object> prepareResponse(Map<String, String> dbpediaChildrenInfo, Map<String, String> freebaseChildrenInfo) {
         Map<String, Object> results = new HashMap<>();
         ArrayList<Person> dbpediaResponse = new ArrayList<>();
-        ArrayList<Person> freebaseResponse = new ArrayList<>();
-
         WhoIs whoIs = new WhoIs();
 
         for(Map.Entry<String, String> child : dbpediaChildrenInfo.entrySet()) {
@@ -103,7 +120,7 @@ class WhoAreChildrenOf implements QuestionType {
         results.put("freebase", freebaseResponse);
 
         return results;
-    }
+    }*/
 
     /**
      * Iterates through freebase response, searches for /people/person/children tag and extracts the valued from there.
@@ -126,7 +143,7 @@ class WhoAreChildrenOf implements QuestionType {
                     if(children.isArray()) {
                         for(JsonNode child : children) {
                             freebaseChildUri.put(DBPediaParser.extractValue(child.findValue("name")),
-                                    getFreebaseLink(DBPediaParser.extractValue(child.findValue("id"))));
+                                    FreebaseParser.getFreebaseLink(DBPediaParser.extractValue(child.findValue("id"))));
                         }
                     }
                 }
@@ -189,41 +206,4 @@ class WhoAreChildrenOf implements QuestionType {
         }
     }
 
-
-
-    private String getFreebaseLink(String resource) {
-        return String.format(FREEBASE_RESOURCE_LINK, resource);
-    }
-
-    /**
-     * Given the resource url found in dbpedia response, converts it in a resource url by replaces /page/ or /resource/ with /data/
-     */
-    private String convertDBPediaUrlToResourceUrl(String dbpediaURL) {
-        StringBuilder builder = null;
-        if(dbpediaURL.contains("/page/")){
-            builder = new StringBuilder(dbpediaURL.replace("/page/",
-                    "/data/"));
-        }else{
-            builder = new StringBuilder(dbpediaURL.replace("/resource/",
-                    "/data/"));
-        }
-
-        builder.append(".json");
-        return builder.toString();
-    }
-
-    /**
-     * Dual of {@code}convertDBPediaUrlToResourceUrl
-     */
-    private String convertResourceUrlToDBPediaUrl(String dbpediaURL) {
-        return dbpediaURL.replace("/data/", "/resource/").replace(".json", "");
-    }
-
-    //properties with no interest to us
-    private static final ArrayList<String> uselessProperties = new ArrayList<>();
-
-    static {
-        uselessProperties.add("http://dbpedia.org/ontology/wikiPageRedirects");
-        uselessProperties.add("http://www.w3.org/2002/07/owl#sameAs");
-    }
 }
