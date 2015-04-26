@@ -18,90 +18,16 @@ import java.net.URISyntaxException;
  */
 class WhoIs extends AbstractQuestionType {
 
-    private static final String QUESTION = "Who is";
     private static Logger log = Logger.getLogger(WhoIs.class.getCanonicalName());
 
     public WhoIs() {
         System.out.println("constructor WhoIs");
     }
 
-/*    @Override
-    public Map<String, Object> doSomethingUseful(ServiceResponse response)
-            throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
-
-        if (log.isInfoEnabled()) {
-            log.info(QUESTION + " : " + response);
-        }
-
-        //dbpedia
-        String dbpediaResponse = response.getDbpediaResponse();
-        String extractedUri = "";
-
-        //extract uri from dbpedia response
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode responseNode = mapper.readTree(dbpediaResponse);
-
-            if(responseNode.has("results")) {
-                responseNode = responseNode.findValue("results").findValue("bindings");
-            }
-
-            if(responseNode.isArray()) {
-                JsonNode aux;
-
-                //iterates through object in bindings array
-                for (JsonNode node : responseNode) {
-                    //elements from every object (x0,x1..) these are properties
-                    aux = node.findValue("x0");
-                    if(aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        extractedUri = DBPediaParser.extractValue(aux.findValue("value"));
-                        break;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Person dbpediaPerson = null;
-        if(extractedUri != null && !extractedUri.trim().isEmpty()) {
-            dbpediaPerson = dbpediaWhoIs(new URI(extractedUri));
-        }
-
-        //freebase
-        extractedUri = null;
-        String freebaseResponse = response.getFreebaseResponse();
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode results = mapper.readTree(freebaseResponse).findValue("result");
-            if (results.isArray()) {
-                for (JsonNode item : results) {
-                    extractedUri = FreebaseParser.getFreebaseLink(FreebaseParser.extractFreebaseId(item));
-                    if (extractedUri != null && !extractedUri.trim().isEmpty()) {
-                        break;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Person freebasePerson = null;
-        if(extractedUri != null && !extractedUri.trim().isEmpty()) {
-            freebasePerson = freebaseWhoIs(new URI(extractedUri));
-        }
-
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("freebase", freebasePerson);
-        map.put("dbpedia", dbpediaPerson);
-        return map;
-    }*/
-
     @Override
     public Person parseDBPediaResponse(String dbpediaResponse) {
         String extractedUri = "";
-        //extract uri from dbpedia response
+        //region extract uri from dbpedia response
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode responseNode = mapper.readTree(dbpediaResponse);
@@ -126,6 +52,7 @@ class WhoIs extends AbstractQuestionType {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //endregion
 
         if(extractedUri != null && !extractedUri.trim().isEmpty()) {
             try {
@@ -141,6 +68,7 @@ class WhoIs extends AbstractQuestionType {
     @Override
     public Person parseFreebaseResponse(String freebaseResponse) {
         String extractedUri = "";
+        //region extract uri from freebase
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode results = mapper.readTree(freebaseResponse).findValue("result");
@@ -155,6 +83,7 @@ class WhoIs extends AbstractQuestionType {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //endregion
 
         if(extractedUri != null && !extractedUri.trim().isEmpty()) {
             try {

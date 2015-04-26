@@ -22,7 +22,8 @@ public class DBPediaParser {
                     String uri = extractValue(child.findValue("value"));
                     String[] pieces = uri.split("/");
                     String spouseName = pieces[pieces.length - 1];
-                    children.add(new StringPair(getLink(spouseName.replace("_", " ")), spouseName.replace("_", " ")));
+                    children.add(new StringPair(getLink(AdditionalQuestion.WHO_IS,
+                            spouseName.replace("_", " ")), spouseName.replace("_", " ")));
                 }
             }
         }
@@ -42,7 +43,8 @@ public class DBPediaParser {
                     String uri = extractValue(spouse.findValue("value"));
                     String[] pieces = uri.split("/");
                     String spouseName = pieces[pieces.length - 1];
-                    parents.add(new StringPair(getLink(spouseName.replace("_", " ")), spouseName.replace("_", " ")));
+                    parents.add(new StringPair(getLink(AdditionalQuestion.WHO_IS,
+                            spouseName.replace("_", " ")), spouseName.replace("_", " ")));
                 }
             }
         }
@@ -76,7 +78,8 @@ public class DBPediaParser {
                     String uri = extractValue(parent.findValue("value"));
                     String[] pieces = uri.split("/");
                     String parentName = pieces[pieces.length - 1];
-                    parents.add(new StringPair(getLink(parentName.replace("_", " ")), parentName.replace("_", " ")));
+                    parents.add(new StringPair(getLink(AdditionalQuestion.WHO_IS,
+                            parentName.replace("_", " ")), parentName.replace("_", " ")));
                 }
             }
         }
@@ -280,10 +283,10 @@ public class DBPediaParser {
         return node.findValue("lang")!= null && "\"en\"".equals(node.findValue("lang").toString());
     }
 
-    public static String getLink(JsonNode text) {
+    public static String getLink(AdditionalQuestion type, JsonNode text) {
         String result;
         if(text != null) {
-            result = String.format(AdditionalQuestion.WHO_IS.getValue(),
+            result = String.format(type.getValue(),
                     extractValue(text));
             return String.format(Constants.LOCALHOST_LINK.getValue(), result);
         }
@@ -291,13 +294,109 @@ public class DBPediaParser {
         return "";
     }
 
-    public static String getLink(String text) {
+    public static String getLink(AdditionalQuestion type, String text) {
         String result;
         if(text != null) {
-            result = String.format(AdditionalQuestion.WHO_IS.getValue(), text);
+            result = String.format(type.getValue(), text);
             return String.format(Constants.LOCALHOST_LINK.getValue(), result);
         }
 
         return "";
+    }
+
+    public static String getWeaponLength(JsonNode info) {
+        ArrayNode descriptions = (ArrayNode)info.findValue(MetadataProperties.WEAPON_LENGTH.getDbpedia());
+        if (descriptions != null) {
+            for(JsonNode description : descriptions) {
+                if(isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getWeaponWeight(JsonNode info) {
+        ArrayNode descriptions = (ArrayNode)info.findValue(MetadataProperties.WEAPON_WEIGHT.getDbpedia());
+        if (descriptions != null) {
+            for(JsonNode description : descriptions) {
+                if(isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getService(JsonNode info) {
+        ArrayNode descriptions = (ArrayNode)info.findValue(MetadataProperties.PROP_SERVICE.getDbpedia());
+        if (descriptions != null) {
+            for(JsonNode description : descriptions) {
+                if(isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getCaliber(JsonNode info) {
+        ArrayNode descriptions = (ArrayNode)info.findValue(MetadataProperties.CALIBER.getDbpedia());
+        if (descriptions != null) {
+            for(JsonNode description : descriptions) {
+                if(isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static StringPair getDesigner(JsonNode personInfo) {
+        ArrayNode names = (ArrayNode)personInfo.findValue(MetadataProperties.DESIGNER.getDbpedia());
+        if(names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    return new StringPair("", extractValue(name.findValue("value")));
+                } else if (isUri(name)) {
+                    //todo Check if it is not better to get the link, get the name/label and form the question after that
+                    String uri = extractValue(name.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String birthPlace = pieces[pieces.length - 1];
+                    return new StringPair(getLink(AdditionalQuestion.WHO_IS, birthPlace.replace("_", " ")),
+                            birthPlace.replace("_", " "));
+                }
+               /* if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                } else {
+                    //todo we need to treat uris too
+                    System.out.println("DESIGNER IS URI!");
+                }*/
+            }
+        }
+        return null;
+    }
+
+    public static StringPair getOrigin(JsonNode personInfo) {
+        ArrayNode names = (ArrayNode)personInfo.findValue(MetadataProperties.ORIGIN.getDbpedia());
+        if(names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    return new StringPair("", extractValue(name.findValue("value")));
+                } else if (isUri(name)) {
+                    String uri = extractValue(name.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String birthPlace = pieces[pieces.length - 1];
+                    return new StringPair(uri, birthPlace.replace("_", " "));
+                }
+               /* if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                } else {
+                    //todo we need to treat uris too
+                    System.out.println("DESIGNER IS URI!");
+                }*/
+            }
+        }
+        return null;
     }
 }

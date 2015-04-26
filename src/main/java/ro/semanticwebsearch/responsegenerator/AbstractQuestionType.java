@@ -27,6 +27,7 @@ public abstract class AbstractQuestionType implements QuestionType {
 
         String freebaseResponse = response.getFreebaseResponse();
         Object freebasePerson = parseFreebaseResponse(freebaseResponse);
+
         Map<String, Object> map = new HashMap<>();
         map.put("freebase", freebasePerson);
         map.put("dbpedia", dbpediaPerson);

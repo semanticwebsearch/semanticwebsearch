@@ -20,6 +20,12 @@ public enum MetadataProperties {
     CHILDREN("http://dbpedia.org/property/children", "/people/person/children"),
     EDUCATIONAL_INSTITUTION("", "/education/education/institution"),
     DEGREE("", "/education/education/degree"),
+    WEAPON_LENGTH("http://dbpedia.org/ontology/Weapon/length", ""),
+    WEAPON_WEIGHT("http://dbpedia.org/ontology/Weapon/weight", ""),
+    ORIGIN("http://dbpedia.org/ontology/origin", ""),
+    CALIBER("http://dbpedia.org/property/caliber", ""),
+    DESIGNER("http://dbpedia.org/property/designer", ""),
+    PROP_SERVICE("http://dbpedia.org/property/service", ""),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;

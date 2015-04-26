@@ -57,7 +57,10 @@ public class Dispatcher {
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.MQL, searchDAO.getQuery());
             response.setFreebaseResponse(queryService(FREEBASE, quepyResponse.getQuery()));
-            response.setQuestionType(quepyResponse.getRule());
+
+            if(!response.getFreebaseResponse().trim().isEmpty()) {
+                response.setQuestionType(quepyResponse.getRule());
+            }
 
             if (log.isInfoEnabled()) {
                 log.info("Freebase quepy response: " + quepyResponse.toString());
@@ -71,8 +74,6 @@ public class Dispatcher {
         }
         //endregion
 
-        /*System.out.println("DBPedia : " + response.getDbpediaResponse());
-        System.out.println("Freebase : " + response.getFreebaseResponse());*/
 
         Map<String, Object> res = null;
         try {
@@ -96,6 +97,10 @@ public class Dispatcher {
 
     public static String queryService(String serviceType, String query)
             throws IllegalAccessException, InstantiationException, UnsupportedEncodingException, URISyntaxException {
+        if(query == null || query.trim().isEmpty() || "[{}]".equals(query)) {
+            return "";
+        }
+
         Service service = ServiceFactory.getInstanceFor(serviceType);
         return service.query(query);
     }

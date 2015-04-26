@@ -22,8 +22,8 @@ public class FreebaseParser {
         if(children != null && children.isArray()) {
             for (JsonNode parent : children) {
                 if(DBPediaParser.isEN(parent)) {
-                    parentsArray.add(new StringPair(DBPediaParser.getLink(parent.findValue("text")),
-                            DBPediaParser.extractValue(parent.findValue("text"))));
+                    parentsArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS,
+                            parent.findValue("text")),DBPediaParser.extractValue(parent.findValue("text"))));
                 }
             }
         }
@@ -52,8 +52,8 @@ public class FreebaseParser {
                 if (aux != null && aux.isArray()) {
                     for (JsonNode parent : aux) {
                         if (DBPediaParser.isEN(parent)) {
-                            spousesArray.add(new StringPair(DBPediaParser.getLink(parent.findValue("text")),
-                                    DBPediaParser.extractValue(parent.findValue("text"))));
+                            spousesArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS,
+                                    parent.findValue("text")), DBPediaParser.extractValue(parent.findValue("text"))));
                         }
                     }
                 }
@@ -75,7 +75,7 @@ public class FreebaseParser {
         if(parents != null && parents.isArray()) {
             for (JsonNode parent : parents) {
                 if(DBPediaParser.isEN(parent)) {
-                    parentsArray.add(new StringPair(DBPediaParser.getLink(parent.findValue("text")),
+                    parentsArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS, parent.findValue("text")),
                             DBPediaParser.extractValue(parent.findValue("text"))));
                 }
             }
