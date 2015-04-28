@@ -29,6 +29,7 @@ public enum MetadataProperties {
     RESULT("http://dbpedia.org/ontology/result", ""),
     DATE("http://dbpedia.org/ontology/date", ""),
     PLACE("http://dbpedia.org/ontology/place", ""),
+    COMMANDER("http://dbpedia.org/ontology/commander", ""),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;

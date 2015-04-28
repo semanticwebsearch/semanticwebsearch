@@ -111,7 +111,9 @@ public class ConflictThatTookPlaceInCountry extends AbstractQuestionType {
             conflict.setDate(DBPediaParser.getDate(conflictInfo));
             conflict.setWikiPageExternal(DBPediaParser.getPrimaryTopicOf(conflictInfo));
             conflict.setDescription(DBPediaParser.getAbstractDescription(conflictInfo));
-            conflict.setPlace(DBPediaParser.getPlace(conflictInfo));
+            conflict.setPlace(DBPediaParser.getPlaces(conflictInfo));
+            conflict.setCommanders(DBPediaParser.getCommanders(conflictInfo));
+            conflict.setThumbnails(DBPediaParser.getThumbnail(conflictInfo));
 
 
             return conflict;

@@ -1,5 +1,7 @@
 package ro.semanticwebsearch.responsegenerator.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Spac on 4/26/2015.
  */
@@ -9,7 +11,9 @@ public class Conflict {
     private String date;
     private String description;
     private String wikiPageExternal;
-    private StringPair place;
+    private ArrayList<StringPair> place;
+    private ArrayList<StringPair> commanders;
+    private ArrayList<String> thumbnails;
 
     public String getName() {
         return name;
@@ -51,11 +55,27 @@ public class Conflict {
         this.wikiPageExternal = wikiPageExternal;
     }
 
-    public StringPair getPlace() {
+    public ArrayList<StringPair> getPlace() {
         return place;
     }
 
-    public void setPlace(StringPair place) {
+    public void setPlace(ArrayList<StringPair> place) {
         this.place = place;
+    }
+
+    public ArrayList<StringPair> getCommanders() {
+        return commanders;
+    }
+
+    public void setCommanders(ArrayList<StringPair> commanders) {
+        this.commanders = commanders;
+    }
+
+    public ArrayList<String> getThumbnails() {
+        return thumbnails;
+    }
+
+    public void setThumbnails(ArrayList<String> thumbnails) {
+        this.thumbnails = thumbnails;
     }
 }

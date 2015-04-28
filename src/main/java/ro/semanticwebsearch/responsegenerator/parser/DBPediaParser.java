@@ -401,28 +401,23 @@ public class DBPediaParser {
         return null;
     }
 
-    public static StringPair getPlace(JsonNode personInfo) {
+    public static ArrayList<StringPair> getPlaces(JsonNode personInfo) {
         ArrayNode names = (ArrayNode)personInfo.findValue(MetadataProperties.PLACE.getDbpedia());
+        ArrayList<StringPair> places = new ArrayList<>();
         if(names != null) {
             for (JsonNode name : names) {
                 if (isLiteral(name)) {
-                    return new StringPair("", extractValue(name.findValue("value")));
+                    places.add( new StringPair("", extractValue(name.findValue("value"))));
                 } else if (isUri(name)) {
                     String uri = extractValue(name.findValue("value"));
                     String[] pieces = uri.split("/");
                     String birthPlace = pieces[pieces.length - 1];
-                    return new StringPair(getLink(AdditionalQuestion.PLACE_INFO, birthPlace.replace("_", " ")),
-                            birthPlace.replace("_", " "));
+                    places.add(new StringPair(getLink(AdditionalQuestion.PLACE_INFO, birthPlace.replace("_", " ")),
+                            birthPlace.replace("_", " ")));
                 }
-               /* if (isLiteral(name)) {
-                    sb.append(extractValue(name.findValue("value"))).append(" / ");
-                } else {
-                    //todo we need to treat uris too
-                    System.out.println("DESIGNER IS URI!");
-                }*/
             }
         }
-        return null;
+        return places;
     }
 
     public static String getResult(JsonNode info) {
@@ -447,5 +442,26 @@ public class DBPediaParser {
             }
         }
         return "";
+    }
+
+    public static ArrayList<StringPair> getCommanders(JsonNode conflictInfo) {
+        ArrayList<StringPair> commanders = new ArrayList<>();
+        ArrayNode parentsArray = (ArrayNode)conflictInfo.findValue(MetadataProperties.COMMANDER.getDbpedia());
+        if (parentsArray != null) {
+            for(JsonNode parent : parentsArray) {
+                if (isLiteral(parent)) {
+                    commanders.add(new StringPair("", extractValue(parent.findValue("value"))));
+                } else if(isUri(parent)) {
+                    String uri = extractValue(parent.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String parentName = pieces[pieces.length - 1];
+                    //TODO better get the name from uri
+                    commanders.add(new StringPair(getLink(AdditionalQuestion.WHO_IS,
+                            parentName.replace("_", " ")), parentName.replace("_", " ")));
+                }
+            }
+        }
+
+        return commanders;
     }
 }

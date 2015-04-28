@@ -22,6 +22,7 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
 
     //Freebase does not contain this type of information
     //TODO Update if this changes
+    @Override
     public Object parseFreebaseResponse(String freebaseResponse) {
         if (log.isInfoEnabled()) {
             log.info("WeaponUsedByCountryInConflict" + " : " + freebaseResponse);
@@ -45,6 +46,7 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
         return null;
     }
 
+    @Override
     public Object parseDBPediaResponse(String dbpediaResponse) {
         if (log.isInfoEnabled()) {
             log.info("WeaponUsedByCountryInConflict" + " : " + dbpediaResponse);
