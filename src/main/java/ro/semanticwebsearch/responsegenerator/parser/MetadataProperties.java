@@ -28,8 +28,12 @@ public enum MetadataProperties {
     PROP_SERVICE("http://dbpedia.org/property/service", ""),
     RESULT("http://dbpedia.org/ontology/result", ""),
     DATE("http://dbpedia.org/ontology/date", ""),
-    PLACE("http://dbpedia.org/ontology/place", ""),
-    COMMANDER("http://dbpedia.org/ontology/commander", ""),
+    PLACE("http://dbpedia.org/ontology/place", "/time/event/locations"),
+    PART_OF("", "/time/event/included_in_event"),
+    START_DATE("", "/time/event/start_date"),
+    END_DATE("", "/time/event/end_date"),
+    MILITARY_COMMANDER("", "/military/military_command/military_commander"),
+    COMMANDERS("http://dbpedia.org/ontology/commander", "/military/military_conflict/commanders"),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;

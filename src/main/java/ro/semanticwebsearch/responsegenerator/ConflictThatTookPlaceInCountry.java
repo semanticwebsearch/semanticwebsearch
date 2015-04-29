@@ -2,10 +2,10 @@ package ro.semanticwebsearch.responsegenerator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.responsegenerator.model.Conflict;
 import ro.semanticwebsearch.responsegenerator.parser.DBPediaParser;
+import ro.semanticwebsearch.responsegenerator.parser.FreebaseParser;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -31,19 +31,33 @@ public class ConflictThatTookPlaceInCountry extends AbstractQuestionType {
             return null;
         }
 
+        ArrayList<String> conflictUris = new ArrayList<>();
+        ArrayList<Conflict> conflicts = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode response = mapper.readTree(freebaseResponse).findValue("result");
+
             if (response.isArray()) {
-                ArrayNode bindingsArray = (ArrayNode) response;
-                JsonNode aux;
+                for(JsonNode item : response) {
+                    conflictUris.add(FreebaseParser.getFreebaseLink(FreebaseParser.extractFreebaseId(item)));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        for(String uri : conflictUris) {
+            try {
+                conflicts.add(freebaseConflict(new URI(uri)));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return conflicts;
     }
+
+
 
     @Override
     public Object parseDBPediaResponse(String dbpediaResponse) {
@@ -85,6 +99,42 @@ public class ConflictThatTookPlaceInCountry extends AbstractQuestionType {
         }
 
         return conflicts;
+    }
+
+    private Conflict freebaseConflict(URI freebaseURI) {
+        if(freebaseURI == null || freebaseURI.toString().trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            WebTarget client;
+            String personInfoResponse, aux;
+            ObjectMapper mapper = new ObjectMapper();
+
+            client = ClientBuilder.newClient().target(freebaseURI);
+            personInfoResponse = client.request().get(String.class);
+            JsonNode conflictInfo = mapper.readTree(personInfoResponse).findValue("property");
+
+            Conflict conflict = new Conflict();
+            aux = FreebaseParser.getPersonName(conflictInfo);
+            conflict.setName(aux);
+
+            //conflict.setResult(FreebaseParser.getResult(conflictInfo));
+            conflict.setDate(FreebaseParser.getEventDate(conflictInfo));
+            conflict.setWikiPageExternal(FreebaseParser.getPrimaryTopicOf(conflictInfo));
+            conflict.setDescription(FreebaseParser.getAbstractDescription(conflictInfo));
+            conflict.setPartOf(FreebaseParser.getPartOf(conflictInfo));
+            conflict.setThumbnails(FreebaseParser.getThumbnail(conflictInfo));
+
+            conflict.setPlace(FreebaseParser.getEventLocations(conflictInfo));
+            conflict.setCommanders(FreebaseParser.getCommanders(conflictInfo));
+
+            return conflict;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public Conflict dbpediaConflict(URI dbpediaUri) {

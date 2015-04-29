@@ -10,6 +10,7 @@ public class Conflict {
     private String result;
     private String date;
     private String description;
+    private ArrayList<StringPair> partOf;
     private String wikiPageExternal;
     private ArrayList<StringPair> place;
     private ArrayList<StringPair> commanders;
@@ -77,5 +78,13 @@ public class Conflict {
 
     public void setThumbnails(ArrayList<String> thumbnails) {
         this.thumbnails = thumbnails;
+    }
+
+    public ArrayList<StringPair> getPartOf() {
+        return partOf;
+    }
+
+    public void setPartOf(ArrayList<StringPair> partOf) {
+        this.partOf = partOf;
     }
 }

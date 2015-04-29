@@ -74,24 +74,26 @@ public class Dispatcher {
         }
         //endregion
 
+        if(response.getQuestionType() != null) {
+            Map<String, Object> res = null;
+            try {
+                QuestionType qt = QuestionFactory.getInstance().getInstanceFor(sanitizeRule(response.getQuestionType()));
+                res = qt.doSomethingUseful(response);
 
-        Map<String, Object> res = null;
-        try {
-            QuestionType qt = QuestionFactory.getInstance().getInstanceFor(sanitizeRule(response.getQuestionType()));
-            res = qt.doSomethingUseful(response);
+            } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Could not query for additional info ", e);
+                }
+            }
 
-        } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
-            if (log.isDebugEnabled()) {
-                log.debug("Could not query for additional info ", e);
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                return mapper.writeValueAsString(res);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
             }
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(res);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         return "";
     }
 

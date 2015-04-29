@@ -446,7 +446,7 @@ public class DBPediaParser {
 
     public static ArrayList<StringPair> getCommanders(JsonNode conflictInfo) {
         ArrayList<StringPair> commanders = new ArrayList<>();
-        ArrayNode parentsArray = (ArrayNode)conflictInfo.findValue(MetadataProperties.COMMANDER.getDbpedia());
+        ArrayNode parentsArray = (ArrayNode)conflictInfo.findValue(MetadataProperties.COMMANDERS.getDbpedia());
         if (parentsArray != null) {
             for(JsonNode parent : parentsArray) {
                 if (isLiteral(parent)) {

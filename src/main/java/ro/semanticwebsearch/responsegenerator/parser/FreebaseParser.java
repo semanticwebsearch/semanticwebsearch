@@ -75,7 +75,7 @@ public class FreebaseParser {
         if(parents != null && parents.isArray()) {
             for (JsonNode parent : parents) {
                 if(DBPediaParser.isEN(parent)) {
-                    parentsArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS, parent.findValue("text")),
+                    parentsArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS, DBPediaParser.extractValue(parent.findValue("text"))),
                             DBPediaParser.extractValue(parent.findValue("text"))));
                 }
             }
@@ -330,6 +330,134 @@ public class FreebaseParser {
     }
 
     public static String getFreebaseLink(String resource) {
-        return String.format(Constants.FREEBASE_RESOURCE_LINK.getValue(), resource);
+        return String.format(Constants.FREEBASE_RESOURCE_LINK.getValue(), resource) + "&key=AIzaSyDgPg3TRQ2Fi4ccOyX26qAbU70vdw6UUks";
+    }
+
+    public static String getEventDate(JsonNode conflictInfo) {
+        return getStartDate(conflictInfo) + " - " + getEndDate(conflictInfo);
+    }
+
+    public static String getStartDate(JsonNode info) {
+        JsonNode values = info.findValue(MetadataProperties.START_DATE.getFreebase());
+
+        if(values == null) {
+            return "";
+        }
+
+        values = values.findValue("values");
+        JsonNode birthdate;
+        if(values != null && values.isArray()) {
+            for(JsonNode value : values) {
+                birthdate = value.findValue("value");
+                if(birthdate != null) {
+                    birthdate = value.findValue("text");
+                }
+
+                if(birthdate != null) {
+                    return DBPediaParser.extractValue(birthdate);
+                }
+            }
+        }
+
+        return "";
+    }
+
+    public static String getEndDate(JsonNode info) {
+        JsonNode values = info.findValue(MetadataProperties.END_DATE.getFreebase());
+
+        if(values == null) {
+            return "";
+        }
+
+        values = values.findValue("values");
+        JsonNode birthdate;
+        if(values != null && values.isArray()) {
+            for(JsonNode value : values) {
+                birthdate = value.findValue("value");
+                if(birthdate != null) {
+                    birthdate = value.findValue("text");
+                }
+
+                if(birthdate != null) {
+                    return DBPediaParser.extractValue(birthdate);
+                }
+            }
+        }
+
+        return "";
+    }
+
+    public static ArrayList<StringPair> getPartOf(JsonNode personInfo) {
+        ArrayList<StringPair> thumbs = new ArrayList<>();
+        JsonNode thumbnails = personInfo.findValue(MetadataProperties.PART_OF.getFreebase());
+
+        if(thumbnails == null) {
+            return null;
+        }
+
+        thumbnails = thumbnails.findValue("values");
+
+        if(thumbnails != null) {
+            for (JsonNode thumbnail : thumbnails) {
+                thumbs.add(new StringPair(getFreebaseLink(extractFreebaseId(thumbnail)),
+                        DBPediaParser.extractValue(thumbnail.findValue("text"))));
+
+            }
+        }
+        return thumbs;
+
+    }
+
+    public static ArrayList<StringPair> getEventLocations(JsonNode conflictInfo) {
+        ArrayList<StringPair> locations = new ArrayList<>();
+        JsonNode locationsNode = conflictInfo.findValue(MetadataProperties.PLACE.getFreebase());
+
+        if(locationsNode == null) {
+            return null;
+        }
+
+        locationsNode = locationsNode.findValue("values");
+
+        if(locationsNode != null) {
+            for (JsonNode location : locationsNode) {
+                locations.add(new StringPair(getFreebaseLink(extractFreebaseId(location)),
+                        DBPediaParser.extractValue(location.findValue("text"))));
+
+            }
+        }
+        return locations;
+    }
+
+    public static ArrayList<StringPair> getCommanders(JsonNode conflictInfo) {
+        JsonNode property, aux;
+        ArrayList<StringPair> commandersArray = new ArrayList<>();
+        JsonNode commanders = conflictInfo.findValue(MetadataProperties.COMMANDERS.getFreebase());
+
+        if(commanders == null) {
+            return null;
+        }
+
+        commanders = commanders.findValue("values");
+
+        if(commanders != null && commanders.isArray()) {
+            for (JsonNode commander : commanders) {
+                property = commander.findValue("property");
+                if(property != null) {
+                    aux = property.findValue(MetadataProperties.MILITARY_COMMANDER.getFreebase()).findValue("values");
+                    if (aux != null && aux.isArray()) {
+                        for (JsonNode value : aux) {
+                            if (DBPediaParser.isEN(value)) {
+                                commandersArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS,
+                                        DBPediaParser.extractValue(value.findValue("text"))),
+                                        DBPediaParser.extractValue(value.findValue("text"))));
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return commandersArray;
     }
 }
