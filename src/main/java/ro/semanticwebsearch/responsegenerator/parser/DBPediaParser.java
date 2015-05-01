@@ -464,4 +464,46 @@ public class DBPediaParser {
 
         return commanders;
     }
+
+    public static ArrayList<StringPair> getCombatants(JsonNode conflictInfo) {
+        ArrayList<StringPair> commanders = new ArrayList<>();
+        ArrayNode parentsArray = (ArrayNode)conflictInfo.findValue(MetadataProperties.MILITARY_CONFLICT_COMBATANTS.getDbpedia());
+        if (parentsArray != null) {
+            for(JsonNode parent : parentsArray) {
+                if (isLiteral(parent)) {
+                    commanders.add(new StringPair("", extractValue(parent.findValue("value"))));
+                } else if(isUri(parent)) {
+                    String uri = extractValue(parent.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String parentName = pieces[pieces.length - 1];
+                    //TODO better get the name from uri
+                    commanders.add(new StringPair(getLink(AdditionalQuestion.WHO_IS,
+                            parentName.replace("_", " ")), parentName.replace("_", " ")));
+                }
+            }
+        }
+
+        return commanders;
+    }
+
+    public static ArrayList<StringPair> getPartOf(JsonNode conflictInfo) {
+        ArrayList<StringPair> commanders = new ArrayList<>();
+        ArrayNode parentsArray = (ArrayNode)conflictInfo.findValue(MetadataProperties.PART_OF.getDbpedia());
+        if (parentsArray != null) {
+            for(JsonNode parent : parentsArray) {
+                if (isLiteral(parent)) {
+                    commanders.add(new StringPair("", extractValue(parent.findValue("value"))));
+                } else if(isUri(parent)) {
+                    String uri = extractValue(parent.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String parentName = pieces[pieces.length - 1];
+                    //TODO better get the name from uri
+                    commanders.add(new StringPair(getLink(AdditionalQuestion.PLACE_INFO,
+                            parentName.replace("_", " ")), parentName.replace("_", " ")));
+                }
+            }
+        }
+
+        return commanders;
+    }
 }
