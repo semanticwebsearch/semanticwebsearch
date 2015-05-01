@@ -1,14 +1,19 @@
 package ro.semanticwebsearch.responsegenerator.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import ro.semanticwebsearch.responsegenerator.model.Casualty;
 import ro.semanticwebsearch.responsegenerator.model.StringPair;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Created by Spac on 4/25/2015.
  */
 public class FreebaseParser {
+
+    private static final String KEY = "AIzaSyDgPg3TRQ2Fi4ccOyX26qAbU70vdw6UUks";
 
     public static ArrayList<StringPair> getChildren(JsonNode personInfo) {
         ArrayList<StringPair> parentsArray = new ArrayList<>();
@@ -22,8 +27,7 @@ public class FreebaseParser {
         if(children != null && children.isArray()) {
             for (JsonNode parent : children) {
                 if(DBPediaParser.isEN(parent)) {
-                    parentsArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS,
-                            parent.findValue("text")),DBPediaParser.extractValue(parent.findValue("text"))));
+                    parentsArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.findValue("text")));
                 }
             }
         }
@@ -52,8 +56,7 @@ public class FreebaseParser {
                 if (aux != null && aux.isArray()) {
                     for (JsonNode parent : aux) {
                         if (DBPediaParser.isEN(parent)) {
-                            spousesArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS,
-                                    parent.findValue("text")), DBPediaParser.extractValue(parent.findValue("text"))));
+                            spousesArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.findValue("text")));
                         }
                     }
                 }
@@ -75,8 +78,7 @@ public class FreebaseParser {
         if(parents != null && parents.isArray()) {
             for (JsonNode parent : parents) {
                 if(DBPediaParser.isEN(parent)) {
-                    parentsArray.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS, DBPediaParser.extractValue(parent.findValue("text"))),
-                            DBPediaParser.extractValue(parent.findValue("text"))));
+                    parentsArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.findValue("text")));
                 }
             }
         }
@@ -95,9 +97,8 @@ public class FreebaseParser {
 
         if(nationalities != null && nationalities.isArray()) {
             for (JsonNode nationality : nationalities) {
-                if(DBPediaParser.isEN(nationality)) {
-                    nationalitiesArray.add(new StringPair(getFreebaseLink(extractFreebaseId(nationality)),
-                            DBPediaParser.extractValue(nationality.findValue("text"))));
+                if (DBPediaParser.isEN(nationality)) {
+                    nationalitiesArray.add(extractStringPair(AdditionalQuestion.PLACE_INFO, nationality.findValue("text")));
                 }
             }
         }
@@ -233,8 +234,7 @@ public class FreebaseParser {
         if(values != null && values.isArray()) {
             for (JsonNode value : values) {
                 if(DBPediaParser.isEN(value)) {
-                    return new StringPair(getFreebaseLink(extractFreebaseId(value)),
-                            DBPediaParser.extractValue(value.findValue("text")));
+                    return extractStringPair(AdditionalQuestion.PLACE_INFO, value.findValue("text"));
                 }
             }
         }
@@ -330,7 +330,7 @@ public class FreebaseParser {
     }
 
     public static String getFreebaseLink(String resource) {
-        return String.format(Constants.FREEBASE_RESOURCE_LINK.getValue(), resource) + "&key=AIzaSyDgPg3TRQ2Fi4ccOyX26qAbU70vdw6UUks";
+        return String.format(Constants.FREEBASE_RESOURCE_LINK.getValue(), resource, KEY);
     }
 
     public static String getEventDate(JsonNode conflictInfo) {
@@ -390,7 +390,7 @@ public class FreebaseParser {
     public static ArrayList<StringPair> getPartOf(JsonNode personInfo) {
         ArrayList<StringPair> thumbs = new ArrayList<>();
         JsonNode thumbnails = personInfo.findValue(MetadataProperties.PART_OF.getFreebase());
-
+        String aux;
         if(thumbnails == null) {
             return null;
         }
@@ -399,8 +399,8 @@ public class FreebaseParser {
 
         if(thumbnails != null) {
             for (JsonNode thumbnail : thumbnails) {
-                thumbs.add(new StringPair(getFreebaseLink(extractFreebaseId(thumbnail)),
-                        DBPediaParser.extractValue(thumbnail.findValue("text"))));
+                aux =  DBPediaParser.extractValue(thumbnail.findValue("text"));
+                thumbs.add(new StringPair(DBPediaParser.getLink(AdditionalQuestion.CONFLICT, aux), aux));
 
             }
         }
@@ -420,8 +420,7 @@ public class FreebaseParser {
 
         if(locationsNode != null) {
             for (JsonNode location : locationsNode) {
-                locations.add(new StringPair(getFreebaseLink(extractFreebaseId(location)),
-                        DBPediaParser.extractValue(location.findValue("text"))));
+                locations.add(extractStringPair(AdditionalQuestion.PLACE_INFO, location.findValue("text")));
 
             }
         }
@@ -459,5 +458,146 @@ public class FreebaseParser {
         }
 
         return commandersArray;
+    }
+
+    public static ArrayList<StringPair> getCombatants(JsonNode conflictInfo) {
+        ArrayList<String> properties = new ArrayList<>();
+        properties.add(MetadataProperties.MILITARY_CONFLICT_COMBATANTS.getFreebase());
+        properties.add(MetadataProperties.MILITARY_COMBATANT_GROUP_COMBATANTS.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> combatants = getDeepProperties(properties, conflictInfo);
+
+        return extractStringPair(AdditionalQuestion.PLACE_INFO, combatants);
+    }
+
+    public static ArrayList<StringPair> extractStringPair(AdditionalQuestion question, ArrayList<JsonNode> node) {
+        return node.stream()
+                .map(item -> {
+                    String extractedValue = DBPediaParser.extractValue(item);
+                    return new StringPair(DBPediaParser.getLink(question, extractedValue), extractedValue);
+                })
+                .collect(Collectors.toCollection(ArrayList<StringPair>::new));
+    }
+
+    public static StringPair extractStringPair(AdditionalQuestion question, JsonNode node) {
+        String extractedValue = DBPediaParser.extractValue(node);
+        return new StringPair(DBPediaParser.getLink(question, extractedValue), extractedValue);
+
+    }
+
+    public static ArrayList<Casualty> getCasualties(JsonNode conflictInfo) {
+        Casualty aux;
+        String stringAux;
+        ArrayList<String> properties = new ArrayList<>();
+        ArrayList<Casualty> response = new ArrayList<>();
+        ArrayList<String> sameLevelProperties = new ArrayList<>();
+
+        properties.add(MetadataProperties.CASUALTIES.getFreebase());
+        properties.add("values");
+
+        sameLevelProperties.add(MetadataProperties.CASUALTIES_COMBATANT.getFreebase());
+        sameLevelProperties.add(MetadataProperties.CASUALTIES_ESTIMATE.getFreebase());
+        sameLevelProperties.add(MetadataProperties.CASUALTY_TYPE.getFreebase());
+
+        ArrayList<JsonNode> casualties = getDeepProperties(properties, conflictInfo);
+        ArrayList<JsonNode> same;
+        for(JsonNode casualty : casualties) {
+            if(casualty.isArray()) {
+                for (JsonNode item : casualty) {
+                    same = getSameLevelProperties(sameLevelProperties, item);
+
+                    aux = new Casualty();
+                    stringAux = DBPediaParser.extractValue(getDeepProperties("text", same.get(0)).get(0));
+                    aux.setCombatant(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS, stringAux), stringAux));
+
+                    stringAux = DBPediaParser.extractValue(getDeepProperties("text", same.get(1)).get(0));
+                    aux.setCasualties(stringAux);
+
+                    stringAux = DBPediaParser.extractValue(getDeepProperties("text", same.get(2)).get(0));
+                    aux.setCasualtyType(stringAux);
+
+                    response.add(aux);
+                }
+            } else {
+                same = getSameLevelProperties(sameLevelProperties, casualty);
+
+                aux = new Casualty();
+                stringAux = DBPediaParser.extractValue(getDeepProperties("text", same.get(0)).get(0));
+                aux.setCombatant(new StringPair(DBPediaParser.getLink(AdditionalQuestion.WHO_IS, stringAux), stringAux));
+
+                stringAux = DBPediaParser.extractValue(getDeepProperties("text", same.get(1)).get(0));
+                aux.setCasualties(stringAux);
+
+                stringAux = DBPediaParser.extractValue(getDeepProperties("text", same.get(2)).get(0));
+                aux.setCasualtyType(stringAux);
+
+                response.add(aux);
+            }
+
+        }
+
+        return response;
+    }
+
+    public static ArrayList<JsonNode> getDeepProperties(String prop, JsonNode node) {
+        ArrayList<JsonNode> response = new ArrayList<>();
+        if(node.has(prop)) {
+            response.add(node.findValue(prop));
+            return response;
+        } else if(node.has("values")) {
+            ArrayNode values = (ArrayNode)node.findValue("values");
+            for(JsonNode value : values) {
+                response.addAll(getDeepProperties(prop, value));
+            }
+        } else if(node.has("property")) {
+            response.addAll(getDeepProperties(prop, node.findValue("property")));
+        }
+
+        return response;
+
+    }
+
+    public static ArrayList<JsonNode> getDeepProperties(ArrayList<String> props, JsonNode node) {
+        ArrayList<JsonNode> response = new ArrayList<>();
+        ArrayList<JsonNode> aux2;
+        response.add(node);
+        for(String prop : props) {
+            aux2 = new ArrayList<>();
+            for(JsonNode item : response) {
+                aux2.addAll(getDeepProperties(prop, item));
+            }
+            response = new ArrayList<>();
+            response.addAll(aux2);
+        }
+
+        return response;
+
+    }
+
+    public static ArrayList<JsonNode> getSameLevelProperties(ArrayList<String> props, JsonNode node) {
+        ArrayList<JsonNode> response = new ArrayList<>();
+        for(String prop : props) {
+            if (node.has(prop)) {
+                response.add(node.findValue(prop));
+
+            } else if (node.has("values")) {
+                ArrayNode values = (ArrayNode) node.findValue("values");
+                for (JsonNode value : values) {
+                    if (value.has(prop)) {
+                        response.add(value.findValue(prop));
+
+                    }
+                }
+            } else if (node.has("property")) {
+                node = node.findValue("property");
+                if (node.has(prop)) {
+                    response.add(node.findValue(prop));
+
+                }
+            }
+        }
+
+        return response;
     }
 }

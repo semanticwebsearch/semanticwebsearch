@@ -15,6 +15,8 @@ public class Conflict {
     private ArrayList<StringPair> place;
     private ArrayList<StringPair> commanders;
     private ArrayList<String> thumbnails;
+    private ArrayList<StringPair> combatants;
+    private ArrayList<Casualty> casualties;
 
     public String getName() {
         return name;
@@ -86,5 +88,21 @@ public class Conflict {
 
     public void setPartOf(ArrayList<StringPair> partOf) {
         this.partOf = partOf;
+    }
+
+    public ArrayList<StringPair> getCombatants() {
+        return combatants;
+    }
+
+    public void setCombatants(ArrayList<StringPair> combatants) {
+        this.combatants = combatants;
+    }
+
+    public ArrayList<Casualty> getCasualties() {
+        return casualties;
+    }
+
+    public void setCasualties(ArrayList<Casualty> casualties) {
+        this.casualties = casualties;
     }
 }

@@ -128,6 +128,8 @@ public class ConflictThatTookPlaceInCountry extends AbstractQuestionType {
 
             conflict.setPlace(FreebaseParser.getEventLocations(conflictInfo));
             conflict.setCommanders(FreebaseParser.getCommanders(conflictInfo));
+            conflict.setCombatants(FreebaseParser.getCombatants(conflictInfo));
+            conflict.setCasualties(FreebaseParser.getCasualties(conflictInfo));
 
             return conflict;
         } catch (IOException e) {
