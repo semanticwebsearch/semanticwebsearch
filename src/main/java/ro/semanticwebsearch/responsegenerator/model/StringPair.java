@@ -4,30 +4,30 @@ package ro.semanticwebsearch.responsegenerator.model;
  * Created by Spac on 4/22/2015.
  */
 public class StringPair {
-    private String uri;
-    private String text;
+    private String key;
+    private String value;
 
     public StringPair() {
     }
 
-    public StringPair(String uri, String text) {
-        this.uri = uri;
-        this.text = text;
+    public StringPair(String key, String value) {
+        this.key = key;
+        this.value = value;
     }
 
-    public String getUri() {
-        return uri;
+    public String getKey() {
+        return key;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public String getText() {
-        return text;
+    public String getValue() {
+        return value;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setValue(String value) {
+        this.value = value;
     }
 }

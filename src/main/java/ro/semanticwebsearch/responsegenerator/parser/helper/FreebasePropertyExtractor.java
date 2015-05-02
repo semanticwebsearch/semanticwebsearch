@@ -3,6 +3,7 @@ package ro.semanticwebsearch.responsegenerator.parser.helper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import ro.semanticwebsearch.responsegenerator.model.Casualty;
+import ro.semanticwebsearch.responsegenerator.model.Geolocation;
 import ro.semanticwebsearch.responsegenerator.model.StringPair;
 
 import java.util.ArrayList;
@@ -602,5 +603,243 @@ public class FreebasePropertyExtractor {
         }
 
         return response;
+    }
+
+    public static StringPair getCapital(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+        properties.add(MetadataProperties.CAPITAL.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> combatants = getDeepProperties(properties, node);
+
+        return extractStringPair(AdditionalQuestion.PLACE_INFO, combatants).get(0);
+    }
+
+    public static String getOfficialLanguage(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.OFFICIAL_LANGUAGE.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> languages = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode language : languages) {
+            sb.append(DBPediaPropertyExtractor.extractValue(language)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getCurrency(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.CURRENCY.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getCallingCode(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.CALLING_CODE.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getLatitude(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.GEOLOCATION.getFreebase());
+        properties.add(MetadataProperties.GEOLOCATION_LATITUDE.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getLongitude(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.GEOLOCATION.getFreebase());
+        properties.add(MetadataProperties.GEOLOCATION_LONGITUDE.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static Geolocation getGeolocation(JsonNode node) {
+        Geolocation location = new Geolocation();
+        location.setLatitude(getLatitude(node));
+        location.setLongitude(getLongitude(node));
+        return location;
+
+    }
+
+    public static String getArea(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.AREA.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getDateFounded(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.DATE_FOUNDED.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getPopulation(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.POPULATION.getFreebase());
+        properties.add("values");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+
+        for(JsonNode currency : currencies) {
+            if(currency.isArray()) {
+                for(JsonNode item : currency) {
+                    properties.clear();
+                    properties.add("/measurement_unit/dated_integer/number");
+                    properties.add("text");
+                    currencies = getDeepProperties(properties, item);
+                    if(currencies.size() > 0) {
+                        return DBPediaPropertyExtractor.extractValue(currencies.get(0));
+                    }
+                }
+            } else {
+                properties.clear();
+                properties.add("/measurement_unit/dated_integer/number");
+                properties.add("text");
+                currencies = getDeepProperties(properties, currency);
+                if(currencies.size() > 1) {
+                    return DBPediaPropertyExtractor.extractValue(currencies.get(0));
+                }
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public static ArrayList<StringPair> getReligions(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+        ArrayList<String> sameLevel = new ArrayList<>();
+        ArrayList<StringPair> result = new ArrayList<>();
+
+        properties.add(MetadataProperties.RELIGIONS.getFreebase());
+        properties.add("values");
+
+        sameLevel.add(MetadataProperties.RELIGIONS_TYPE.getFreebase());
+        sameLevel.add(MetadataProperties.RELIGIONS_PERCENTAGE.getFreebase());
+
+        ArrayList<JsonNode> religions = getDeepProperties(properties, node);
+        ArrayList<JsonNode> same;
+        JsonNode type, percentage;
+        for(JsonNode religion : religions) {
+            if (religion.isArray()) {
+                for(JsonNode item : religion) {
+                    same = getSameLevelProperties(sameLevel, item);
+                    if(same.size() > 1) {
+                        type = getDeepProperties("text", same.get(0)).get(0);
+                        percentage = getDeepProperties("text", same.get(1)).get(0);
+                        if(type != null && percentage != null) {
+                            result.add(new StringPair(DBPediaPropertyExtractor.extractValue(type),
+                                    DBPediaPropertyExtractor.extractValue(percentage) + "%"));
+                        }
+                    }
+                }
+            } else {
+                same = getSameLevelProperties(sameLevel, religion);
+
+                type = getDeepProperties("text", same.get(0)).get(0);
+                percentage = getDeepProperties("text", same.get(1)).get(0);
+                if(type != null && percentage != null) {
+                    result.add(new StringPair(DBPediaPropertyExtractor.extractValue(type),
+                            DBPediaPropertyExtractor.extractValue(percentage) + "%"));
+                }
+            }
+        }
+
+        return result;
+
     }
 }

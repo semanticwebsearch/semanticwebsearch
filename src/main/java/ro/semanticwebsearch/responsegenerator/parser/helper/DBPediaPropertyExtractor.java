@@ -2,6 +2,7 @@ package ro.semanticwebsearch.responsegenerator.parser.helper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import ro.semanticwebsearch.responsegenerator.model.Geolocation;
 import ro.semanticwebsearch.responsegenerator.model.StringPair;
 
 import java.util.ArrayList;
@@ -509,4 +510,49 @@ public class DBPediaPropertyExtractor {
 
         return commanders;
     }
+
+    public static String getLatitude(JsonNode node) {
+        ArrayNode descriptions = (ArrayNode) node.findValue(MetadataProperties.GEOLOCATION_LATITUDE.getDbpedia());
+        if (descriptions != null) {
+            for (JsonNode description : descriptions) {
+                if (isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getLongitude(JsonNode node) {
+        ArrayNode descriptions = (ArrayNode) node.findValue(MetadataProperties.GEOLOCATION_LONGITUDE.getDbpedia());
+        if (descriptions != null) {
+            for (JsonNode description : descriptions) {
+                if (isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getPopulation(JsonNode node) {
+        ArrayNode descriptions = (ArrayNode) node.findValue(MetadataProperties.POPULATION.getDbpedia());
+        if (descriptions != null) {
+            for (JsonNode description : descriptions) {
+                if (isLiteral(description)) {
+                    return extractValue(description.findValue("value"));
+                }
+            }
+        }
+        return "";
+    }
+
+    public static Geolocation getGeolocation(JsonNode node) {
+        Geolocation geolocation = new Geolocation();
+        geolocation.setLongitude(getLongitude(node));
+        geolocation.setLatitude(getLatitude(node));
+
+        return geolocation;
+    }
+
 }
