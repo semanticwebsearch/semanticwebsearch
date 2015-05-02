@@ -16,18 +16,18 @@ import java.util.*;
  * Created by valentin.spac on 2/5/2015.
  */
 public class DbManager {
-    public static Logger log = Logger.getLogger(DbManager.class.getCanonicalName());
-
-    private static SessionFactory sessionFactory;
     private static final int MAX_UNFLUSHED_OBJ = 100;
+    public static Logger log = Logger.getLogger(DbManager.class.getCanonicalName());
+    private static SessionFactory sessionFactory;
 
     /**
      * Initializes hibernate
+     *
      * @throws HibernateInitializeException if an exception occurs
      */
     public static void initialize() throws HibernateInitializeException {
         try {
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 log.info("Initializing Hibernate sessionFactory");
             }
 
@@ -40,7 +40,7 @@ public class DbManager {
                     .applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         } catch (HibernateException e) {
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 log.info("Problem initializing Hibernate sessionFactory", e);
             }
             throw new HibernateInitializeException("Problem initializing Hibernate sessionFactory", e);
@@ -51,7 +51,7 @@ public class DbManager {
 
         Random random = new Random();
         Person person;
-        for(int idx = 0; idx < 2000; idx++) {
+        for (int idx = 0; idx < 2000; idx++) {
             person = new Person();
             person.setPrenume("prenume" + random.nextInt(200));
             person.setNume("nume" + idx);
@@ -65,12 +65,11 @@ public class DbManager {
     }
 
 
-
     /**
      * Closes current opened session factory
      */
     public static void closeSessionFactory() {
-        if(sessionFactory != null) {
+        if (sessionFactory != null) {
             sessionFactory.close();
         }
     }
@@ -78,6 +77,7 @@ public class DbManager {
 
     /**
      * Returns a new opened session
+     *
      * @return new opened session
      */
     public static Session getSession() {
@@ -86,6 +86,7 @@ public class DbManager {
 
     /**
      * Returns the current session
+     *
      * @return current session
      */
     public static Session getCurrentSession() {
@@ -95,9 +96,10 @@ public class DbManager {
 
     /**
      * Executes the select query given as parameter
-     * @param queryString select query to be executed
+     *
+     * @param queryString     select query to be executed
      * @param objTypeReturned class of the expected return type
-     * @param <T> the expected return type
+     * @param <T>             the expected return type
      * @return a collection of {@code T}'s
      * @throws ClassCastException if the expected type {@code T} does not match the one retrieved
      */
@@ -110,10 +112,10 @@ public class DbManager {
 
         logStatistics();
 
-        if(results.isEmpty()) {
+        if (results.isEmpty()) {
             return Collections.emptyList();
-        } else if(!objTypeReturned.isInstance(results.get(0))) {
-            throw new ClassCastException("Type mismatch. Expected " + objTypeReturned.getName()+ " got " + results.get(0).getClass());
+        } else if (!objTypeReturned.isInstance(results.get(0))) {
+            throw new ClassCastException("Type mismatch. Expected " + objTypeReturned.getName() + " got " + results.get(0).getClass());
         } else {
             Collection<T> response = new LinkedList<>();
             response.addAll(results);
@@ -124,6 +126,7 @@ public class DbManager {
     /**
      * Persists the @{code obj} into the database. All this happens in a transaction. After persisting, session is flushed
      * and transaction is committed
+     *
      * @param obj object to be persisted
      */
     public static void persist(Object obj) {
@@ -139,6 +142,7 @@ public class DbManager {
     /**
      * Saves the @{code obj} into the database. All this happens in a transaction. After saving, session is flushed
      * and transaction is committed
+     *
      * @param obj object to be saved
      */
     public static void save(Object obj) {
@@ -154,6 +158,7 @@ public class DbManager {
     /**
      * Saves or updates (if already exists) the @{code obj} into the database. All this happens in a transaction.
      * After saving (or updating), session is flushed and transaction is committed
+     *
      * @param obj object to be saved (or updated)
      */
     public static void saveOrUpdate(Object obj) {
@@ -169,6 +174,7 @@ public class DbManager {
     /**
      * Updates the @{code obj} into the database. All this happens in a transaction.
      * After updating the @{code obj}, session is flushed and transaction is committed
+     *
      * @param obj object to be updated
      */
     public static void update(Object obj) {
@@ -183,6 +189,7 @@ public class DbManager {
 
     /**
      * Deletes all entries from the table mapped to the object of class {@code tableName}
+     *
      * @param tableName the class of the table-mapped object which is wanted to be deleted
      */
     public static void deleteAllFrom(Class<?> tableName) {
@@ -199,6 +206,7 @@ public class DbManager {
 
     /**
      * Checks if the class is mapped in the hibernate configuration file
+     *
      * @param className the class to be checked
      * @return true, if the class is mapped, false otherwise
      */
@@ -209,9 +217,10 @@ public class DbManager {
 
     /**
      * Saves a collection of objects to database
+     *
      * @param collection the collection to be saved
      * @throws InvalidPersistentObjectException if the class of the objects found in collection is not mapped.
-     * In this case, the database is rollbacked.
+     *                                          In this case, the database is rollbacked.
      */
     public static void saveAll(Collection<Object> collection) throws InvalidPersistentObjectException {
 
@@ -221,7 +230,7 @@ public class DbManager {
 
             int noOfSavedObjects = 0;
             for (Object obj : collection) {
-                if(!isClassMapped(obj.getClass())) {
+                if (!isClassMapped(obj.getClass())) {
                     tx.rollback();
                     throw new InvalidPersistentObjectException("Class " + obj.getClass().getCanonicalName() + " is not mapped!");
                 } else {
@@ -244,9 +253,10 @@ public class DbManager {
 
     /**
      * Persists a collection of objects to database
+     *
      * @param collection the collection to be persisted
      * @throws InvalidPersistentObjectException if the class of the objects found in collection is not mapped.
-     * In this case, the database is rollbacked.
+     *                                          In this case, the database is rollbacked.
      */
     public static void persistAll(Collection<Object> collection) throws InvalidPersistentObjectException {
 
@@ -256,7 +266,7 @@ public class DbManager {
 
             int noOfSavedObjects = 0;
             for (Object obj : collection) {
-                if(!isClassMapped(obj.getClass())) {
+                if (!isClassMapped(obj.getClass())) {
                     tx.rollback();
                     throw new InvalidPersistentObjectException("Class " + obj.getClass().getCanonicalName() + " is not mapped!");
                 } else {
@@ -279,9 +289,10 @@ public class DbManager {
 
     /**
      * Updates a collection of objects to database
+     *
      * @param collection the collection to be updated
      * @throws InvalidPersistentObjectException if the class of the objects found in collection is not mapped.
-     * In this case, the database is rollbacked.
+     *                                          In this case, the database is rollbacked.
      */
     public static void updateAll(Collection<Object> collection) throws InvalidPersistentObjectException {
 
@@ -291,7 +302,7 @@ public class DbManager {
 
             int noOfSavedObjects = 0;
             for (Object obj : collection) {
-                if(!isClassMapped(obj.getClass())) {
+                if (!isClassMapped(obj.getClass())) {
                     tx.rollback();
                     throw new InvalidPersistentObjectException("Class " + obj.getClass().getCanonicalName() + " is not mapped!");
                 } else {
@@ -313,7 +324,7 @@ public class DbManager {
     }
 
     private static void logStatistics() {
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             log.info("Hibernate statistics :" + sessionFactory.getStatistics());
         }
     }

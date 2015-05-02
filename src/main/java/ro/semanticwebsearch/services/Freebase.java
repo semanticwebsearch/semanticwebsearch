@@ -29,13 +29,14 @@ class Freebase implements Service {
             throw new RuntimeException("Error reading services.properties file", e);
         }
 
-        if(FREEBASE_ENDPOINT == null) {
+        if (FREEBASE_ENDPOINT == null) {
             throw new InvalidConfigurationFileException("[freebase_endpoint] property was not set.");
         }
     }
 
     /**
      * Queries the Freebase endpoint using the {@code queryString} given as parameter
+     *
      * @param queryString query to be executed against Freebase endpoint
      * @return a {@code String} object representing a JSON which contains the response
      */

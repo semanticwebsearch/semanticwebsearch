@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 /**
  * Created by Spac on 17 Feb 2015.
  */
-public class Quepy  {
+public class Quepy {
 
     private static String QUEPY_ENDPOINT;
     private WebTarget client;
@@ -28,23 +28,24 @@ public class Quepy  {
             throw new RuntimeException("Error reading services.properties file", e);
         }
 
-        if(QUEPY_ENDPOINT == null) {
+        if (QUEPY_ENDPOINT == null) {
             throw new InvalidConfigurationFileException("[quepy_endpoint] property was not set.");
         }
     }
 
     public Quepy(QueryType type, String queryString) {
-        client  = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
+        client = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
         client = client.queryParam("type", type).queryParam("q", queryString);
     }
 
     public Quepy(String type, String queryString) {
-        client  = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
+        client = ClientBuilder.newClient().target(QUEPY_ENDPOINT);
         client = client.queryParam("type", type).queryParam("q", queryString);
     }
 
     /**
      * Queries the Quepy endpoint using the {@code queryString} given as parameter
+     *
      * @return a {@code String} object representing the response (transformed query)
      */
     public QuepyResponse query() throws UnsupportedEncodingException, URISyntaxException {

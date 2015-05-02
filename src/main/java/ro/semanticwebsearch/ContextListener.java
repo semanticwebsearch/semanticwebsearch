@@ -1,8 +1,8 @@
 package ro.semanticwebsearch;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.persistence.exception.HibernateInitializeException;
 import ro.semanticwebsearch.persistence.DbManager;
+import ro.semanticwebsearch.persistence.exception.HibernateInitializeException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -15,13 +15,13 @@ import java.util.Properties;
  */
 public class ContextListener implements ServletContextListener {
 
+    private static final String LOCALHOST = "127.0.0.1";
     private static Logger log = Logger.getLogger(ContextListener.class.getCanonicalName());
     private Process quepyServer;
     private int noOfFails = 0;
-    private static final String LOCALHOST = "127.0.0.1";
 
     @Override
-    public void contextInitialized(ServletContextEvent event){
+    public void contextInitialized(ServletContextEvent event) {
         initializeHibernate();
         startQuepyServer();
     }
@@ -33,7 +33,7 @@ public class ContextListener implements ServletContextListener {
     }
 
     private void startQuepyServer() {
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             log.info("Start up quepy server. Fails: " + noOfFails);
         }
 
@@ -51,7 +51,7 @@ public class ContextListener implements ServletContextListener {
             String quepyEndpoint = properties.getProperty("quepy_endpoint");
 
             //removing the http:// from endpoint
-            if(quepyEndpoint.contains("//")) {
+            if (quepyEndpoint.contains("//")) {
                 int start = quepyEndpoint.indexOf("//");
                 quepyEndpoint = quepyEndpoint.substring(start);
             }
@@ -61,12 +61,12 @@ public class ContextListener implements ServletContextListener {
 
             quepyServer = Runtime.getRuntime()
                     .exec(execPath.toString());
-            if(!quepyServer.isAlive() && noOfFails < 6) {
+            if (!quepyServer.isAlive() && noOfFails < 6) {
                 startQuepyServer();
             }
 
         } catch (IOException e) {
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 log.info("Could not start quepy server", e);
             }
         }
@@ -77,7 +77,7 @@ public class ContextListener implements ServletContextListener {
     }
 
     private void destroyHibernate() {
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             log.info("Start up hibernate");
         }
 
@@ -85,10 +85,10 @@ public class ContextListener implements ServletContextListener {
     }
 
     private void stopQuepyServer() {
-        if(quepyServer != null && quepyServer.isAlive()) {
+        if (quepyServer != null && quepyServer.isAlive()) {
             quepyServer.destroy();
 
-            if(quepyServer.isAlive()) {
+            if (quepyServer.isAlive()) {
                 quepyServer.destroyForcibly();
             }
         }

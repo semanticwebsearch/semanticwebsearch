@@ -29,13 +29,14 @@ class DBPedia implements Service {
             throw new RuntimeException("Error reading services.properties file", e);
         }
 
-        if(DBPEDIA_ENDPOINT == null) {
+        if (DBPEDIA_ENDPOINT == null) {
             throw new InvalidConfigurationFileException("[dbpedia_endpoint] property was not set.");
         }
     }
 
     /**
      * Queries the DBPedia endpoint using the {@code queryString} given as parameter
+     *
      * @return a {@code String} object representing a JSON which contains the response
      */
     @Override
@@ -62,6 +63,7 @@ class DBPedia implements Service {
     /**
      * Translates the {@code resultSet} given as parameter into a {@code String} object
      * representing a JSON which contains the response
+     *
      * @param resultSet the result set to be transformed
      * @return {@code String} object representing a JSON which contains the response
      */

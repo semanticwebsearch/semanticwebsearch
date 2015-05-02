@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.responsegenerator.parser;
+package ro.semanticwebsearch.responsegenerator.parser.helper;
 
 /**
  * Created by Spac on 4/22/2015.

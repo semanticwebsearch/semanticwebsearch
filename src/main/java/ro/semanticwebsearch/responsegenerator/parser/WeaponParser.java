@@ -1,10 +1,10 @@
-package ro.semanticwebsearch.responsegenerator;
+package ro.semanticwebsearch.responsegenerator.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.responsegenerator.model.Weapon;
-import ro.semanticwebsearch.responsegenerator.parser.DBPediaParser;
+import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 /**
  * Created by Spac on 4/26/2015.
  */
-public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
+class WeaponParser extends AbstractParserType {
 
-    private static Logger log = Logger.getLogger(WeaponUsedByCountryInConflict.class.getCanonicalName());
+    private static Logger log = Logger.getLogger(WeaponParser.class.getCanonicalName());
 
     //Freebase does not contain this type of information
     //TODO Update if this changes
@@ -28,7 +28,7 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
             log.info("WeaponUsedByCountryInConflict" + " : " + freebaseResponse);
         }
 
-        if(freebaseResponse == null || freebaseResponse.trim().isEmpty()) {
+        if (freebaseResponse == null || freebaseResponse.trim().isEmpty()) {
             return null;
         }
 
@@ -52,7 +52,7 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
             log.info("WeaponUsedByCountryInConflict" + " : " + dbpediaResponse);
         }
 
-        if(dbpediaResponse == null || dbpediaResponse.trim().isEmpty()) {
+        if (dbpediaResponse == null || dbpediaResponse.trim().isEmpty()) {
             return null;
         }
 
@@ -65,11 +65,11 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
             if (response.isArray()) {
                 JsonNode aux;
                 //x0 -> conflict uri, x1 -> weapon, x2 -> country/place
-                for(JsonNode responseItem : response) {
+                for (JsonNode responseItem : response) {
                     aux = responseItem.findValue("x1");
 
-                    if(aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        weaponUris.add(DBPediaParser.extractValue(aux.findValue("value")));
+                    if (aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
+                        weaponUris.add(DBPediaPropertyExtractor.extractValue(aux.findValue("value")));
                     }
                 }
             }
@@ -77,7 +77,7 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
             e.printStackTrace();
         }
 
-        for(String uri : weaponUris) {
+        for (String uri : weaponUris) {
             try {
                 weapons.add(dbpediaWeapon(new URI(uri)));
             } catch (URISyntaxException e) {
@@ -89,7 +89,7 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
     }
 
     public Weapon dbpediaWeapon(URI dbpediaUri) {
-        if(dbpediaUri == null || dbpediaUri.toString().trim().isEmpty()) {
+        if (dbpediaUri == null || dbpediaUri.toString().trim().isEmpty()) {
             return null;
         }
 
@@ -99,32 +99,32 @@ public class WeaponUsedByCountryInConflict extends AbstractQuestionType {
             JsonNode weaponInfo;
             ObjectMapper mapper = new ObjectMapper();
 
-            client = ClientBuilder.newClient().target(DBPediaParser.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
+            client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             weaponInfoResponse = client.request().get(String.class);
             weaponInfo = mapper.readTree(weaponInfoResponse).findValue(dbpediaUri.toString());
 
             Weapon weapon = new Weapon();
-            aux = DBPediaParser.getName(weaponInfo);
+            aux = DBPediaPropertyExtractor.getName(weaponInfo);
             weapon.setName(aux);
 
-            aux = DBPediaParser.getPrimaryTopicOf(weaponInfo);
+            aux = DBPediaPropertyExtractor.getPrimaryTopicOf(weaponInfo);
             weapon.setWikiPageExternal(aux);
 
-            aux = DBPediaParser.getAbstractDescription(weaponInfo);
+            aux = DBPediaPropertyExtractor.getAbstractDescription(weaponInfo);
             weapon.setDescription(aux);
 
-            weapon.setThumbnails(DBPediaParser.getThumbnail(weaponInfo));
+            weapon.setThumbnails(DBPediaPropertyExtractor.getThumbnail(weaponInfo));
 
-            weapon.setLength(DBPediaParser.getWeaponLength(weaponInfo));
-            weapon.setWeight(DBPediaParser.getWeaponWeight(weaponInfo));
-            weapon.setService(DBPediaParser.getService(weaponInfo));
-            weapon.setDesigner(DBPediaParser.getDesigner(weaponInfo));
-            weapon.setCaliber(DBPediaParser.getCaliber(weaponInfo));
-            weapon.setOrigin(DBPediaParser.getOrigin(weaponInfo));
+            weapon.setLength(DBPediaPropertyExtractor.getWeaponLength(weaponInfo));
+            weapon.setWeight(DBPediaPropertyExtractor.getWeaponWeight(weaponInfo));
+            weapon.setService(DBPediaPropertyExtractor.getService(weaponInfo));
+            weapon.setDesigner(DBPediaPropertyExtractor.getDesigner(weaponInfo));
+            weapon.setCaliber(DBPediaPropertyExtractor.getCaliber(weaponInfo));
+            weapon.setOrigin(DBPediaPropertyExtractor.getOrigin(weaponInfo));
 
             return weapon;
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

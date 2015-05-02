@@ -13,15 +13,15 @@ import java.util.Properties;
 class PropertiesLoader {
 
     private static Logger log = Logger.getLogger(PropertiesLoader.class.getCanonicalName());
-    private Properties properties;
     private static PropertiesLoader instance;
+    private Properties properties;
 
     private PropertiesLoader() throws IOException {
         load();
     }
 
     public static PropertiesLoader getInstance() throws IOException {
-        if(instance == null) {
+        if (instance == null) {
             instance = new PropertiesLoader();
         }
 
@@ -33,14 +33,14 @@ class PropertiesLoader {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream stream = classLoader.getResourceAsStream("services.properties");
 
-        if(stream != null) {
-            if(log.isInfoEnabled()) {
+        if (stream != null) {
+            if (log.isInfoEnabled()) {
                 log.info("Loading services properties");
             }
 
             properties.load(stream);
         } else {
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 log.info("File services.properties not found in classpath");
             }
             throw new ConfigurationFileNotFoundException("File [services.properties] not found in classpath");

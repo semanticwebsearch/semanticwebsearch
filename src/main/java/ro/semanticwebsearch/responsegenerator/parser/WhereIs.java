@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.responsegenerator;
+package ro.semanticwebsearch.responsegenerator.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by Spac on 4/23/2015.
  */
-class WhereIs implements QuestionType {
+class WhereIs implements ParserType {
 
     private static final String QUESTION = "Where is";
     private static Logger log = Logger.getLogger(WhereIs.class.getCanonicalName());

@@ -7,7 +7,8 @@ public class QuepyResponse {
     String query;
     String rule;
 
-    public QuepyResponse(){}
+    public QuepyResponse() {
+    }
 
     public String getQuery() {
         return query;

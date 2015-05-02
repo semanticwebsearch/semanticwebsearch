@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.responsegenerator;
+package ro.semanticwebsearch.responsegenerator.parser;
 
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.businesslogic.ServiceResponse;
@@ -11,9 +11,9 @@ import java.util.Map;
 /**
  * Created by Spac on 4/26/2015.
  */
-public abstract class AbstractQuestionType implements QuestionType {
+public abstract class AbstractParserType implements ParserType {
 
-    private static Logger log = Logger.getLogger(AbstractQuestionType.class.getCanonicalName());
+    private static Logger log = Logger.getLogger(AbstractParserType.class.getCanonicalName());
 
     @Override
     public Map<String, Object> doSomethingUseful(ServiceResponse response)

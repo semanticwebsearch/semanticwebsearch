@@ -1,4 +1,4 @@
-package ro.semanticwebsearch.responsegenerator.parser;
+package ro.semanticwebsearch.responsegenerator.parser.helper;
 
 /**
  * Created by Spac on 4/12/2015.
@@ -46,7 +46,7 @@ public enum MetadataProperties {
     private String dbpedia;
     private String freebase;
 
-    MetadataProperties(String dbpedia, String freebase){
+    MetadataProperties(String dbpedia, String freebase) {
         this.dbpedia = dbpedia;
         this.freebase = freebase;
     }
