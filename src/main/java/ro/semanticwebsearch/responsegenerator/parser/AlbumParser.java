@@ -103,17 +103,22 @@ class AlbumParser extends AbstractParserType {
 
         try {
             WebTarget client;
-            String locationInfoResponse, aux;
-            JsonNode locationInfo;
+            String albumInfoResponse, aux;
+            JsonNode albumInfo;
             ObjectMapper mapper = new ObjectMapper();
 
             client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
-            locationInfoResponse = client.request().get(String.class);
-            locationInfo = mapper.readTree(locationInfoResponse).get(dbpediaUri.toString());
+            albumInfoResponse = client.request().get(String.class);
+            albumInfo = mapper.readTree(albumInfoResponse).get(dbpediaUri.toString());
 
             Album album = new Album();
-            aux = DBPediaPropertyExtractor.getName(locationInfo);
+            aux = DBPediaPropertyExtractor.getName(albumInfo);
             album.setName(aux);
+            album.setThumbnails(DBPediaPropertyExtractor.getThumbnail(albumInfo));
+            album.setWikiPageExternalLink(DBPediaPropertyExtractor.getPrimaryTopicOf(albumInfo));
+            album.setThumbnails(DBPediaPropertyExtractor.getThumbnail(albumInfo));
+            album.setReleaseDate(DBPediaPropertyExtractor.getReleaseDate(albumInfo));
+            album.setGenre(DBPediaPropertyExtractor.getGenre(albumInfo));
 
             return album;
 
@@ -131,16 +136,23 @@ class AlbumParser extends AbstractParserType {
 
         try {
             WebTarget client;
-            String personInfoResponse, aux;
+            String albumInfoResponse, aux;
             ObjectMapper mapper = new ObjectMapper();
 
             client = ClientBuilder.newClient().target(freebaseURI);
-            personInfoResponse = client.request().get(String.class);
-            JsonNode personInfo = mapper.readTree(personInfoResponse).get("property");
+            albumInfoResponse = client.request().get(String.class);
+            JsonNode albumInfo = mapper.readTree(albumInfoResponse).get("property");
 
             Album album = new Album();
-            aux = FreebasePropertyExtractor.getPersonName(personInfo);
+            aux = FreebasePropertyExtractor.getPersonName(albumInfo);
+
             album.setName(aux);
+            album.setThumbnails(FreebasePropertyExtractor.getThumbnail(albumInfo));
+            album.setWikiPageExternalLink(FreebasePropertyExtractor.getPrimaryTopicOf(albumInfo));
+            album.setDescription(FreebasePropertyExtractor.getAbstractDescription(albumInfo));
+            album.setReleaseDate(FreebasePropertyExtractor.getReleaseDate(albumInfo));
+            album.setGenre(FreebasePropertyExtractor.getGenre(albumInfo));
+
 
             return album;
 

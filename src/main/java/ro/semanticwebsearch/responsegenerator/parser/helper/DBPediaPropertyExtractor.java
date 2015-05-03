@@ -668,4 +668,42 @@ public class DBPediaPropertyExtractor {
     }
 
 
+    public static String getReleaseDate(JsonNode albumInfo) {
+        ArrayNode names = (ArrayNode) albumInfo.get(MetadataProperties.RELEASE_DATE.getDbpedia());
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    sb.append(extractValue(name.get("value"))).append(" / ");
+                }
+            }
+        }
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
+
+    public static String getGenre(JsonNode albumInfo) {
+        StringBuilder sb = new StringBuilder();
+        ArrayNode childrenArray = (ArrayNode) albumInfo.get(MetadataProperties.GENRE.getDbpedia());
+
+        if (childrenArray != null) {
+            for (JsonNode child : childrenArray) {
+                if (isLiteral(child)) {
+                    sb.append(child.get("value")).append(" / ");
+                } else if (isUri(child)) {
+                    String uri = extractValue(child.get("value"));
+                    String[] pieces = uri.split("/");
+                    String spouseName = pieces[pieces.length - 1];
+                    sb.append(spouseName.replace("_", " ")).append(" / ");
+                }
+            }
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
 }

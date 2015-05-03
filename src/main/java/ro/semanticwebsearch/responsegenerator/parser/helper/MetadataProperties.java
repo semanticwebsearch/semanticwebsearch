@@ -31,6 +31,8 @@ public enum MetadataProperties {
     PLACE("http://dbpedia.org/ontology/place", "/time/event/locations"),
     PART_OF("http://dbpedia.org/ontology/isPartOfMilitaryConflict", "/time/event/included_in_event"),
     START_DATE("", "/time/event/start_date"),
+    RELEASE_DATE("http://dbpedia.org/property/released", "/music/album/release_date"),
+    GENRE("http://dbpedia.org/ontology/genre", "/music/album/genre"),
     CASUALTIES_COMBATANT("", "/military/casualties/combatant"),
     CASUALTIES_ESTIMATE("", "/military/casualties/lower_estimate"),
     CASUALTY_TYPE("", "/military/casualties/type_of_casualties"),

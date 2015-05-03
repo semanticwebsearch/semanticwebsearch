@@ -205,8 +205,8 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getAbstractDescription(JsonNode personInfo) {
-        JsonNode values = personInfo.get(MetadataProperties.ABSTRACT.getFreebase()).get("values");
-        if (values != null && values.isArray()) {
+        JsonNode values = personInfo.path(MetadataProperties.ABSTRACT.getFreebase()).path("values");
+        if (!isMissingNode(values)&& values.isArray()) {
             for (JsonNode value : values) {
                 if (DBPediaPropertyExtractor.isEN(value)) {
                     return DBPediaPropertyExtractor.extractValue(value.get("value"));
@@ -827,6 +827,46 @@ public class FreebasePropertyExtractor {
         }
 
         return result;
+
+    }
+
+    public static String getReleaseDate(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.RELEASE_DATE.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> languages = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode language : languages) {
+            sb.append(DBPediaPropertyExtractor.extractValue(language)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String getGenre(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.GENRE.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> languages = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode language : languages) {
+            sb.append(DBPediaPropertyExtractor.extractValue(language)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
 
     }
 }
