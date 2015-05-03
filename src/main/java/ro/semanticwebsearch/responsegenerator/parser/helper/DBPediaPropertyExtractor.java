@@ -555,4 +555,113 @@ public class DBPediaPropertyExtractor {
         return geolocation;
     }
 
+    public static String getLanguage(JsonNode personInfo) {
+        ArrayNode names = (ArrayNode) personInfo.findValue(MetadataProperties.OFFICIAL_LANGUAGE.getDbpedia());
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                } else if(isUri(name)) {
+                    String uri = extractValue(name.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String language = pieces[pieces.length - 1];
+                    sb.append(language.replace("_", " ")).append(" / ");
+                }
+            }
+        }
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
+
+    public static StringPair getCapital(JsonNode personInfo) {
+
+        ArrayNode childrenArray = (ArrayNode) personInfo.findValue(MetadataProperties.CAPITAL.getDbpedia());
+        if (childrenArray != null) {
+            for (JsonNode child : childrenArray) {
+                if (isLiteral(child)) {
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                            child.findValue("value"));
+                } else if (isUri(child)) {
+                    String uri = extractValue(child.findValue("value"));
+                    String[] pieces = uri.split("/");
+                    String spouseName = pieces[pieces.length - 1];
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                            spouseName.replace("_", " "));
+                }
+            }
+        }
+
+        return null;
+
+    }
+
+    public static String getCurrency(JsonNode personInfo) {
+        ArrayNode names = (ArrayNode) personInfo.findValue(MetadataProperties.CURRENCY.getDbpedia());
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                }
+            }
+        }
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
+
+    public static String getCallingCode(JsonNode personInfo) {
+        ArrayNode names = (ArrayNode) personInfo.findValue(MetadataProperties.CALLING_CODE.getDbpedia());
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                }
+            }
+        }
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
+
+    public static String getArea(JsonNode node) {
+        ArrayNode names = (ArrayNode) node.findValue(MetadataProperties.AREA.getDbpedia());
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                    break;
+                }
+            }
+        }
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
+
+    public static String getFoundingDate(JsonNode node) {
+        ArrayNode names = (ArrayNode) node.findValue(MetadataProperties.DATE_FOUNDED.getDbpedia());
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (JsonNode name : names) {
+                if (isLiteral(name)) {
+                    sb.append(extractValue(name.findValue("value"))).append(" / ");
+                }
+            }
+        }
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+        return sb.toString().trim();
+    }
+
+
 }

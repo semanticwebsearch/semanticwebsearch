@@ -159,6 +159,13 @@ class LocationParser extends AbstractParserType  {
             location.setThumbnails(DBPediaPropertyExtractor.getThumbnail(locationInfo));
             location.setWikiPageExternal(DBPediaPropertyExtractor.getPrimaryTopicOf(locationInfo));
             location.setGeolocation(DBPediaPropertyExtractor.getGeolocation(locationInfo));
+            location.setOfficialLanguage(DBPediaPropertyExtractor.getLanguage(locationInfo));
+            location.setCapital(DBPediaPropertyExtractor.getCapital(locationInfo));
+            location.setCurrency(DBPediaPropertyExtractor.getCurrency(locationInfo));
+            location.setCallingCode(DBPediaPropertyExtractor.getCallingCode(locationInfo));
+            location.setArea(DBPediaPropertyExtractor.getArea(locationInfo));
+            location.setDateFounded(DBPediaPropertyExtractor.getFoundingDate(locationInfo));
+            location.setPopulation(DBPediaPropertyExtractor.getPopulation(locationInfo));
 
             return location;
 
