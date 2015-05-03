@@ -34,7 +34,7 @@ class WeaponParser extends AbstractParserType {
 
        /* try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(freebaseResponse).findValue("result");
+            JsonNode response = mapper.readTree(freebaseResponse).get("result");
             if (response.isArray()) {
                 ArrayNode bindingsArray = (ArrayNode) response;
                 JsonNode aux;
@@ -61,15 +61,15 @@ class WeaponParser extends AbstractParserType {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(dbpediaResponse).findValue("results").findValue("bindings");
+            JsonNode response = mapper.readTree(dbpediaResponse).get("results").get("bindings");
             if (response.isArray()) {
                 JsonNode aux;
                 //x0 -> conflict uri, x1 -> weapon, x2 -> country/place
                 for (JsonNode responseItem : response) {
-                    aux = responseItem.findValue("x1");
+                    aux = responseItem.get("x1");
 
-                    if (aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        weaponUris.add(DBPediaPropertyExtractor.extractValue(aux.findValue("value")));
+                    if (aux != null && aux.get("type").toString().equals("\"uri\"")) {
+                        weaponUris.add(DBPediaPropertyExtractor.extractValue(aux.get("value")));
                     }
                 }
             }
@@ -101,7 +101,7 @@ class WeaponParser extends AbstractParserType {
 
             client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             weaponInfoResponse = client.request().get(String.class);
-            weaponInfo = mapper.readTree(weaponInfoResponse).findValue(dbpediaUri.toString());
+            weaponInfo = mapper.readTree(weaponInfoResponse).get(dbpediaUri.toString());
 
             Weapon weapon = new Weapon();
             aux = DBPediaPropertyExtractor.getName(weaponInfo);

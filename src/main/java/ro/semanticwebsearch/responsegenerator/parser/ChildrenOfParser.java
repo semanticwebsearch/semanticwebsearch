@@ -75,7 +75,7 @@ class ChildrenOfParser extends AbstractParserType {
         try {
             ObjectMapper mapper = new ObjectMapper();
             freebaseResponse = mapper.readTree(freebase);
-            JsonNode bindings = freebaseResponse.findValue("result");
+            JsonNode bindings = freebaseResponse.get("result");
 
             if (bindings.isArray()) {
                 ArrayNode results = (ArrayNode) bindings;
@@ -83,11 +83,11 @@ class ChildrenOfParser extends AbstractParserType {
                 //iterates through object in bindings array
                 for (JsonNode node : results) {
                     System.out.println(node.toString());
-                    JsonNode children = node.findValue(MetadataProperties.CHILDREN.getFreebase());
+                    JsonNode children = node.get(MetadataProperties.CHILDREN.getFreebase());
                     if (children.isArray()) {
                         for (JsonNode child : children) {
-                            freebaseChildUri.put(DBPediaPropertyExtractor.extractValue(child.findValue("name")),
-                                    FreebasePropertyExtractor.getFreebaseLink(DBPediaPropertyExtractor.extractValue(child.findValue("id"))));
+                            freebaseChildUri.put(DBPediaPropertyExtractor.extractValue(child.get("name")),
+                                    FreebasePropertyExtractor.getFreebaseLink(DBPediaPropertyExtractor.extractValue(child.get("id"))));
                         }
                     }
                 }
@@ -117,7 +117,7 @@ class ChildrenOfParser extends AbstractParserType {
             * */
             ObjectMapper mapper = new ObjectMapper();
             JsonNode dbpediaResponse = mapper.readTree(dbpedia);
-            JsonNode bindings = dbpediaResponse.findValue("results").findValue("bindings");
+            JsonNode bindings = dbpediaResponse.get("results").get("bindings");
 
             if (bindings.isArray()) {
                 JsonNode aux;
@@ -127,20 +127,20 @@ class ChildrenOfParser extends AbstractParserType {
                 //iterates through object in bindings array
                 for (JsonNode node : bindings) {
                     //elements from every object (x0,x1..) these are properties
-                    aux = node.findValue("x1");
+                    aux = node.get("x1");
                     if (aux != null) {
                         //TODO another approach is to GET link, get foaf:name property and add it here
-                        if (aux.findValue("type").toString().equals("\"uri\"")) {
-                            uri = DBPediaPropertyExtractor.extractValue(aux.findValue("value"));
+                        if (aux.get("type").toString().equals("\"uri\"")) {
+                            uri = DBPediaPropertyExtractor.extractValue(aux.get("value"));
                             auxArray = uri.split("/");
                             personName = auxArray[auxArray.length - 1].replace("_", " ");
-                            childrenName.put(personName, DBPediaPropertyExtractor.extractValue(aux.findValue("value")));
+                            childrenName.put(personName, DBPediaPropertyExtractor.extractValue(aux.get("value")));
                         }
 
-                        if (aux.findValue("type").toString().equals("\"literal\"")) {
-                            childrenName.put(DBPediaPropertyExtractor.extractValue(aux.findValue("value")),
-                                    DBPediaPropertyExtractor.extractValue(aux.findValue("value")));
-                            // System.out.println(extractValue(aux.findValue("value")));
+                        if (aux.get("type").toString().equals("\"literal\"")) {
+                            childrenName.put(DBPediaPropertyExtractor.extractValue(aux.get("value")),
+                                    DBPediaPropertyExtractor.extractValue(aux.get("value")));
+                            // System.out.println(extractValue(aux.get("value")));
                         }
                     }
                 }

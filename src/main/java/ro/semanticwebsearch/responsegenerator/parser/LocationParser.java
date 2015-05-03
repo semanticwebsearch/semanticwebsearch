@@ -24,7 +24,7 @@ class LocationParser extends AbstractParserType  {
         //region extract uri from freebase
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode results = mapper.readTree(freebaseResponse).findValue("result");
+            JsonNode results = mapper.readTree(freebaseResponse).get("result");
             if (results.isArray()) {
                 for (JsonNode item : results) {
                     extractedUri = FreebasePropertyExtractor.getFreebaseLink(FreebasePropertyExtractor.extractFreebaseId(item));
@@ -65,7 +65,7 @@ class LocationParser extends AbstractParserType  {
 
             client = ClientBuilder.newClient().target(freebaseURI);
             locationInfoResponse = client.request().get(String.class);
-            JsonNode locationInfo = mapper.readTree(locationInfoResponse).findValue("property");
+            JsonNode locationInfo = mapper.readTree(locationInfoResponse).get("property");
 
             Location location = new Location();
             aux = FreebasePropertyExtractor.getPersonName(locationInfo);
@@ -99,7 +99,7 @@ class LocationParser extends AbstractParserType  {
             JsonNode responseNode = mapper.readTree(dbpediaResponse);
 
             if (responseNode.has("results")) {
-                responseNode = responseNode.findValue("results").findValue("bindings");
+                responseNode = responseNode.get("results").get("bindings");
             }
 
             if (responseNode.isArray()) {
@@ -108,9 +108,9 @@ class LocationParser extends AbstractParserType  {
                 //iterates through object in bindings array
                 for (JsonNode node : responseNode) {
                     //elements from every object (x0,x1..) these are properties
-                    aux = node.findValue("x0");
-                    if (aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        extractedUri = DBPediaPropertyExtractor.extractValue(aux.findValue("value"));
+                    aux = node.get("x0");
+                    if (aux != null && aux.get("type").toString().equals("\"uri\"")) {
+                        extractedUri = DBPediaPropertyExtractor.extractValue(aux.get("value"));
                         break;
                     }
                 }
@@ -149,7 +149,7 @@ class LocationParser extends AbstractParserType  {
 
             client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             locationInfoResponse = client.request().get(String.class);
-            locationInfo = mapper.readTree(locationInfoResponse).findValue(dbpediaUri.toString());
+            locationInfo = mapper.readTree(locationInfoResponse).get(dbpediaUri.toString());
 
             Location location = new Location();
             aux = DBPediaPropertyExtractor.getName(locationInfo);

@@ -35,7 +35,7 @@ class ConflictParser extends AbstractParserType {
         ArrayList<Conflict> conflicts = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(freebaseResponse).findValue("result");
+            JsonNode response = mapper.readTree(freebaseResponse).get("result");
 
             if (response.isArray()) {
                 for (JsonNode item : response) {
@@ -73,15 +73,15 @@ class ConflictParser extends AbstractParserType {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(dbpediaResponse).findValue("results").findValue("bindings");
+            JsonNode response = mapper.readTree(dbpediaResponse).get("results").get("bindings");
             if (response.isArray()) {
                 JsonNode aux;
                 //x0 -> conflict uri, x1 -> [country/place]
                 for (JsonNode responseItem : response) {
-                    aux = responseItem.findValue("x0");
+                    aux = responseItem.get("x0");
 
-                    if (aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        conflictUris.add(DBPediaPropertyExtractor.extractValue(aux.findValue("value")));
+                    if (aux != null && aux.get("type").toString().equals("\"uri\"")) {
+                        conflictUris.add(DBPediaPropertyExtractor.extractValue(aux.get("value")));
                     }
                 }
             }
@@ -112,7 +112,7 @@ class ConflictParser extends AbstractParserType {
 
             client = ClientBuilder.newClient().target(freebaseURI);
             personInfoResponse = client.request().get(String.class);
-            JsonNode conflictInfo = mapper.readTree(personInfoResponse).findValue("property");
+            JsonNode conflictInfo = mapper.readTree(personInfoResponse).get("property");
 
             Conflict conflict = new Conflict();
             aux = FreebasePropertyExtractor.getPersonName(conflictInfo);
@@ -152,7 +152,7 @@ class ConflictParser extends AbstractParserType {
 
             client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             conflictInfoResponse = client.request().get(String.class);
-            conflictInfo = mapper.readTree(conflictInfoResponse).findValue(dbpediaUri.toString());
+            conflictInfo = mapper.readTree(conflictInfoResponse).get(dbpediaUri.toString());
 
             Conflict conflict = new Conflict();
             aux = DBPediaPropertyExtractor.getName(conflictInfo);

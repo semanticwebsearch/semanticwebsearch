@@ -44,7 +44,7 @@ class WhereIs implements ParserType {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(freebaseResponse).findValue("result");
+            JsonNode response = mapper.readTree(freebaseResponse).get("result");
             if (response.isArray()) {
                 ArrayNode bindingsArray = (ArrayNode) response;
                 JsonNode aux;
@@ -60,7 +60,7 @@ class WhereIs implements ParserType {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode response = mapper.readTree(dbpediaResponse).findValue("results").findValue("bindings");
+            JsonNode response = mapper.readTree(dbpediaResponse).get("results").get("bindings");
             if (response.isArray()) {
                 ArrayNode bindingsArray = (ArrayNode) response;
                 JsonNode aux;

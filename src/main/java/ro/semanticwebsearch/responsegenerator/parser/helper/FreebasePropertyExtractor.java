@@ -2,6 +2,7 @@ package ro.semanticwebsearch.responsegenerator.parser.helper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import ro.semanticwebsearch.responsegenerator.model.Casualty;
 import ro.semanticwebsearch.responsegenerator.model.Geolocation;
 import ro.semanticwebsearch.responsegenerator.model.StringPair;
@@ -18,17 +19,15 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<StringPair> getChildren(JsonNode personInfo) {
         ArrayList<StringPair> parentsArray = new ArrayList<>();
-        JsonNode children = personInfo.findValue(MetadataProperties.PARENTS.getFreebase());
-        if (children == null) {
+        JsonNode children = personInfo.path(MetadataProperties.PARENTS.getFreebase()).path("values");
+        if (isMissingNode(children)) {
             return null;
         }
 
-        children = children.findValue("values");
-
-        if (children != null && children.isArray()) {
+        if (children.isArray()) {
             for (JsonNode parent : children) {
                 if (DBPediaPropertyExtractor.isEN(parent)) {
-                    parentsArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.findValue("text")));
+                    parentsArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.get("text")));
                 }
             }
         }
@@ -36,28 +35,29 @@ public class FreebasePropertyExtractor {
 
     }
 
-    public static ArrayList<StringPair> getSpouse(JsonNode personInfo) {
-        //"/people/marriage/spouse"
-        ArrayList<StringPair> spousesArray = new ArrayList<>();
-        JsonNode spouses = personInfo.findValue(MetadataProperties.SPOUSE.getFreebase());
+    public static boolean isMissingNode(JsonNode node) {
+        return node == null || node.getNodeType() == JsonNodeType.MISSING;
+    }
 
-        if (spouses == null) {
+    public static ArrayList<StringPair> getSpouse(JsonNode personInfo) {
+        ArrayList<StringPair> spousesArray = new ArrayList<>();
+        JsonNode spouses = personInfo.path(MetadataProperties.SPOUSE.getFreebase()).path("values");
+
+        if (isMissingNode(spouses)) {
             return null;
         }
 
-        spouses = spouses.findValue("values");
-
         JsonNode aux = null;
-        if (spouses != null && spouses.isArray()) {
+        if (spouses.isArray()) {
             for (JsonNode spouse : spouses) {
                 if (spouse != null) {
-                    aux = spouse.findValue("/people/marriage/spouse").findValue("values");
+                    aux = spouse.path("property").path("/people/marriage/spouse").path("values");
                 }
 
-                if (aux != null && aux.isArray()) {
+                if (!isMissingNode(aux) && aux.isArray()) {
                     for (JsonNode parent : aux) {
                         if (DBPediaPropertyExtractor.isEN(parent)) {
-                            spousesArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.findValue("text")));
+                            spousesArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.get("text")));
                         }
                     }
                 }
@@ -68,18 +68,16 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<StringPair> getParents(JsonNode personInfo) {
         ArrayList<StringPair> parentsArray = new ArrayList<>();
-        JsonNode parents = personInfo.findValue(MetadataProperties.PARENTS.getFreebase());
+        JsonNode parents = personInfo.path(MetadataProperties.PARENTS.getFreebase()).path("values");
 
-        if (parents == null) {
+        if (isMissingNode(parents)) {
             return null;
         }
 
-        parents = parents.findValue("values");
-
-        if (parents != null && parents.isArray()) {
+        if (parents.isArray()) {
             for (JsonNode parent : parents) {
                 if (DBPediaPropertyExtractor.isEN(parent)) {
-                    parentsArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.findValue("text")));
+                    parentsArray.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.get("text")));
                 }
             }
         }
@@ -88,18 +86,16 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<StringPair> getNationality(JsonNode personInfo) {
         ArrayList<StringPair> nationalitiesArray = new ArrayList<>();
-        JsonNode nationalities = personInfo.findValue(MetadataProperties.NATIONALITY.getFreebase());
+        JsonNode nationalities = personInfo.path(MetadataProperties.NATIONALITY.getFreebase()).path("values");
 
-        if (nationalities == null) {
+        if (isMissingNode(nationalities)) {
             return null;
         }
 
-        nationalities = nationalities.findValue("values");
-
-        if (nationalities != null && nationalities.isArray()) {
+        if (nationalities.isArray()) {
             for (JsonNode nationality : nationalities) {
                 if (DBPediaPropertyExtractor.isEN(nationality)) {
-                    nationalitiesArray.add(extractStringPair(AdditionalQuestion.PLACE_INFO, nationality.findValue("text")));
+                    nationalitiesArray.add(extractStringPair(AdditionalQuestion.PLACE_INFO, nationality.get("text")));
                 }
             }
         }
@@ -108,38 +104,37 @@ public class FreebasePropertyExtractor {
     }
 
     public static ArrayList<StringPair> getEducation(JsonNode personInfo) {
-        JsonNode institutions = personInfo.findValue(MetadataProperties.EDUCATION_ONTOLOGY.getFreebase());
+        JsonNode institutions = personInfo.path(MetadataProperties.EDUCATION_ONTOLOGY.getFreebase())
+                .path("values");
 
-        if (institutions == null) {
+        if (isMissingNode(institutions)) {
             return null;
         }
-
-        institutions = institutions.findValue("values");
 
         JsonNode property, aux;
         ArrayList<StringPair> educationalInstitutions = new ArrayList<>();
         String uri = null, name = null;
-        if (institutions != null && institutions.isArray()) {
+        if (institutions.isArray()) {
             for (JsonNode institution : institutions) {
-                property = institution.findValue("property");
+                property = institution.get("property");
                 if (property != null) {
-                    aux = property.findValue(MetadataProperties.EDUCATIONAL_INSTITUTION.getFreebase()).findValue("values");
+                    aux = property.get(MetadataProperties.EDUCATIONAL_INSTITUTION.getFreebase()).get("values");
                     if (aux != null && aux.isArray()) {
                         for (JsonNode value : aux) {
                             if (DBPediaPropertyExtractor.isEN(value)) {
-                                name = DBPediaPropertyExtractor.extractValue(value.findValue("text"));
+                                name = DBPediaPropertyExtractor.extractValue(value.get("text"));
                                 uri = getFreebaseLink(extractFreebaseId(value));
                             }
                         }
                     }
                     if (name != null) {
-                        aux = property.findValue(MetadataProperties.DEGREE.getFreebase());
+                        aux = property.get(MetadataProperties.DEGREE.getFreebase());
                         if (aux != null) {
-                            aux = aux.findValue("values");
+                            aux = aux.get("values");
                             if (aux != null && aux.isArray()) {
                                 for (JsonNode value : aux) {
                                     if (DBPediaPropertyExtractor.isEN(value)) {
-                                        name += (" - " + DBPediaPropertyExtractor.extractValue(value.findValue("text")));
+                                        name += (" - " + DBPediaPropertyExtractor.extractValue(value.get("text")));
                                         break;
                                     }
                                 }
@@ -154,18 +149,16 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getPrimaryTopicOf(JsonNode personInfo) {
-        JsonNode links = personInfo.findValue(MetadataProperties.PRIMARY_TOPIC_OF.getFreebase());
+        JsonNode links = personInfo.path(MetadataProperties.PRIMARY_TOPIC_OF.getFreebase())
+                .path("values");
 
-        if (links == null) {
+        if (isMissingNode(links)) {
             return "";
         }
-
-        links = links.findValue("values");
-
         String aux;
         if (links != null) {
             for (JsonNode topic : links) {
-                aux = DBPediaPropertyExtractor.extractValue(topic.findValue("value"));
+                aux = DBPediaPropertyExtractor.extractValue(topic.get("value"));
                 if (aux != null && aux.contains("en.wikipedia")) {
                     return aux;
                 }
@@ -177,15 +170,11 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<String> getThumbnail(JsonNode personInfo) {
         ArrayList<String> thumbs = new ArrayList<>();
-        JsonNode thumbnails = personInfo.findValue(MetadataProperties.THUMBNAIL.getFreebase());
+        JsonNode thumbnails = personInfo.path(MetadataProperties.THUMBNAIL.getFreebase()).path("values");
 
-        if (thumbnails == null) {
+        if (isMissingNode(thumbnails)) {
             return null;
-        }
-
-        thumbnails = thumbnails.findValue("values");
-
-        if (thumbnails != null) {
+        } else {
             for (JsonNode thumbnail : thumbnails) {
                 thumbs.add(getImageLink(extractFreebaseId(thumbnail)));
 
@@ -200,17 +189,15 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getShortDescription(JsonNode personInfo) {
-        JsonNode values = personInfo.findValue(MetadataProperties.SHORT_DESCRIPTION.getFreebase());
-        if (values == null) {
+        JsonNode values = personInfo.path(MetadataProperties.SHORT_DESCRIPTION.getFreebase()).path("values");
+        if (isMissingNode(values)) {
             return "";
         }
 
-        values = values.findValue("values");
-
-        if (values != null && values.isArray()) {
+        if ( values.isArray()) {
             for (JsonNode value : values) {
                 if (DBPediaPropertyExtractor.isEN(value)) {
-                    return DBPediaPropertyExtractor.extractValue(value.findValue("text"));
+                    return DBPediaPropertyExtractor.extractValue(value.get("text"));
                 }
             }
         }
@@ -218,11 +205,11 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getAbstractDescription(JsonNode personInfo) {
-        JsonNode values = personInfo.findValue(MetadataProperties.ABSTRACT.getFreebase()).findValue("values");
+        JsonNode values = personInfo.get(MetadataProperties.ABSTRACT.getFreebase()).get("values");
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
                 if (DBPediaPropertyExtractor.isEN(value)) {
-                    return DBPediaPropertyExtractor.extractValue(value.findValue("value"));
+                    return DBPediaPropertyExtractor.extractValue(value.get("value"));
                 }
             }
         }
@@ -231,11 +218,11 @@ public class FreebasePropertyExtractor {
     }
 
     public static StringPair getBirthplace(JsonNode personInfo) {
-        JsonNode values = personInfo.findValue(MetadataProperties.BIRTHPLACE.getFreebase()).findValue("values");
+        JsonNode values = personInfo.get(MetadataProperties.BIRTHPLACE.getFreebase()).get("values");
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
                 if (DBPediaPropertyExtractor.isEN(value)) {
-                    return extractStringPair(AdditionalQuestion.PLACE_INFO, value.findValue("text"));
+                    return extractStringPair(AdditionalQuestion.PLACE_INFO, value.get("text"));
                 }
             }
         }
@@ -244,18 +231,18 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getDeathdate(JsonNode personInfo) {
-        JsonNode values = personInfo.findValue(MetadataProperties.DEATHDATE.getFreebase());
+        JsonNode values = personInfo.get(MetadataProperties.DEATHDATE.getFreebase());
         if (values == null) {
             return "";
         }
 
-        values = values.findValue("values");
+        values = values.get("values");
         JsonNode deathDate;
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
-                deathDate = value.findValue("value");
+                deathDate = value.get("value");
                 if (deathDate != null) {
-                    deathDate = value.findValue("text");
+                    deathDate = value.get("text");
                 }
 
                 if (deathDate != null) {
@@ -269,19 +256,19 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getBirthdate(JsonNode personInfo) {
-        JsonNode values = personInfo.findValue(MetadataProperties.BIRTHDATE.getFreebase());
+        JsonNode values = personInfo.get(MetadataProperties.BIRTHDATE.getFreebase());
 
         if (values == null) {
             return "";
         }
 
-        values = values.findValue("values");
+        values = values.get("values");
         JsonNode birthdate;
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
-                birthdate = value.findValue("value");
+                birthdate = value.get("value");
                 if (birthdate != null) {
-                    birthdate = value.findValue("text");
+                    birthdate = value.get("text");
                 }
 
                 if (birthdate != null) {
@@ -294,16 +281,16 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getPersonName(JsonNode personInfo) {
-        JsonNode values = personInfo.findValue(MetadataProperties.NAME.getFreebase());
+        JsonNode values = personInfo.get(MetadataProperties.NAME.getFreebase());
         if (values != null) {
-            values = values.findValue("values");
+            values = values.get("values");
             JsonNode name;
             if (values != null && values.isArray()) {
                 for (JsonNode value : values) {
                     if (DBPediaPropertyExtractor.isEN(value)) {
-                        name = value.findValue("value");
+                        name = value.get("value");
                         if (name != null) {
-                            name = value.findValue("text");
+                            name = value.get("text");
                         }
 
                         if (name != null) {
@@ -317,10 +304,10 @@ public class FreebasePropertyExtractor {
     }
 
     public static String extractFreebaseId(JsonNode item) {
-        JsonNode uris = item.findValue("id");
+        JsonNode uris = item.get("id");
         if (uris != null && uris.isArray()) {
             for (JsonNode uri : uris) {// "type":
-                return DBPediaPropertyExtractor.extractValue(uri.findValue("value"));
+                return DBPediaPropertyExtractor.extractValue(uri.get("value"));
             }
         } else {
             return DBPediaPropertyExtractor.extractValue(uris);
@@ -339,19 +326,19 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getStartDate(JsonNode info) {
-        JsonNode values = info.findValue(MetadataProperties.START_DATE.getFreebase());
+        JsonNode values = info.get(MetadataProperties.START_DATE.getFreebase());
 
         if (values == null) {
             return "";
         }
 
-        values = values.findValue("values");
+        values = values.get("values");
         JsonNode birthdate;
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
-                birthdate = value.findValue("value");
+                birthdate = value.get("value");
                 if (birthdate != null) {
-                    birthdate = value.findValue("text");
+                    birthdate = value.get("text");
                 }
 
                 if (birthdate != null) {
@@ -364,19 +351,19 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getEndDate(JsonNode info) {
-        JsonNode values = info.findValue(MetadataProperties.END_DATE.getFreebase());
+        JsonNode values = info.get(MetadataProperties.END_DATE.getFreebase());
 
         if (values == null) {
             return "";
         }
 
-        values = values.findValue("values");
+        values = values.get("values");
         JsonNode birthdate;
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
-                birthdate = value.findValue("value");
+                birthdate = value.get("value");
                 if (birthdate != null) {
-                    birthdate = value.findValue("text");
+                    birthdate = value.get("text");
                 }
 
                 if (birthdate != null) {
@@ -390,17 +377,17 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<StringPair> getPartOf(JsonNode personInfo) {
         ArrayList<StringPair> thumbs = new ArrayList<>();
-        JsonNode thumbnails = personInfo.findValue(MetadataProperties.PART_OF.getFreebase());
+        JsonNode thumbnails = personInfo.get(MetadataProperties.PART_OF.getFreebase());
         String aux;
         if (thumbnails == null) {
             return null;
         }
 
-        thumbnails = thumbnails.findValue("values");
+        thumbnails = thumbnails.get("values");
 
         if (thumbnails != null) {
             for (JsonNode thumbnail : thumbnails) {
-                aux = DBPediaPropertyExtractor.extractValue(thumbnail.findValue("text"));
+                aux = DBPediaPropertyExtractor.extractValue(thumbnail.get("text"));
                 thumbs.add(new StringPair(DBPediaPropertyExtractor.getLink(AdditionalQuestion.CONFLICT, aux), aux));
 
             }
@@ -411,17 +398,17 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<StringPair> getEventLocations(JsonNode conflictInfo) {
         ArrayList<StringPair> locations = new ArrayList<>();
-        JsonNode locationsNode = conflictInfo.findValue(MetadataProperties.PLACE.getFreebase());
+        JsonNode locationsNode = conflictInfo.get(MetadataProperties.PLACE.getFreebase());
 
         if (locationsNode == null) {
             return null;
         }
 
-        locationsNode = locationsNode.findValue("values");
+        locationsNode = locationsNode.get("values");
 
         if (locationsNode != null) {
             for (JsonNode location : locationsNode) {
-                locations.add(extractStringPair(AdditionalQuestion.PLACE_INFO, location.findValue("text")));
+                locations.add(extractStringPair(AdditionalQuestion.PLACE_INFO, location.get("text")));
 
             }
         }
@@ -431,25 +418,25 @@ public class FreebasePropertyExtractor {
     public static ArrayList<StringPair> getCommanders(JsonNode conflictInfo) {
         JsonNode property, aux;
         ArrayList<StringPair> commandersArray = new ArrayList<>();
-        JsonNode commanders = conflictInfo.findValue(MetadataProperties.COMMANDERS.getFreebase());
+        JsonNode commanders = conflictInfo.get(MetadataProperties.COMMANDERS.getFreebase());
 
         if (commanders == null) {
             return null;
         }
 
-        commanders = commanders.findValue("values");
+        commanders = commanders.get("values");
 
         if (commanders != null && commanders.isArray()) {
             for (JsonNode commander : commanders) {
-                property = commander.findValue("property");
+                property = commander.get("property");
                 if (property != null) {
-                    aux = property.findValue(MetadataProperties.MILITARY_COMMANDER.getFreebase()).findValue("values");
+                    aux = property.get(MetadataProperties.MILITARY_COMMANDER.getFreebase()).get("values");
                     if (aux != null && aux.isArray()) {
                         for (JsonNode value : aux) {
                             if (DBPediaPropertyExtractor.isEN(value)) {
                                 commandersArray.add(new StringPair(DBPediaPropertyExtractor.getLink(AdditionalQuestion.WHO_IS,
-                                        DBPediaPropertyExtractor.extractValue(value.findValue("text"))),
-                                        DBPediaPropertyExtractor.extractValue(value.findValue("text"))));
+                                        DBPediaPropertyExtractor.extractValue(value.get("text"))),
+                                        DBPediaPropertyExtractor.extractValue(value.get("text"))));
                             }
                         }
                     }
@@ -547,15 +534,15 @@ public class FreebasePropertyExtractor {
     public static ArrayList<JsonNode> getDeepProperties(String prop, JsonNode node) {
         ArrayList<JsonNode> response = new ArrayList<>();
         if (node.has(prop)) {
-            response.add(node.findValue(prop));
+            response.add(node.get(prop));
             return response;
         } else if (node.has("values")) {
-            ArrayNode values = (ArrayNode) node.findValue("values");
+            ArrayNode values = (ArrayNode) node.get("values");
             for (JsonNode value : values) {
                 response.addAll(getDeepProperties(prop, value));
             }
         } else if (node.has("property")) {
-            response.addAll(getDeepProperties(prop, node.findValue("property")));
+            response.addAll(getDeepProperties(prop, node.get("property")));
         }
 
         return response;
@@ -583,20 +570,20 @@ public class FreebasePropertyExtractor {
         ArrayList<JsonNode> response = new ArrayList<>();
         for (String prop : props) {
             if (node.has(prop)) {
-                response.add(node.findValue(prop));
+                response.add(node.get(prop));
 
             } else if (node.has("values")) {
-                ArrayNode values = (ArrayNode) node.findValue("values");
+                ArrayNode values = (ArrayNode) node.get("values");
                 for (JsonNode value : values) {
                     if (value.has(prop)) {
-                        response.add(value.findValue(prop));
+                        response.add(value.get(prop));
 
                     }
                 }
             } else if (node.has("property")) {
-                node = node.findValue("property");
+                node = node.get("property");
                 if (node.has(prop)) {
-                    response.add(node.findValue(prop));
+                    response.add(node.get(prop));
 
                 }
             }

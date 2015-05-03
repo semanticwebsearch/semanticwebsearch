@@ -3,6 +3,7 @@ package ro.semanticwebsearch.responsegenerator.parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.responsegenerator.model.Person;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
 
@@ -32,7 +33,7 @@ class PersonParser extends AbstractParserType {
             JsonNode responseNode = mapper.readTree(dbpediaResponse);
 
             if (responseNode.has("results")) {
-                responseNode = responseNode.findValue("results").findValue("bindings");
+                responseNode = responseNode.get("results").get("bindings");
             }
 
             if (responseNode.isArray()) {
@@ -41,9 +42,9 @@ class PersonParser extends AbstractParserType {
                 //iterates through object in bindings array
                 for (JsonNode node : responseNode) {
                     //elements from every object (x0,x1..) these are properties
-                    aux = node.findValue("x0");
-                    if (aux != null && aux.findValue("type").toString().equals("\"uri\"")) {
-                        extractedUri = DBPediaPropertyExtractor.extractValue(aux.findValue("value"));
+                    aux = node.get("x0");
+                    if (aux != null && aux.get("type").toString().equals("\"uri\"")) {
+                        extractedUri = DBPediaPropertyExtractor.extractValue(aux.get("value"));
                         break;
                     }
                 }
@@ -65,12 +66,12 @@ class PersonParser extends AbstractParserType {
     }
 
     @Override
-    public ro.semanticwebsearch.responsegenerator.model.Person parseFreebaseResponse(String freebaseResponse) {
+    public Person parseFreebaseResponse(String freebaseResponse) {
         String extractedUri = "";
         //region extract uri from freebase
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode results = mapper.readTree(freebaseResponse).findValue("result");
+            JsonNode results = mapper.readTree(freebaseResponse).get("result");
             if (results.isArray()) {
                 for (JsonNode item : results) {
                     extractedUri = FreebasePropertyExtractor.getFreebaseLink(FreebasePropertyExtractor.extractFreebaseId(item));
@@ -95,7 +96,7 @@ class PersonParser extends AbstractParserType {
         return null;
     }
 
-    public ro.semanticwebsearch.responsegenerator.model.Person freebaseWhoIs(URI freebaseURI) {
+    public Person freebaseWhoIs(URI freebaseURI) {
         if (freebaseURI == null || freebaseURI.toString().trim().isEmpty()) {
             return null;
         }
@@ -107,9 +108,9 @@ class PersonParser extends AbstractParserType {
 
             client = ClientBuilder.newClient().target(freebaseURI);
             personInfoResponse = client.request().get(String.class);
-            JsonNode personInfo = mapper.readTree(personInfoResponse).findValue("property");
+            JsonNode personInfo = mapper.readTree(personInfoResponse).get("property");
 
-            ro.semanticwebsearch.responsegenerator.model.Person person = new ro.semanticwebsearch.responsegenerator.model.Person();
+            Person person = new Person();
             aux = FreebasePropertyExtractor.getPersonName(personInfo);
             person.setName(aux);
 
@@ -148,7 +149,7 @@ class PersonParser extends AbstractParserType {
         return null;
     }
 
-    public ro.semanticwebsearch.responsegenerator.model.Person dbpediaWhoIs(URI dbpediaUri) {
+    public Person dbpediaWhoIs(URI dbpediaUri) {
         if (dbpediaUri == null || dbpediaUri.toString().trim().isEmpty()) {
             return null;
         }
@@ -161,7 +162,7 @@ class PersonParser extends AbstractParserType {
 
             client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             personInfoResponse = client.request().get(String.class);
-            personInfo = mapper.readTree(personInfoResponse).findValue(dbpediaUri.toString());
+            personInfo = mapper.readTree(personInfoResponse).get(dbpediaUri.toString());
 
             ro.semanticwebsearch.responsegenerator.model.Person person = new ro.semanticwebsearch.responsegenerator.model.Person();
             aux = DBPediaPropertyExtractor.getName(personInfo);

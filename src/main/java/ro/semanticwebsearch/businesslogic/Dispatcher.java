@@ -139,5 +139,6 @@ public class Dispatcher {
         questionParserMapping.put("conflictthattookplaceincountry", "ConflictParser");
         questionParserMapping.put("weaponusedbycountryinconflict", "WeaponParser");
         questionParserMapping.put("location", "LocationParser");
+        questionParserMapping.put("albumsof", "AlbumParser");
     }
 }
