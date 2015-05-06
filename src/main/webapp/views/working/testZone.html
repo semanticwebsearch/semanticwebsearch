@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="/resources/css/testZone.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="wrap container-fluid col-xs-70">
+        <header id="topHeader" class="">
+
+            <div id="topBar" class="mid-bar">
+
+                <form id="searchForm " class="go-right" action="/rest/query" method="GET" onsubmit="return false;">
+                    <div id="search-bar" class="center-block">
+                        <input id="search" type="search" required />
+                        <label for="search" class="search-animation">Search</label>
+                    </div>
+                    <div id="option-conntent">
+                        <ul id="look-for">
+                            <li>
+                                <input type="checkbox" name="text" value="true" checked  id="text" class="img-checkbox"/>
+                                <label for="text" class="img-responsive">
+                                    <img class="img-responsive" src="/resources/img/icons/text.png" alt="Text"/>
+                                    <img class="img-responsive" src="/resources/img/icons/text-selected-white.png" alt="Text"/>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="image" value="true" checked id="image" class="img-checkbox"/>
+                                <label for="image" class="img-responsive">
+                                    <img class="img-responsive " src="/resources/img/icons/image.png" alt="Images"/>
+                                    <img class="img-responsive" src="/resources/img/icons/image-selected-white.png" alt="Images"/>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="video" value="true" checked id="video" class="img-checkbox"/>
+                                <label for="video" class="img-responsive">
+                                    <img class="img-responsive" src="/resources/img/icons/video.png" alt="Videos"/>
+                                    <img class="img-responsive" src="/resources/img/icons/video-selected-white.png" alt="Videos"/>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="map" value="true" checked id="map" class="img-checkbox"/>
+                                <label for="map" class="img-responsive">
+                                    <img class="img-responsive" src="/resources/img/icons/map.png" alt="Maps"/>
+                                    <img class="img-responsive" src="/resources/img/icons/map-selected-white.png" alt="Maps"/>
+                                </label>
+                            </li>
+                        </ul>
+                        <ul class="no-display" id="display-as">
+                            <li>
+                                <input type="checkbox" rel="/resources/css/listLayout.css" name="displayOpt" value="true" id="list" class="img-checkbox"/>
+                                <label for="list" class="img-responsive">
+                                    <img class="img-responsive" src="/resources/img/icons/display-list.png" alt="list"/>
+                                    <img class="img-responsive" src="/resources/img/icons/display-list-selected.png" alt="list"/>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" rel="/resources/css/gridLayout.css" name="displayOpt" value="true" id="grid" class="img-checkbox"/>
+                                <label for="grid" class="img-responsive">
+                                    <img class="img-responsive" src="/resources/img/icons/display-grid.png" alt="grid"/>
+                                    <img class="img-responsive" src="/resources/img/icons/display-grid-selected.png" alt="grid"/>
+                                </label>
+                            </li>
+                        </ul>
+                        <div style="clear:both;"></div>
+                    </div>
+                </form>
+
+                <div id="top-logo" class="no-display">
+                    <img src="/resources/img/logo-md%20-white.png">
+                </div>
+                <div class="no-display" id="toggler">
+                    <!--here will come the epic toggle button :)) -->
+                    <input type="checkbox" name="toggle" id="toggle" class="img-checkbox" />
+                    <label for="toggle">
+                        <img src="/resources/img/icons/double-arrow-down.png">
+                        <img src="/resources/img/icons/double-arrow-up.png">
+                    </label>
+
+                </div>
+            </div>
+
+        </header>
+
+        <div class="mid-logo">
+            <!-- <a href="/views/about.html"> -->
+                <img id="SemanticWebSearchImg" class=" margin-top-xxs-10 center-block" src="/resources/img/logo-lg.png" alt="Semantic Web Search" />
+            <!-- </a> -->
+        </div>
+
+        <main class="layout-list">
+            <div class="answer" >
+                <div class="content-options">
+                    <div class="answer-logo">
+                        <div>
+                            <img src="/resources/img/icons/image-selected-white.png" />
+                        </div>
+                    </div>
+                    <div class="answer-otp">
+
+                        <div>
+                            <input type="checkbox" name="text" value="true" checked  id="dislike3" class="img-checkbox"/>
+                            <label for="dislike3" class="img-responsive">
+                                <img class="img-responsive" src="/resources/img/icons/dislike-selected.png" alt="Text"/>
+                                <img class="img-responsive" src="/resources/img/icons/dislike.png" alt="Text"/>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="text" value="true" checked  id="like3" class="img-checkbox"/>
+                            <label for="like3" class="img-responsive">
+                                <img class="img-responsive" src="/resources/img/icons/like-selected.png" alt="Text"/>
+                                <img class="img-responsive" src="/resources/img/icons/like.png" alt="Text"/>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="text" value="true" checked  id="pin3" class="img-checkbox"/>
+                            <label for="pin3" class="img-responsive">
+                                <img class="img-responsive" src="/resources/img/icons/pinned.png" alt="Text"/>
+                                <img class="img-responsive" src="/resources/img/icons/pin.png" alt="Text"/>
+                            </label>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="content"> <h2>Ce este Lorem Ipsum?</h2>
+                    <p>
+                        Lorem Ipsum este pur şi simplu o machetă pentru text a industriei tipografice. Lorem Ipsum a fost macheta standard a industriei încă din secolul al XVI-lea, când un tipograf anonim a luat o planşetă de litere şi le-a amestecat pentru a crea o carte demonstrativă pentru literele respective. Nu doar că a supravieţuit timp de cinci secole, dar şi a facut saltul în tipografia electronică practic neschimbată. A fost popularizată în anii '60 odată cu ieşirea colilor Letraset care conţineau pasaje Lorem Ipsum, iar mai recent, prin programele de publicare pentru calculator, ca Aldus PageMaker care includeau versiuni de Lorem Ipsum.
+
+                    </p></div>
+
+            </div>
+
+
+        </main>
+    </div>
+
+    <script src="/resources/js/lib/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/resources/js/lib/handlebars-v2.0.0.js"></script>
+    <script type="text/javascript" src="/resources/js/working/testZone.js"></script>
+
+</body>
+</html>
