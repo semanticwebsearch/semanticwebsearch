@@ -1,0 +1,649 @@
+@import url("http://fonts.googleapis.com/css?family=Bree+Serif|Merriweather");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+/* line 5, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+/* line 22, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1; }
+
+/* line 24, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none; }
+
+/* line 26, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* line 28, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+/* line 30, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none; }
+  /* line 103, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+  q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none; }
+
+/* line 32, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none; }
+
+/* line 116, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block; }
+
+/* line 4, ../components/sass/_base.scss */
+body {
+  font-family: Merriweather, serif;
+  font-size: 1.2rem;
+  line-height: 160%;
+  background: #EAE3CB;
+  color: #0A2933;
+  position: relative;
+  width: 100%; }
+
+/* line 14, ../components/sass/_base.scss */
+main {
+  margin-top: 17vw !important; }
+  @media (min-width: 75em) {
+    /* line 14, ../components/sass/_base.scss */
+    main {
+      margin-top: 10vw !important; } }
+
+/* line 20, ../components/sass/_base.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-family: Bree Serif, serif;
+  font-weight: normal;
+  color: #475B62;
+  text-shadow: #FCF4DC 1px 1px;
+  *zoom: 1;
+  max-width: 59em;
+  _width: 59em;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: auto;
+  margin-right: auto; }
+  /* line 38, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/utilities/general/_clearfix.scss */
+  h1:after, h2:after, h3:after, h4:after, h5:after, h6:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+/* line 28, ../components/sass/_base.scss */
+h1 {
+  font-size: 2.2rem;
+  color: #ef7e60;
+  margin-bottom: .4rem;
+  padding-top: 10px; }
+
+/* line 35, ../components/sass/_base.scss */
+h2 {
+  font-size: 1.5rem;
+  line-height: 100%;
+  margin: 20px 0 0 0;
+  color: #BD3613; }
+
+/* line 42, ../components/sass/_base.scss */
+h3 {
+  font-size: 1.8rem;
+  line-height: 60%;
+  color: #BD3613; }
+
+/* line 48, ../components/sass/_base.scss */
+a {
+  text-decoration: underline;
+  color: #536870; }
+  /* line 51, ../components/sass/_base.scss */
+  a:hover {
+    color: #BD3613; }
+
+/* line 56, ../components/sass/_base.scss */
+p {
+  margin: 10px;
+  text-align: justify; }
+
+/* line 60, ../components/sass/_base.scss */
+.clearfix {
+  overflow: hidden;
+  *zoom: 1;
+  clear: both; }
+
+/* line 7, ../components/sass/_layout.scss */
+.layout {
+  margin: 0 3%; }
+
+/* line 13, ../components/sass/_layout.scss */
+.list .answer {
+  max-width: 99%;
+  min-width: 200px;
+  margin-bottom: 10px; }
+  @media (min-width: 45em) {
+    /* line 13, ../components/sass/_layout.scss */
+    .list .answer {
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      max-width: 90%; } }
+  @media (min-width: 75em) {
+    /* line 13, ../components/sass/_layout.scss */
+    .list .answer {
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      max-width: 70%; } }
+  /* line 26, ../components/sass/_layout.scss */
+  .list .answer header {
+    position: relative;
+    width: 100%;
+    background: #1f7f9e; }
+    @media (min-width: 45em) {
+      /* line 26, ../components/sass/_layout.scss */
+      .list .answer header {
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        width: 90%; } }
+    /* line 35, ../components/sass/_layout.scss */
+    .list .answer header div {
+      display: inline-block;
+      padding: 3px; }
+      /* line 39, ../components/sass/_layout.scss */
+      .list .answer header div ul input {
+        display: none; }
+      /* line 42, ../components/sass/_layout.scss */
+      .list .answer header div ul li {
+        display: inline-block;
+        padding: 3px; }
+      /* line 47, ../components/sass/_layout.scss */
+      .list .answer header div i {
+        display: inline-block;
+        font-size: 1.2em; }
+        @media (min-width: 45em) {
+          /* line 47, ../components/sass/_layout.scss */
+          .list .answer header div i {
+            -moz-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            -webkit-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+            font-size: 1.5em; } }
+    /* line 56, ../components/sass/_layout.scss */
+    .list .answer header .answer-option {
+      position: absolute;
+      right: 0;
+      bottom: -1px; }
+    /* line 62, ../components/sass/_layout.scss */
+    .list .answer header .icon-link .title {
+      display: inline-block;
+      border-bottom: none;
+      color: #EAE3CB;
+      text-shadow: none;
+      font-size: 1.15em;
+      padding-left: 0; }
+      @media (min-width: 45em) {
+        /* line 62, ../components/sass/_layout.scss */
+        .list .answer header .icon-link .title {
+          -moz-transition: all 0.3s ease-out;
+          -o-transition: all 0.3s ease-out;
+          -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+          font-size: 1.5em; } }
+  /* line 76, ../components/sass/_layout.scss */
+  .list .answer .answer-content {
+    min-height: 100px;
+    min-width: 250px;
+    width: 100%;
+    border: 1px solid #1f7f9e; }
+    @media (min-width: 45em) {
+      /* line 76, ../components/sass/_layout.scss */
+      .list .answer .answer-content {
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        width: 90%; } }
+
+/* line 92, ../components/sass/_layout.scss */
+.grid .answer {
+  width: 100%;
+  min-width: 200px;
+  margin: 10px 5px;
+  position: absolute; }
+  @media (min-width: 45em) {
+    /* line 92, ../components/sass/_layout.scss */
+    .grid .answer {
+      width: 48%; } }
+  @media (min-width: 66em) {
+    /* line 92, ../components/sass/_layout.scss */
+    .grid .answer {
+      width: 32%; } }
+  /* line 103, ../components/sass/_layout.scss */
+  .grid .answer header {
+    position: relative;
+    width: 100%;
+    background: #1f7f9e; }
+    @media (min-width: 45em) {
+      /* line 103, ../components/sass/_layout.scss */
+      .grid .answer header {
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        width: 90%; } }
+    /* line 112, ../components/sass/_layout.scss */
+    .grid .answer header div {
+      display: inline-block;
+      padding: 3px; }
+      /* line 116, ../components/sass/_layout.scss */
+      .grid .answer header div ul input {
+        display: none; }
+      /* line 119, ../components/sass/_layout.scss */
+      .grid .answer header div ul li {
+        display: inline-block;
+        padding: 3px; }
+      /* line 124, ../components/sass/_layout.scss */
+      .grid .answer header div i {
+        display: inline-block;
+        font-size: 1.2em; }
+        @media (min-width: 45em) {
+          /* line 124, ../components/sass/_layout.scss */
+          .grid .answer header div i {
+            -moz-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            -webkit-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+            font-size: 1.5em; } }
+    /* line 133, ../components/sass/_layout.scss */
+    .grid .answer header .answer-option {
+      position: absolute;
+      right: 0;
+      top: -1px; }
+    /* line 139, ../components/sass/_layout.scss */
+    .grid .answer header .icon-link .title {
+      display: inline-block;
+      border-bottom: none;
+      color: #EAE3CB;
+      text-shadow: none;
+      font-size: 1.15em;
+      padding-left: 0;
+      padding-top: 0; }
+      @media (min-width: 45em) {
+        /* line 139, ../components/sass/_layout.scss */
+        .grid .answer header .icon-link .title {
+          -moz-transition: all 0.3s ease-out;
+          -o-transition: all 0.3s ease-out;
+          -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+          font-size: 1.5em; } }
+  /* line 154, ../components/sass/_layout.scss */
+  .grid .answer .answer-content {
+    min-height: 100px;
+    min-width: 250px;
+    width: 100%;
+    border: 1px solid #1f7f9e; }
+    @media (min-width: 45em) {
+      /* line 154, ../components/sass/_layout.scss */
+      .grid .answer .answer-content {
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        width: 90%; } }
+
+/* line 167, ../components/sass/_layout.scss */
+.no-display {
+  display: none; }
+
+/* line 14, C:/Ruby193/lib/ruby/gems/1.9.1/gems/susy-2.2.2/sass/susy/language/susyone/_grid.scss */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* line 16, ../components/sass/_modules.scss */
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #1f7f9e;
+  z-index: 40; }
+  /* line 24, ../components/sass/_modules.scss */
+  .top #toggler input[type="checkbox"] {
+    display: none; }
+    /* line 27, ../components/sass/_modules.scss */
+    .top #toggler input[type="checkbox"]:checked + label i {
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      -webkit-transform: rotate(180deg);
+      -moz-transform: rotate(180deg);
+      -o-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      transform: rotate(180deg); }
+  /* line 37, ../components/sass/_modules.scss */
+  .top #toggler i {
+    font-size: 1.5em;
+    display: inline-block;
+    margin: 0 50%; }
+    @media (min-width: 45em) {
+      /* line 37, ../components/sass/_modules.scss */
+      .top #toggler i {
+        display: none; } }
+    /* line 44, ../components/sass/_modules.scss */
+    .top #toggler i:hover {
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg); }
+  /* line 54, ../components/sass/_modules.scss */
+  .top .img-logo {
+    width: 23.72881%;
+    float: right;
+    margin-right: 0;
+    *margin-left: -1em;
+    display: inline; }
+    /* line 56, ../components/sass/_modules.scss */
+    .top .img-logo img {
+      width: 100%;
+      background-repeat: none;
+      max-width: 150px; }
+      @media (min-width: 45em) {
+        /* line 56, ../components/sass/_modules.scss */
+        .top .img-logo img {
+          max-width: 300px; } }
+  /* line 65, ../components/sass/_modules.scss */
+  .top .search-content {
+    width: 74.57627%;
+    float: left;
+    margin-right: 1.69492%;
+    display: inline;
+    max-width: 1000px;
+    position: relative;
+    margin: 0 auto; }
+    /* line 70, ../components/sass/_modules.scss */
+    .top .search-content input[type="submit"], .top .search-content input[type="checkbox"] {
+      display: none; }
+    /* line 74, ../components/sass/_modules.scss */
+    .top .search-content .search-form .search {
+      position: relative; }
+      /* line 76, ../components/sass/_modules.scss */
+      .top .search-content .search-form .search input {
+        width: 100%;
+        padding: 5px 10px; }
+      /* line 81, ../components/sass/_modules.scss */
+      .top .search-content .search-form .search label i {
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        z-index: 20;
+        font-size: 1.3em;
+        padding: 3px; }
+        /* line 89, ../components/sass/_modules.scss */
+        .top .search-content .search-form .search label i:hover {
+          color: #1b6e88; }
+    /* line 96, ../components/sass/_modules.scss */
+    .top .search-content .search-option {
+      padding-top: 10px; }
+      /* line 99, ../components/sass/_modules.scss */
+      .top .search-content .search-option ul {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        *zoom: 1;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out; }
+        /* line 62, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+        .top .search-content .search-option ul li {
+          list-style-image: none;
+          list-style-type: none;
+          margin-left: 0;
+          white-space: nowrap;
+          float: left;
+          padding-left: 4px;
+          padding-right: 4px; }
+          /* line 49, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+          .top .search-content .search-option ul li:first-child {
+            padding-left: 0; }
+          /* line 50, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+          .top .search-content .search-option ul li:last-child {
+            padding-right: 0; }
+          /* line 52, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+          .top .search-content .search-option ul li.last {
+            padding-right: 0; }
+        /* line 104, ../components/sass/_modules.scss */
+        .top .search-content .search-option ul li input[type="checkbox"]:checked + label {
+          color: #37ccbc; }
+        /* line 108, ../components/sass/_modules.scss */
+        .top .search-content .search-option ul li i {
+          font-size: 1.5em;
+          -moz-transition: all 0.3s ease-out;
+          -o-transition: all 0.3s ease-out;
+          -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out; }
+          @media (min-width: 45em) {
+            /* line 108, ../components/sass/_modules.scss */
+            .top .search-content .search-option ul li i {
+              font-size: 2em; } }
+          @media (min-width: 75em) {
+            /* line 108, ../components/sass/_modules.scss */
+            .top .search-content .search-option ul li i {
+              font-size: 2.5em; } }
+          /* line 117, ../components/sass/_modules.scss */
+          .top .search-content .search-option ul li i:hover {
+            color: #124b5e; }
+        /* line 121, ../components/sass/_modules.scss */
+        .top .search-content .search-option ul li p {
+          color: #EAE3CB;
+          font-size: .85em;
+          -moz-transition: all 0.3s ease-out;
+          -o-transition: all 0.3s ease-out;
+          -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out; }
+          @media (min-width: 45em) {
+            /* line 121, ../components/sass/_modules.scss */
+            .top .search-content .search-option ul li p {
+              font-size: 1em;
+              margin-top: 5px; } }
+          @media (min-width: 75em) {
+            /* line 121, ../components/sass/_modules.scss */
+            .top .search-content .search-option ul li p {
+              font-size: 1.25em;
+              margin-top: 10px; } }
+      @media (min-width: 45em) {
+        /* line 136, ../components/sass/_modules.scss */
+        .top .search-content .search-option .layout-option {
+          position: absolute;
+          bottom: 0px;
+          right: 0px; } }
+      /* line 145, ../components/sass/_modules.scss */
+      .top .search-content .search-option .search-type .search-type-list li:nth-of-type(1) {
+        margin-right: 15px; }
+        @media (min-width: 45em) {
+          /* line 145, ../components/sass/_modules.scss */
+          .top .search-content .search-option .search-type .search-type-list li:nth-of-type(1) {
+            margin-right: 0px; } }
+
+/* line 163, ../components/sass/_modules.scss */
+.center #toggler input {
+  display: none; }
+/* line 166, ../components/sass/_modules.scss */
+.center #toggler i {
+  display: none; }
+/* line 171, ../components/sass/_modules.scss */
+.center .img-logo {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto; }
+  @media (min-width: 45em) {
+    /* line 171, ../components/sass/_modules.scss */
+    .center .img-logo {
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      margin-top: 10%; } }
+  /* line 179, ../components/sass/_modules.scss */
+  .center .img-logo img {
+    width: 100%; }
+/* line 183, ../components/sass/_modules.scss */
+.center .search-content {
+  width: 100%;
+  max-width: 1000px;
+  position: relative;
+  margin: 0 auto; }
+  /* line 188, ../components/sass/_modules.scss */
+  .center .search-content input[type="submit"], .center .search-content input[type="checkbox"] {
+    display: none; }
+  /* line 192, ../components/sass/_modules.scss */
+  .center .search-content .search-form .search {
+    position: relative; }
+    /* line 194, ../components/sass/_modules.scss */
+    .center .search-content .search-form .search input {
+      width: 100%;
+      padding: 5px 10px; }
+    /* line 199, ../components/sass/_modules.scss */
+    .center .search-content .search-form .search label i {
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      z-index: 20;
+      font-size: 1.3em;
+      padding: 3px; }
+      /* line 207, ../components/sass/_modules.scss */
+      .center .search-content .search-form .search label i:hover {
+        color: #1b6e88; }
+  /* line 214, ../components/sass/_modules.scss */
+  .center .search-content .search-option {
+    padding-top: 10px; }
+    /* line 216, ../components/sass/_modules.scss */
+    .center .search-content .search-option ul {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      *zoom: 1;
+      -moz-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out; }
+      /* line 62, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+      .center .search-content .search-option ul li {
+        list-style-image: none;
+        list-style-type: none;
+        margin-left: 0;
+        white-space: nowrap;
+        float: left;
+        padding-left: 4px;
+        padding-right: 4px; }
+        /* line 49, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+        .center .search-content .search-option ul li:first-child {
+          padding-left: 0; }
+        /* line 50, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+        .center .search-content .search-option ul li:last-child {
+          padding-right: 0; }
+        /* line 52, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/typography/lists/_horizontal-list.scss */
+        .center .search-content .search-option ul li.last {
+          padding-right: 0; }
+      /* line 221, ../components/sass/_modules.scss */
+      .center .search-content .search-option ul li input[type="checkbox"]:checked + label {
+        color: #1b6e88; }
+      /* line 225, ../components/sass/_modules.scss */
+      .center .search-content .search-option ul li i {
+        font-size: 1.5em;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out; }
+        @media (min-width: 45em) {
+          /* line 225, ../components/sass/_modules.scss */
+          .center .search-content .search-option ul li i {
+            font-size: 2em; } }
+        @media (min-width: 75em) {
+          /* line 225, ../components/sass/_modules.scss */
+          .center .search-content .search-option ul li i {
+            font-size: 2.5em; } }
+        /* line 234, ../components/sass/_modules.scss */
+        .center .search-content .search-option ul li i:hover {
+          color: #124b5e; }
+      /* line 238, ../components/sass/_modules.scss */
+      .center .search-content .search-option ul li p {
+        font-size: .85em;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out; }
+        @media (min-width: 45em) {
+          /* line 238, ../components/sass/_modules.scss */
+          .center .search-content .search-option ul li p {
+            font-size: 1em;
+            margin-top: 5px; } }
+        @media (min-width: 75em) {
+          /* line 238, ../components/sass/_modules.scss */
+          .center .search-content .search-option ul li p {
+            font-size: 1.25em;
+            margin-top: 10px; } }
+    /* line 252, ../components/sass/_modules.scss */
+    .center .search-content .search-option div {
+      display: block; }
+    /* line 255, ../components/sass/_modules.scss */
+    .center .search-content .search-option .layout-option {
+      display: none; }
+
+/* line 269, ../components/sass/_modules.scss */
+main {
+  display: block; }
+  /* line 277, ../components/sass/_modules.scss */
+  main div header .answer-option ul li input[type="checkbox"]:checked + label {
+    color: #37ccbc; }
+  /* line 282, ../components/sass/_modules.scss */
+  main div header .answer-option ul li i:hover {
+    color: #124b5e; }
+
+/* line 292, ../components/sass/_modules.scss */
+footer {
+  position: absolute;
+  right: 47%; }
