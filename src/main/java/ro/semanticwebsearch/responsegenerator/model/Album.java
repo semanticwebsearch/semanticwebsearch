@@ -8,8 +8,10 @@ import java.util.ArrayList;
 public class Album {
     private String name;
     private ArrayList<String> thumbnails;
+    private ArrayList<StringPair> trackList;
     private String wikiPageExternalLink;
     private String description;
+    private String length;
     private String releaseDate;
     private String genre;
 
@@ -60,4 +62,22 @@ public class Album {
     public String getGenre() {
         return genre;
     }
+
+    public ArrayList<StringPair> getTrackList() {
+        return trackList;
+    }
+
+    public void setTrackList(ArrayList<StringPair> trackList) {
+        this.trackList = trackList;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+
 }

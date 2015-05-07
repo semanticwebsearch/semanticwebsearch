@@ -79,21 +79,24 @@ public class Dispatcher {
 
         if (response.getQuestionType() != null) {
             Map<String, Object> res = null;
+            String entityType = null;
             try {
                 ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
                 res = qt.doSomethingUseful(response);
-
+                entityType = qt.getClass().getSimpleName().replace("Parser", "");
             } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
                 if (log.isDebugEnabled()) {
                     log.debug("Could not query for additional info ", e);
                 }
             }
-
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                return mapper.writeValueAsString(res);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
+            if(res != null) {
+                res.put("entityType", entityType);
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    return mapper.writeValueAsString(res);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -6,6 +6,7 @@ package ro.semanticwebsearch.responsegenerator.parser.helper;
 public enum AdditionalQuestion {
     WHO_IS("Who is %s?"),
     PLACE_INFO("Place %s?"),
+    EDUCATION_INFO("education institution %s?"),
     CONFLICT("Conflict %s?");
 
     private String value;
