@@ -3,8 +3,10 @@ package ro.semanticwebsearch.responsegenerator.parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ro.semanticwebsearch.responsegenerator.model.Album;
+import ro.semanticwebsearch.responsegenerator.model.StringPair;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
+import ro.semanticwebsearch.responsegenerator.parser.helper.MetadataProperties;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -41,7 +43,11 @@ class AlbumParser extends AbstractParserType {
         //endregion
 
         ArrayList<Album> albums = new ArrayList<>();
+        int n = 0;
         for(String uri : albumUris) {
+            if(n++ == 20) {
+                break;
+            }
             try {
                 albums.add(freebaseAlbum(new URI(uri)));
             } catch (URISyntaxException e) {
@@ -96,7 +102,7 @@ class AlbumParser extends AbstractParserType {
         return albums;
     }
 
-    private Album dbpediaAlbum(URI dbpediaUri) {
+    public Album dbpediaAlbum(URI dbpediaUri) {
         if (dbpediaUri == null || dbpediaUri.toString().trim().isEmpty()) {
             return null;
         }
@@ -120,6 +126,8 @@ class AlbumParser extends AbstractParserType {
             album.setReleaseDate(DBPediaPropertyExtractor.getReleaseDate(albumInfo));
             album.setGenre(DBPediaPropertyExtractor.getGenre(albumInfo));
 
+
+
             return album;
 
         } catch (IOException e) {
@@ -129,7 +137,7 @@ class AlbumParser extends AbstractParserType {
         return null;
     }
 
-    private Album freebaseAlbum(URI freebaseURI) {
+    public Album freebaseAlbum(URI freebaseURI) {
         if (freebaseURI == null || freebaseURI.toString().trim().isEmpty()) {
             return null;
         }
@@ -153,14 +161,60 @@ class AlbumParser extends AbstractParserType {
             album.setReleaseDate(FreebasePropertyExtractor.getReleaseDate(albumInfo));
             album.setGenre(FreebasePropertyExtractor.getGenre(albumInfo));
 
+            String releaseId = FreebasePropertyExtractor.getPrimaryReleaseId(albumInfo);
+            releaseId = FreebasePropertyExtractor.getFreebaseLink(releaseId);
+            album.setTrackList(getTrackList(new URI(releaseId)));
 
             return album;
 
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
         return null;
 
+    }
+
+    private ArrayList<StringPair> getTrackList(URI freebaseURI) {
+        if (freebaseURI == null || freebaseURI.toString().trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            WebTarget client;
+            String albumInfoResponse;
+            JsonNode aux;
+            ObjectMapper mapper = new ObjectMapper();
+
+            client = ClientBuilder.newClient().target(freebaseURI);
+            albumInfoResponse = client.request().get(String.class);
+            JsonNode albumInfo = mapper.readTree(albumInfoResponse).get("property");
+
+
+            ArrayList<StringPair> trackList = FreebasePropertyExtractor.getTrackList(albumInfo);
+            for(StringPair track : trackList) {
+                track.setValue(FreebasePropertyExtractor.getFreebaseLink(track.getValue()));
+                client = ClientBuilder.newClient().target(track.getValue());
+                albumInfoResponse = client.request().get(String.class);
+                albumInfo = mapper.readTree(albumInfoResponse).get("property");
+
+                aux = albumInfo.path(MetadataProperties.TRACK_LENGTH.getFreebase()).path("values");
+                if(!FreebasePropertyExtractor.isMissingNode(aux)) {
+                    if(aux.isArray()) {
+                        aux = aux.get(0);
+                    }
+
+                    track.setValue(DBPediaPropertyExtractor.extractValue(aux.get("value")));
+                } else {
+                    track.setValue("");
+                }
+            }
+
+            return trackList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

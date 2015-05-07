@@ -123,7 +123,8 @@ public class FreebasePropertyExtractor {
                         for (JsonNode value : aux) {
                             if (DBPediaPropertyExtractor.isEN(value)) {
                                 name = DBPediaPropertyExtractor.extractValue(value.get("text"));
-                                uri = getFreebaseLink(extractFreebaseId(value));
+                                uri = DBPediaPropertyExtractor.getLink(AdditionalQuestion.EDUCATION_INFO,
+                                        name);
                             }
                         }
                     }
@@ -867,6 +868,47 @@ public class FreebasePropertyExtractor {
         }
 
         return sb.toString();
+
+    }
+
+    public static String getPrimaryReleaseId(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.PRIMARY_RELEASE.getFreebase());
+        properties.add("id");
+
+        ArrayList<JsonNode> languages = getDeepProperties(properties, node);
+
+        for(JsonNode language : languages) {
+            return DBPediaPropertyExtractor.extractValue(language);
+        }
+
+        return null;
+    }
+
+    public static ArrayList<StringPair> getTrackList(JsonNode albumInfo) {
+        ArrayList<String> properties = new ArrayList<>();
+        ArrayList<StringPair> result = new ArrayList<>();
+
+        properties.add(MetadataProperties.TRACK_LIST.getFreebase());
+        properties.add("values");
+
+        ArrayList<JsonNode> tracks = getDeepProperties(properties, albumInfo);
+
+        for(JsonNode track : tracks) {
+            if(track.isArray()) {
+                for(JsonNode item : track) {
+                    if(DBPediaPropertyExtractor.isEN(item)) {
+                        result.add(new StringPair(DBPediaPropertyExtractor.extractValue(item.get("text")),
+                                DBPediaPropertyExtractor.extractValue(item.get("id"))));
+                    }
+                }
+            }
+
+
+        }
+
+        return result;
 
     }
 }

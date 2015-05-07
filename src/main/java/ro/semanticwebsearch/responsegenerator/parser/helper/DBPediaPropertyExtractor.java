@@ -207,7 +207,8 @@ public class DBPediaPropertyExtractor {
                     String uri = extractValue(birthplace.get("value"));
                     String[] pieces = uri.split("/");
                     String birthPlace = pieces[pieces.length - 1];
-                    return new StringPair(uri, birthPlace.replace("_", " "));
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.EDUCATION_INFO,
+                            birthPlace.replace("_", " "));
                 }
             }
         }
