@@ -163,11 +163,11 @@ class AlbumParser extends AbstractParserType {
 
             String releaseId = FreebasePropertyExtractor.getPrimaryReleaseId(albumInfo);
             releaseId = FreebasePropertyExtractor.getFreebaseLink(releaseId);
-            album.setTrackList(getTrackList(new URI(releaseId)));
+            //album.setTrackList(getTrackList(new URI(releaseId)));
 
             return album;
 
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

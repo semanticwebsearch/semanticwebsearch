@@ -19,6 +19,7 @@ public class Person {
     private ArrayList<StringPair> children;
     private ArrayList<StringPair> parents;
     private ArrayList<StringPair> spouse;
+    private String notableFor;
 
 
     public String getName() {
@@ -123,5 +124,13 @@ public class Person {
 
     public void setChildren(ArrayList<StringPair> children) {
         this.children = children;
+    }
+
+    public void setNotableFor(String notableFor) {
+        this.notableFor = notableFor;
+    }
+
+    public String getNotableFor() {
+        return notableFor;
     }
 }

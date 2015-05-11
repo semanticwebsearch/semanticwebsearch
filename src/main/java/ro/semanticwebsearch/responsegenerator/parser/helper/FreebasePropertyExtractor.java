@@ -911,4 +911,23 @@ public class FreebasePropertyExtractor {
         return result;
 
     }
+
+    public static String getNotableFor(JsonNode node) {
+        ArrayList<String> properties = new ArrayList<>();
+
+        properties.add(MetadataProperties.NOTABLE_FOR.getFreebase());
+        properties.add("text");
+
+        ArrayList<JsonNode> currencies = getDeepProperties(properties, node);
+        StringBuilder sb = new StringBuilder();
+        for(JsonNode currency : currencies) {
+            sb.append(DBPediaPropertyExtractor.extractValue(currency)).append(" / ");
+        }
+
+        if (sb.length() > 3) {
+            sb.replace(sb.length() - 3, sb.length() - 1, "");
+        }
+
+        return sb.toString();
+    }
 }
