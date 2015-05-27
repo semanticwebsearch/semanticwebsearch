@@ -19,7 +19,7 @@ public class FreebasePropertyExtractor {
 
     public static ArrayList<StringPair> getChildren(JsonNode personInfo) {
         ArrayList<StringPair> parentsArray = new ArrayList<>();
-        JsonNode children = personInfo.path(MetadataProperties.PARENTS.getFreebase()).path("values");
+        JsonNode children = personInfo.path(MetadataProperties.CHILDREN.getFreebase()).path("values");
         if (isMissingNode(children)) {
             return null;
         }
@@ -500,15 +500,18 @@ public class FreebasePropertyExtractor {
                     same = getSameLevelProperties(sameLevelProperties, item);
 
                     aux = new Casualty();
-                    stringAux = DBPediaPropertyExtractor.extractValue(getDeepProperties("text", same.get(0)).get(0));
-                    aux.setCombatant(new StringPair(DBPediaPropertyExtractor.getLink(AdditionalQuestion.WHO_IS, stringAux), stringAux));
-
-                    stringAux = DBPediaPropertyExtractor.extractValue(getDeepProperties("text", same.get(1)).get(0));
-                    aux.setCasualties(stringAux);
-
-                    stringAux = DBPediaPropertyExtractor.extractValue(getDeepProperties("text", same.get(2)).get(0));
-                    aux.setCasualtyType(stringAux);
-
+                    if(same.size() > 0) {
+                        stringAux = DBPediaPropertyExtractor.extractValue(getDeepProperties("text", same.get(0)).get(0));
+                        aux.setCombatant(new StringPair(DBPediaPropertyExtractor.getLink(AdditionalQuestion.WHO_IS, stringAux), stringAux));
+                    }
+                    if(same.size() > 1) {
+                        stringAux = DBPediaPropertyExtractor.extractValue(getDeepProperties("text", same.get(1)).get(0));
+                        aux.setCasualties(stringAux);
+                    }
+                    if(same.size() > 2) {
+                        stringAux = DBPediaPropertyExtractor.extractValue(getDeepProperties("text", same.get(2)).get(0));
+                        aux.setCasualtyType(stringAux);
+                    }
                     response.add(aux);
                 }
             } else {

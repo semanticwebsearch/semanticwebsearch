@@ -6,65 +6,6 @@
 	<link rel="stylesheet" href="./../resources/css/styles.css">
 </head>
 <body>
-	<template id="answerArticle">
-			{{#each answer}}
-				<div class="answer">
-					<header class="answer-top">
-						<div class="icon-link">
-							<!-- text-o /picture-o  /youtube-play /globe-->
-							<i class="fa fa-file-{{type}}}"></i>
-							<h1 class="title">{{title}}</h1>
-						</div>
-						<div class="answer-option">
-							<ul>
-								<li><input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id={{pinId}} name="pin"></input><label for={{pinId}}><i class="fa fa-thumb-tack"></i></label></li>
-								<li><input type="checkbox" id=like{{id}} name="like"></input><label for=like{{id}}><i class="fa fa-thumbs-o-up"></i></label></li>
-								<li><input type="checkbox" id=dislike{{id}} name="dislike"></input><label for=dislike{{id}}><i class="fa fa-thumbs-o-down"></i></label></li>
-							</ul>
-						</div>
-					</header>
-					<div class="answer-content" itemscope itemtype="{{itemType}}">
-						<!-- text-o /picture-o  /youtube-play /globe ?????? -->
-					        {{#ifEqual type "text-o"}}
-		                        <p itemprop="description">{{content.description}}</p>
-		                    {{/ifEqual}}
-
-		                    {{#ifEqual type "picture-o"}}
-		                        <img itemprop="image" src="{{content.source}}" class="display-center img-responsive" alt="image"  />
-		                        {{#if content.description}}
-		                            <p>{{content.description}}</p>
-		                        {{/if}}
-		                    {{/ifEqual}}
-
-		                    {{#ifEqual type "youtube-play"}}
-		                    <!--For youtube embed-->
-		                        <object data="{{content.source}}" class="video-height margin-left-15" width="70%" ></object>
-		                        {{#if content.description}}
-		                            <p itemprop="description">{{content.description}}</p>
-		                        {{/if}}
-		                    {{/ifEqual}}
-
-		                    {{#ifEqual type "globe"}}
-		                        <meta itemprop="latitude" content="{{content.latitude}}" />
-		                        <meta itemprop="longitude" content="{{content.longitude}}" />
-		                        <div id="map-canvas{{id}}" class="map-canvas" itemprop="geo">
-		                            <!--here come the map-->
-		                            <script type="text/javascript">
-		                                myNamespace.Template.initializeMap("{{id}}");
-		                            </script>
-		                        </div>
-		                        {{#if content.description}}
-		                            <p itemprop="description">{{content.description}}</p>
-		                        {{/if}}
-		                    {{/ifEqual}}
-
-		                    {{#if link}}
-		                    <a itemprop="url" href="{{link}}" target="_blank" rel="alternate" >More..</a>
-		                    {{/if}}
-					</div>
-				</div>
-			{{/each}}
-	</template>
 	<header id="header" class="center">
 		<section class="layout">
 			<div class="img-logo">
@@ -105,7 +46,7 @@
 			</div>
 		</section>
 	</header>
-	<main class="layout grid">
+	<main id="main" class="layout grid">
 
 	</main>
 	<footer>
@@ -116,8 +57,173 @@
 	</footer>
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>
-    <script src="./../resources/js/script.js"></script>
+    <script src="./../resources/components/js/script.js"></script>
     <script type="text/javascript" src="./../resources/js/lib/handlebars-v2.0.0.js"></script>
     <script src="./../resources/js/lib/masonry.pkgd.min.js"></script>
+
+    <script type="text/x-handlebars-template" id="person-template">
+		{{#each answer}}
+			<div class="answer">
+				<header class="answer-top">
+					<div class="icon-link">
+						<!-- text-o /picture-o  /youtube-play /globe-->
+						<h1 class="title">{{name}}</h1>
+					</div>
+					<div class="answer-option">
+
+					</div>
+				</header>
+				<div class="answer-content">
+                    <article>
+                        <h4>Birthdate:</h4> {{birthdate}}
+                    </article>
+
+                    <article>
+                        <h4>Birthplace:</h4>
+	                        {{#ifEqual birthplace.key ""}}
+	                            {{birthplace.value}}
+	                        {{else}}
+	                        	<a href="{{birthplace.key}}" class="innerCall">{{birthplace.value}}</a>
+	                        {{/ifEqual}}
+                    </article>
+
+                    <article>
+                        <h4>Children:</h4>
+                        {{#each children}}
+                            {{#ifEqual key ""}}
+                                {{value}}
+                            {{else}}
+                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+
+                        {{/each}}
+                    </article>
+
+                    <article>
+                        <h4>Deathdate:</h4> {{deathdate}}
+                    </article>
+
+                    <article>
+                        <h4>Description:</h4> <p>{{description}}</p>
+                    </article>
+
+                    <article>
+                        <h4>Education:</h4>
+                        {{#each education}}
+                            {{#ifEqual key ""}}
+                                {{value}}
+                            {{else}}
+                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+                        {{/each}}
+                    </article>
+
+                    <article>
+                        <h4>Nationality:</h4>
+                        {{#each nationality}}
+                            {{#ifEqual key ""}}
+                                {{value}}
+                            {{else}}
+                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+                        {{/each}}
+                    </article>
+
+                    <article>
+                        <h4>Parents:</h4>
+                        {{#each parents}}
+                            {{#ifEqual key ""}}
+                                {{value}}
+                            {{else}}
+                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+                        {{/each}}
+                    </article>
+
+                    <article>
+                        <h4>Spouse:</h4>
+                        {{#each spouse}}
+                            {{#ifEqual key ""}}
+                                {{value}}
+                            {{else}}
+                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+                        {{/each}}
+                    </article>
+                    <article>
+						<a href="{{wikiPageExternal}}">wiki page</a>
+					</article>
+                    <article>
+                        <h3>Thumbnails:</h3>
+                        <div class="pixgrid">
+                        {{#each thumbnails}}
+                            <img src="{{this}}"/>
+                        {{/each}}
+                        </div>
+                    </article>
+				</div>
+			</div>
+		{{/each}}
+	</script>
+	<script type="text/x-handlebars-template" id="weapon-template">
+		{{#each answer}}
+			<div class="answer">
+				<header class="answer-top">
+					<div class="icon-link">
+						<h1 class="title">{{name}}</h1>
+					</div>
+					<div class="answer-option">
+
+					</div>
+				</header>
+				<div class="answer-content">
+					<article>
+						<h4>Caliber:</h4> {{caliber}}
+					</article>
+					<article>
+						<h4>Description:</h4>
+						<p>{{description}}</p>
+					</article>
+					<article>
+						<h4>Designer:</h4>
+						{{#ifEqual designer.key ""}}
+                            {{designer.value}}
+                        {{else}}
+                            <a href="{designer.key}}" class="innerCall">{{designer.value}}</a>
+                        {{/ifEqual}}
+					</article>
+					<article>
+						<h4>Length:</h4> {{length}}
+					</article>
+					<article>
+						<h4>Origin</h4>
+						{{#ifEqual origin.key ""}}
+                            {{origin.value}}
+                        {{else}}
+                            <a href="{{origin.key}}" class="innerCall">{{origin.value}}</a>
+                        {{/ifEqual}}
+					</article>
+					<article>
+						<h4>Service:</h4> {{service}}
+					</article>
+					<article>
+						<h4>Weight:</h4> {{weight}}
+					</article>
+					<article>
+						<h4>Page:</h4> <a href="{{wikiPageExternal}}">wiki page</a>
+					</article>
+					<article>
+                    	<h3>Thumbnails:</h3>
+                        <div class="pixgrid">
+	                        {{#each thumbnails}}
+	                            <img src="{{this}}"/>
+	                        {{/each}}
+                        </div>
+                	</article>
+				</div>
+			</div>
+		{{/each}}
+	</script>
+
 </body>
 </html>

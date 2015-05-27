@@ -110,23 +110,27 @@ h2 {
 /* line 42, ../components/sass/_base.scss */
 h3 {
   font-size: 1.8rem;
-  line-height: 60%;
+  line-height: 80%;
   color: #BD3613; }
 
-/* line 48, ../components/sass/_base.scss */
+/* line 47, ../components/sass/_base.scss */
+h4 {
+  display: inline-block; }
+
+/* line 51, ../components/sass/_base.scss */
 a {
   text-decoration: underline;
   color: #536870; }
-  /* line 51, ../components/sass/_base.scss */
+  /* line 54, ../components/sass/_base.scss */
   a:hover {
     color: #BD3613; }
 
-/* line 56, ../components/sass/_base.scss */
+/* line 59, ../components/sass/_base.scss */
 p {
   margin: 10px;
   text-align: justify; }
 
-/* line 60, ../components/sass/_base.scss */
+/* line 63, ../components/sass/_base.scss */
 .clearfix {
   overflow: hidden;
   *zoom: 1;
@@ -219,6 +223,7 @@ p {
     min-height: 100px;
     min-width: 250px;
     width: 100%;
+    padding: 0.5em;
     border: 1px solid #1f7f9e; }
     @media (min-width: 45em) {
       /* line 76, ../components/sass/_layout.scss */
@@ -228,63 +233,71 @@ p {
         -webkit-transition: all 0.3s ease-out;
         transition: all 0.3s ease-out;
         width: 90%; } }
+    /* line 86, ../components/sass/_layout.scss */
+    .list .answer .answer-content .pixgrid {
+      margin-top: 0.5em; }
+      /* line 88, ../components/sass/_layout.scss */
+      .list .answer .answer-content .pixgrid img {
+        border-radius: 10px;
+        max-width: 120px;
+        cursor: pointer; }
 
-/* line 92, ../components/sass/_layout.scss */
+/* line 101, ../components/sass/_layout.scss */
 .grid .answer {
   width: 100%;
   min-width: 200px;
   margin: 10px 5px;
   position: absolute; }
   @media (min-width: 45em) {
-    /* line 92, ../components/sass/_layout.scss */
+    /* line 101, ../components/sass/_layout.scss */
     .grid .answer {
       width: 48%; } }
   @media (min-width: 66em) {
-    /* line 92, ../components/sass/_layout.scss */
+    /* line 101, ../components/sass/_layout.scss */
     .grid .answer {
       width: 32%; } }
-  /* line 103, ../components/sass/_layout.scss */
+  /* line 112, ../components/sass/_layout.scss */
   .grid .answer header {
     position: relative;
     width: 100%;
     background: #1f7f9e; }
     @media (min-width: 45em) {
-      /* line 103, ../components/sass/_layout.scss */
+      /* line 112, ../components/sass/_layout.scss */
       .grid .answer header {
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
         -webkit-transition: all 0.3s ease-out;
         transition: all 0.3s ease-out;
         width: 90%; } }
-    /* line 112, ../components/sass/_layout.scss */
+    /* line 121, ../components/sass/_layout.scss */
     .grid .answer header div {
       display: inline-block;
       padding: 3px; }
-      /* line 116, ../components/sass/_layout.scss */
+      /* line 125, ../components/sass/_layout.scss */
       .grid .answer header div ul input {
         display: none; }
-      /* line 119, ../components/sass/_layout.scss */
+      /* line 128, ../components/sass/_layout.scss */
       .grid .answer header div ul li {
         display: inline-block;
         padding: 3px; }
-      /* line 124, ../components/sass/_layout.scss */
+      /* line 133, ../components/sass/_layout.scss */
       .grid .answer header div i {
         display: inline-block;
         font-size: 1.2em; }
         @media (min-width: 45em) {
-          /* line 124, ../components/sass/_layout.scss */
+          /* line 133, ../components/sass/_layout.scss */
           .grid .answer header div i {
             -moz-transition: all 0.3s ease-out;
             -o-transition: all 0.3s ease-out;
             -webkit-transition: all 0.3s ease-out;
             transition: all 0.3s ease-out;
             font-size: 1.5em; } }
-    /* line 133, ../components/sass/_layout.scss */
+    /* line 142, ../components/sass/_layout.scss */
     .grid .answer header .answer-option {
       position: absolute;
       right: 0;
       top: -1px; }
-    /* line 139, ../components/sass/_layout.scss */
+    /* line 148, ../components/sass/_layout.scss */
     .grid .answer header .icon-link .title {
       display: inline-block;
       border-bottom: none;
@@ -294,21 +307,21 @@ p {
       padding-left: 0;
       padding-top: 0; }
       @media (min-width: 45em) {
-        /* line 139, ../components/sass/_layout.scss */
+        /* line 148, ../components/sass/_layout.scss */
         .grid .answer header .icon-link .title {
           -moz-transition: all 0.3s ease-out;
           -o-transition: all 0.3s ease-out;
           -webkit-transition: all 0.3s ease-out;
           transition: all 0.3s ease-out;
           font-size: 1.5em; } }
-  /* line 154, ../components/sass/_layout.scss */
+  /* line 163, ../components/sass/_layout.scss */
   .grid .answer .answer-content {
     min-height: 100px;
     min-width: 250px;
     width: 100%;
     border: 1px solid #1f7f9e; }
     @media (min-width: 45em) {
-      /* line 154, ../components/sass/_layout.scss */
+      /* line 163, ../components/sass/_layout.scss */
       .grid .answer .answer-content {
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
@@ -316,7 +329,7 @@ p {
         transition: all 0.3s ease-out;
         width: 90%; } }
 
-/* line 167, ../components/sass/_layout.scss */
+/* line 176, ../components/sass/_layout.scss */
 .no-display {
   display: none; }
 

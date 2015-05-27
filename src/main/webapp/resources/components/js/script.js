@@ -88,6 +88,11 @@ var layoutManager = {
             /*
                 takes care of checkbox checked prop in case they are in pare with other checkbox;
             */
+             $(document).on('click','.innerCall',function(){
+                    // code here
+                 Ajax.question_url(this.href);
+                 return false;
+                });
             $('.search-type-list input[type=checkbox]').on('click',function(){
                 console.log("checkbox clicked;");
             });
@@ -170,9 +175,9 @@ var layoutManager = {
                 * Binds the input event to the query input
                 * sets a timeout before querying the server for data
                 */
-                clearTimeout(this.callTimeout);
-                console.log("call for data");
-                this.callTimeout = setTimeout(Ajax.submitForm, 1000);
+                //clearTimeout(this.callTimeout);
+                //console.log("call for data");
+                //this.callTimeout = setTimeout(Ajax.submitForm, 1000);
             });
             /*
                 takes care of the toggle efect for the search option wich takes to much space
@@ -306,6 +311,7 @@ var Ajax = {
         console.log("Query: "+ query);
         var full_url = temp_url + query;
         console.log("Url: " + full_url)
+
         $.ajax({
             type : 'GET',
             url: full_url,
@@ -317,7 +323,34 @@ var Ajax = {
             var use_data =jQuery.parseJSON(data);
             console.log("-----");
             console.log(use_data);
+
+            Template.initializeLayout(use_data);
+
         }).fail(function(e){
+            /* will throw error as the respons is not a valid json fromat!*/
+            console.log("Error loading services: ");
+            console.log(e);
+        });
+    },
+    question_url : function(full_url) {
+
+    console.log("Url: " + full_url)
+
+        $.ajax({
+            type: 'GET',
+            url: full_url,
+            dataType: "text"
+        }).done(function (data) {
+            console.log(" loading services: ");
+            console.log(data);
+
+            var use_data = jQuery.parseJSON(data);
+            console.log("-----");
+            console.log(use_data);
+
+            Template.initializeLayout(use_data);
+
+        }).fail(function (e) {
             /* will throw error as the respons is not a valid json fromat!*/
             console.log("Error loading services: ");
             console.log(e);
@@ -367,7 +400,61 @@ var Template = {
             map: map,
             title: 'Faculty of Computer Science, Iasi'
         });
+    },
+
+    /*Initialize the layout
+    * data - the data from the backend (json format)
+    **/
+    initializeLayout : function(data) {
+
+        var _dataType = data.entityType;
+        console.log(_dataType);
+        var DATE_TYPE_PERSON = "Person";
+        var DATE_TYPE_WEAPON = "Weapon";
+
+        if(_dataType == DATE_TYPE_PERSON) {
+            Template.displayPerson(data);
+        }
+
+        if(_dataType == DATE_TYPE_WEAPON) {
+            Template.displayWeapon(data);
+        }
+    },
+    /*Display Person
+    * data - data that needs to be proccess and displayed
+    **/
+    displayPerson : function(data) {
+        /* dbpedia */
+        var source = $("#person-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+
+        var temp_array  = new Array();
+        temp_array.push(data.dbpedia);
+
+        console.log(temp_array);
+        var html = template({answer : temp_array});
+        console.log(html);
+        $(main).append(html);
+
+        /* freebase */
+        var temp_array_freebase = new Array();
+        temp_array_freebase.push(data.freebase);
+        html = template({answer : temp_array_freebase});
+        $(main).append(html);
+    },
+    displayWeapon : function(data){
+        /* dbpedia only! */
+
+        var source = $("#weapon-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+        
+        var html = template({answer : data.dbpedia});
+        console.log(html);
+        $(main).append(html);
     }
+
 }
 
 $(document).ready(function(){
@@ -375,10 +462,11 @@ $(document).ready(function(){
 
     layoutManager.eventsManager.bindEvents();
 
-    Handlebars.registerHelper('ifEqual', function (val1, val2, options) {
-        if (val1 === val2) {
+    Handlebars.registerHelper('ifEqual', function (v1, v2, options) {
+        if(v1 === v2) {
             return options.fn(this);
         }
+        return options.inverse(this);
     });
 });
 
