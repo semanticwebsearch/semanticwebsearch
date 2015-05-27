@@ -219,7 +219,12 @@ public class FreebasePropertyExtractor {
     }
 
     public static StringPair getBirthplace(JsonNode personInfo) {
-        JsonNode values = personInfo.get(MetadataProperties.BIRTHPLACE.getFreebase()).get("values");
+        JsonNode values = personInfo.get(MetadataProperties.BIRTHPLACE.getFreebase());
+
+        if(values != null) {
+            values = values.get("values");
+        }
+
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
                 if (DBPediaPropertyExtractor.isEN(value)) {

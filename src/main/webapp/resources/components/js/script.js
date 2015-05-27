@@ -429,11 +429,11 @@ var Template = {
         console.log(source);
         var template = Handlebars.compile(source);
 
-        var temp_array  = new Array();
-        temp_array.push(data.dbpedia);
+       /* var temp_array  = new Array();
+        temp_array.push(data.dbpedia);*/
 
-        console.log(temp_array);
-        var html = template({answer : temp_array});
+        //console.log(temp_array);
+        var html = template({answer : data.dbpedia});
         console.log(html);
         $(main).append(html);
 
