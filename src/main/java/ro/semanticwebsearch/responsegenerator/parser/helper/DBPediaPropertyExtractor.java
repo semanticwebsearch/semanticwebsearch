@@ -115,12 +115,14 @@ public class DBPediaPropertyExtractor {
         if (educations != null) {
             for (JsonNode educationNode : educations) {
                 if (isLiteral(educationNode)) {
-                    institutions.add(new StringPair("", extractValue(educationNode.get("value"))));
+                    institutions.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.EDUCATION_INFO,
+                            educationNode.get("value")));
                 } else if (isUri(educationNode)) {
                     String uri = extractValue(educationNode.get("value"));
                     String[] pieces = uri.split("/");
                     String education = pieces[pieces.length - 1];
-                    institutions.add(new StringPair(uri, education.replace("_", " ")));
+                    institutions.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.EDUCATION_INFO,
+                            education.replace("_", " ")));
                 }
             }
         }
@@ -207,7 +209,7 @@ public class DBPediaPropertyExtractor {
                     String uri = extractValue(birthplace.get("value"));
                     String[] pieces = uri.split("/");
                     String birthPlace = pieces[pieces.length - 1];
-                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.EDUCATION_INFO,
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
                             birthPlace.replace("_", " "));
                 }
             }

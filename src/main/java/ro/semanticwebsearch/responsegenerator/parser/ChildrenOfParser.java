@@ -27,11 +27,11 @@ class ChildrenOfParser extends AbstractParserType {
     }
 
     @Override
-    public Object parseFreebaseResponse(String freebaseResponse) {
+    public ArrayList<Person> parseFreebaseResponse(String freebaseResponse) {
         Map<String, String> freebaseChildrenInfo = new HashMap<>();
         parseFreebaseForUriAndName(freebaseResponse, freebaseChildrenInfo);
 
-        ArrayList<ro.semanticwebsearch.responsegenerator.model.Person> freebasePersons = new ArrayList<>();
+        ArrayList<Person> freebasePersons = new ArrayList<>();
         PersonParser personParser = new PersonParser();
 
         for (Map.Entry<String, String> child : freebaseChildrenInfo.entrySet()) {
@@ -46,11 +46,11 @@ class ChildrenOfParser extends AbstractParserType {
     }
 
     @Override
-    public Object parseDBPediaResponse(String dbpediaResponse) {
+    public ArrayList<Person> parseDBPediaResponse(String dbpediaResponse) {
         Map<String, String> dbpediaChildrenInfo = new HashMap<>();
         parseDBPediaForUriAndName(dbpediaResponse, dbpediaChildrenInfo);
 
-        ArrayList<ro.semanticwebsearch.responsegenerator.model.Person> dbpediaPersons = new ArrayList<>();
+        ArrayList<Person> dbpediaPersons = new ArrayList<>();
         PersonParser personParser = new PersonParser();
         for (Map.Entry<String, String> child : dbpediaChildrenInfo.entrySet()) {
             try {

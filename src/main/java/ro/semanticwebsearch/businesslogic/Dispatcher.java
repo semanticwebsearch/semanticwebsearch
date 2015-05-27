@@ -139,6 +139,7 @@ public class Dispatcher {
     static {
         questionParserMapping.put("whoarechildrenof", "ChildrenOfParser");
         questionParserMapping.put("whois", "PersonParser");
+        questionParserMapping.put("personthattookpartinconflict", "PersonParser");
         questionParserMapping.put("conflictthattookplaceincountry", "ConflictParser");
         questionParserMapping.put("weaponusedbycountryinconflict", "WeaponParser");
         questionParserMapping.put("location", "LocationParser");

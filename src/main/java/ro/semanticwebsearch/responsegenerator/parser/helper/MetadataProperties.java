@@ -5,6 +5,7 @@ package ro.semanticwebsearch.responsegenerator.parser.helper;
  */
 public enum MetadataProperties {
     NAME("http://xmlns.com/foaf/0.1/name", "/type/object/name"),
+    NOTABLE_FOR("http://xmlns.com/foaf/0.1/name", "/common/topic/notable_for"),
     BIRTHDATE("http://dbpedia.org/ontology/birthDate", "/people/person/date_of_birth"),
     DEATHDATE("http://dbpedia.org/ontology/deathDate", "/people/deceased_person/date_of_death"),
     BIRTHPLACE("http://dbpedia.org/ontology/birthPlace", "/people/person/place_of_birth"),

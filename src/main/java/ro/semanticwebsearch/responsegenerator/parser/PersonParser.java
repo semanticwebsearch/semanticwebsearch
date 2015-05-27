@@ -12,6 +12,8 @@ import javax.ws.rs.client.WebTarget;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Spac on 4/18/2015.
@@ -25,8 +27,10 @@ class PersonParser extends AbstractParserType {
     }
 
     @Override
-    public ro.semanticwebsearch.responsegenerator.model.Person parseDBPediaResponse(String dbpediaResponse) {
+    public List<Person> parseDBPediaResponse(String dbpediaResponse) {
         String extractedUri = "";
+        List<String> uris = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
         //region extract uri from dbpedia response
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -45,7 +49,7 @@ class PersonParser extends AbstractParserType {
                     aux = node.get("x0");
                     if (aux != null && aux.get("type").toString().equals("\"uri\"")) {
                         extractedUri = DBPediaPropertyExtractor.extractValue(aux.get("value"));
-                        break;
+                        uris.add(extractedUri);
                     }
                 }
             }
@@ -54,20 +58,22 @@ class PersonParser extends AbstractParserType {
         }
         //endregion
 
-        if (extractedUri != null && !extractedUri.trim().isEmpty()) {
+        for(String uri : uris) {
             try {
-                return dbpediaWhoIs(new URI(extractedUri));
+                persons.add(dbpediaWhoIs(new URI(uri)));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
 
-        return null;
+        return persons;
     }
 
     @Override
-    public Person parseFreebaseResponse(String freebaseResponse) {
+    public List<Person> parseFreebaseResponse(String freebaseResponse) {
         String extractedUri = "";
+        List<String> uris = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
         //region extract uri from freebase
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -76,7 +82,7 @@ class PersonParser extends AbstractParserType {
                 for (JsonNode item : results) {
                     extractedUri = FreebasePropertyExtractor.getFreebaseLink(FreebasePropertyExtractor.extractFreebaseId(item));
                     if (extractedUri != null && !extractedUri.trim().isEmpty()) {
-                        break;
+                        uris.add(extractedUri);
                     }
                 }
             }
@@ -85,15 +91,15 @@ class PersonParser extends AbstractParserType {
         }
         //endregion
 
-        if (extractedUri != null && !extractedUri.trim().isEmpty()) {
+        for(String uri : uris){
             try {
-                return freebaseWhoIs(new URI(extractedUri));
+                persons.add(freebaseWhoIs(new URI(uri)));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
 
-        return null;
+        return persons;
     }
 
     public Person freebaseWhoIs(URI freebaseURI) {
@@ -140,6 +146,8 @@ class PersonParser extends AbstractParserType {
 
             person.setSpouse(FreebasePropertyExtractor.getSpouse(personInfo));
             person.setChildren(FreebasePropertyExtractor.getChildren(personInfo));
+
+            person.setNotableFor(FreebasePropertyExtractor.getNotableFor(personInfo));
 
             return person;
         } catch (IOException e) {
