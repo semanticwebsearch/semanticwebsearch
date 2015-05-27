@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Spac on 4/18/2015.
@@ -29,7 +31,7 @@ class PersonParser extends AbstractParserType {
     @Override
     public List<Person> parseDBPediaResponse(String dbpediaResponse) {
         String extractedUri = "";
-        List<String> uris = new ArrayList<>();
+        Set<String> uris = new HashSet<>();
         List<Person> persons = new ArrayList<>();
         //region extract uri from dbpedia response
         try {
@@ -72,7 +74,7 @@ class PersonParser extends AbstractParserType {
     @Override
     public List<Person> parseFreebaseResponse(String freebaseResponse) {
         String extractedUri = "";
-        List<String> uris = new ArrayList<>();
+        Set<String> uris = new HashSet<>();
         List<Person> persons = new ArrayList<>();
         //region extract uri from freebase
         try {

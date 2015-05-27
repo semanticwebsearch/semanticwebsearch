@@ -438,9 +438,9 @@ var Template = {
         $(main).append(html);
 
         /* freebase */
-        var temp_array_freebase = new Array();
-        temp_array_freebase.push(data.freebase);
-        html = template({answer : temp_array_freebase});
+        /*var temp_array_freebase = new Array();
+        temp_array_freebase.push(data.freebase)*/;
+        html = template({answer : data.freebase});
         $(main).append(html);
     },
     displayWeapon : function(data){
