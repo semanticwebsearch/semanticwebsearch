@@ -408,9 +408,10 @@ var Template = {
     initializeLayout : function(data) {
 
         var _dataType = data.entityType;
-        console.log(_dataType);
         var DATE_TYPE_PERSON = "Person";
         var DATE_TYPE_WEAPON = "Weapon";
+        var DATE_TYPE_CONFLICT = "Conflict";
+        var DATE_TYPE_ALBUM = "Album";
 
         if(_dataType == DATE_TYPE_PERSON) {
             Template.displayPerson(data);
@@ -418,6 +419,14 @@ var Template = {
 
         if(_dataType == DATE_TYPE_WEAPON) {
             Template.displayWeapon(data);
+        }
+
+        if(_dataType == DATE_TYPE_CONFLICT){
+            Template.displayConflict(data);
+        }
+
+        if(_dataType == DATE_TYPE_ALBUM){
+            Template.displayAlbum(data);
         }
     },
     /*Display Person
@@ -453,6 +462,41 @@ var Template = {
         var html = template({answer : data.dbpedia});
         console.log(html);
         $(main).append(html);
+    },
+    displayConflict: function(data){
+        /* dbpedia */
+
+        var source = $("#conflict-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+        
+        var html = template({answer : data.dbpedia});
+        console.log(html);
+        $(main).append(html);
+
+        /* freebase */
+        html = template({answer : data.freebase});
+        console.log(html);
+        $(main).append(html);
+
+    },
+
+    displayAlbum: function(data){
+        /* dbpedia */
+
+        var source = $("#album-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+        
+        var html = template({answer : data.dbpedia});
+        console.log(html);
+        $(main).append(html);
+
+        /* freebase */
+        html = template({answer : data.freebase});
+        console.log(html);
+        $(main).append(html);
+
     }
 
 }

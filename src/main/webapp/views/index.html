@@ -104,6 +104,14 @@
                     </article>
 
                     <article>
+                    	<h4>Notable for:</h4> {{notableFor}}
+                    </article>
+
+					<article>
+                    	<h4>Short description:</h4> {{shortDescription}}
+                    </article>
+
+                    <article>
                         <h4>Description:</h4> <p>{{description}}</p>
                     </article>
 
@@ -189,7 +197,7 @@
 						{{#ifEqual designer.key ""}}
                             {{designer.value}}
                         {{else}}
-                            <a href="{designer.key}}" class="innerCall">{{designer.value}}</a>
+                            <a href="{{designer.key}}" class="innerCall">{{designer.value}}</a>
                         {{/ifEqual}}
 					</article>
 					<article>
@@ -220,6 +228,164 @@
 	                        {{/each}}
                         </div>
                 	</article>
+				</div>
+			</div>
+		{{/each}}
+	</script>
+	<script type="text/x-handlebars-template" id="conflict-template">
+		{{#each answer}}
+			<div class="answer">
+				<header class="answer-top">
+					<div class="icon-link">
+						<h1 class="title">{{name}}</h1>
+					</div>
+					<div class="answer-option">
+
+					</div>
+				</header>
+				<div class="answer-content">
+
+					<article>
+						<h4>Date:</h4> {{date}}
+					</article>
+					<article>
+						<h4>Combatants:</h4>
+						{{#each combatants}}
+							{{#ifEqual key ""}}
+                            	{{value}}
+                        	{{else}}
+                            	<a href="{{key}}" class="innerCall">{{value}}</a>
+                        	{{/ifEqual}}
+						{{/each}}
+					</article>
+					<article>
+						<h4>Place:</h4>
+						{{#each place}}
+							{{#ifEqual key ""}}
+                            	{{value}}
+                        	{{else}}
+                            	<a href="{{key}}" class="innerCall">{{value}}</a>
+                        	{{/ifEqual}}
+						{{/each}}
+					</article>
+
+					<article>
+						<h4>Result:</h4> {{result}}
+					</article>
+						<h4>Commanders:</h4>
+						{{#each commanders}}
+							{{#ifEqual key ""}}
+                            	{{value}}
+                        	{{else}}
+                            	<a href="{{key}}" class="innerCall">{{value}}</a>
+                        	{{/ifEqual}}
+						{{/each}}
+					<article>
+					</article>
+						<h4>Casualties:</h4>
+						<ul>
+						{{#each casualties}}
+							<li>
+							{{#ifEqual comatant.key ""}}
+                            	{{comatant.value}}	|	{{casualties}}	|	{{casualtyType}}
+                        	{{else}}
+                            	<a href="{{comatant.key}}" class="innerCall">{{comatant.value}}</a>	|	{{casualties}}	|	{{casualtyType}}
+                        	{{/ifEqual}}
+                        	</li>
+						{{/each}}
+						</ul>
+					<article>
+					</article>
+					<article>
+						<h4>Part of:</h4>
+						{{#each partOf}}
+							{{#ifEqual key ""}}
+                            	{{value}}
+                        	{{else}}
+                            	<a href="{{key}}" class="innerCall">{{value}}</a>
+                        	{{/ifEqual}}
+						{{/each}}
+					</article>
+
+
+
+					<article>
+						<h4>Description:</h4>
+						<p>{{description}}</p>
+					</article>
+					<article>
+						<h4>Page:</h4> <a href="{{wikiPageExternal}}">wiki page</a>
+					</article>
+					<article>
+                    	<h3>Thumbnails:</h3>
+                        <div class="pixgrid">
+	                        {{#each thumbnails}}
+	                            <img src="{{this}}"/>
+	                        {{/each}}
+                        </div>
+                	</article>
+
+				</div>
+			</div>
+		{{/each}}
+	</script>
+
+	<script type="text/x-handlebars-template" id="album-template">
+		{{#each answer}}
+			<div class="answer">
+				<header class="answer-top">
+					<div class="icon-link">
+						<h1 class="title">{{name}}</h1>
+					</div>
+					<div class="answer-option">
+
+					</div>
+				</header>
+				<div class="answer-content">
+
+					<article>
+						<h4>Release date:</h4> {{releaseDate}}
+					</article>
+
+					<article>
+						<h4>Genre:</h4> {{genre}}
+					</article>
+
+					<article>
+						<h4>Album length:</h4> {{length}}
+					</article>
+
+					<article>
+						<h4>Track list:</h4>
+						<ul>
+						{{#each trackList}}
+							<li>
+							{{#ifEqual key ""}}
+                            	{{value}}
+                        	{{else}}
+                            	<a href="{{key}}" class="innerCall">{{value}}</a>
+                        	{{/ifEqual}}
+                        	</li>
+						{{/each}}
+						</ul>
+					</article>
+
+					<article>
+						<h4>Description:</h4>
+						<p>{{description}}</p>
+					</article>
+					<article>
+						<h4>Page:</h4> <a href="{{wikiPageExternalLink}}">wiki page</a>
+					</article>
+					<article>
+                    	<h3>Thumbnails:</h3>
+                        <div class="pixgrid">
+	                        {{#each thumbnails}}
+	                            <img src="{{this}}"/>
+	                        {{/each}}
+                        </div>
+                	</article>
+
 				</div>
 			</div>
 		{{/each}}

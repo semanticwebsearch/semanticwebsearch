@@ -6,19 +6,19 @@ import java.util.ArrayList;
  * Created by Spac on 4/18/2015.
  */
 public class Person {
-    private String name;
-    private String birthdate;
-    private ArrayList<String> thumbnails;
-    private String deathdate;
+    private String name;//
+    private String birthdate;//
+    private ArrayList<String> thumbnails;//
+    private String deathdate;//
     private String shortDescription;
-    private String description;
-    private String wikiPageExternal;
-    private StringPair birthplace;
-    private ArrayList<StringPair> nationality;
-    private ArrayList<StringPair> education;
-    private ArrayList<StringPair> children;
-    private ArrayList<StringPair> parents;
-    private ArrayList<StringPair> spouse;
+    private String description;//
+    private String wikiPageExternal;//
+    private StringPair birthplace;//
+    private ArrayList<StringPair> nationality;//
+    private ArrayList<StringPair> education;//
+    private ArrayList<StringPair> children;//
+    private ArrayList<StringPair> parents;//
+    private ArrayList<StringPair> spouse;//
     private String notableFor;
 
 
