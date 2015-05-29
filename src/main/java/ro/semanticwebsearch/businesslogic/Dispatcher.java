@@ -38,25 +38,39 @@ public class Dispatcher {
         }
 
         ServiceResponse response = new ServiceResponse();
-        //region querying DBPedia
-        try {
-            QuepyResponse quepyResponse = queryQuepy(QueryType.SPARQL, searchDAO.getQuery());
-            response.setDbpediaResponse(queryService(DBPEDIA, quepyResponse.getQuery()));
-            response.setQuestionType(quepyResponse.getRule());
+        queryQuepyForSPARQL(searchDAO, response);
+        queryQuepyForMQL(searchDAO, response);
 
-            if (log.isInfoEnabled()) {
-                log.info("DBPedia quepy response: " + quepyResponse.toString());
+
+        if (response.getQuestionType() != null) {
+            Map<String, Object> res = null;
+            String entityType = null;
+
+            try {
+                ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
+                res = qt.doSomethingUseful(response);
+                entityType = qt.getClass().getSimpleName().replace("Parser", "");
+            } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Could not query for additional info ", e);
+                }
             }
 
-        } catch (InstantiationException | IllegalArgumentException |
-                IllegalAccessException | UnsupportedEncodingException | URISyntaxException e) {
-            if (log.isDebugEnabled()) {
-                log.debug("Could not query DBPedia ", e);
+            if(res != null) {
+                res.put("entityType", entityType);
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    return mapper.writeValueAsString(res);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        //endregion
 
-        //region querying FREEBASE
+        return "";
+    }
+
+    private static void queryQuepyForMQL(SearchDAO searchDAO, ServiceResponse response) {
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.MQL, searchDAO.getQuery());
             response.setFreebaseResponse(queryService(FREEBASE, quepyResponse.getQuery()));
@@ -75,32 +89,24 @@ public class Dispatcher {
                 log.debug("Could not query DBPedia ", e);
             }
         }
-        //endregion
+    }
 
-        if (response.getQuestionType() != null) {
-            Map<String, Object> res = null;
-            String entityType = null;
-            try {
-                ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
-                res = qt.doSomethingUseful(response);
-                entityType = qt.getClass().getSimpleName().replace("Parser", "");
-            } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Could not query for additional info ", e);
-                }
+    private static void queryQuepyForSPARQL(SearchDAO searchDAO, ServiceResponse response) {
+        try {
+            QuepyResponse quepyResponse = queryQuepy(QueryType.SPARQL, searchDAO.getQuery());
+            response.setDbpediaResponse(queryService(DBPEDIA, quepyResponse.getQuery()));
+            response.setQuestionType(quepyResponse.getRule());
+
+            if (log.isInfoEnabled()) {
+                log.info("DBPedia quepy response: " + quepyResponse.toString());
             }
-            if(res != null) {
-                res.put("entityType", entityType);
-                ObjectMapper mapper = new ObjectMapper();
-                try {
-                    return mapper.writeValueAsString(res);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
+
+        } catch (InstantiationException | IllegalArgumentException |
+                IllegalAccessException | UnsupportedEncodingException | URISyntaxException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Could not query DBPedia ", e);
             }
         }
-
-        return "";
     }
 
     public static String queryService(String serviceType, String query)
