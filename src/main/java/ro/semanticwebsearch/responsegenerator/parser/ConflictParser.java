@@ -17,12 +17,12 @@ import java.util.ArrayList;
 /**
  * Created by Spac on 4/26/2015.
  */
-class ConflictParser extends AbstractParserType {
+class ConflictParser implements ParserType {
 
     private static Logger log = Logger.getLogger(ConflictParser.class.getCanonicalName());
 
     @Override
-    public Object parseFreebaseResponse(String freebaseResponse) {
+    public Object parseFreebaseResponse(String freebaseResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("ConflictThatTookPlaceInCountry" + " : " + freebaseResponse);
         }
@@ -59,7 +59,7 @@ class ConflictParser extends AbstractParserType {
 
 
     @Override
-    public Object parseDBPediaResponse(String dbpediaResponse) {
+    public Object parseDBPediaResponse(String dbpediaResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("ConflictThatTookPlaceInCountry" + " : " + dbpediaResponse);
         }

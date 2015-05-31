@@ -3,7 +3,11 @@ package ro.semanticwebsearch.responsegenerator.parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
+import ro.semanticwebsearch.persistence.MongoDBManager;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Person;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
 
@@ -12,27 +16,26 @@ import javax.ws.rs.client.WebTarget;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Spac on 4/18/2015.
  */
-class PersonParser extends AbstractParserType {
+class PersonParser implements ParserType {
 
     private static Logger log = Logger.getLogger(PersonParser.class.getCanonicalName());
-
+    private static int MAX = 10;
+    private static String TYPE = "Person";
     public PersonParser() {
         System.out.println("constructor WhoIs");
     }
 
     @Override
-    public List<Person> parseDBPediaResponse(String dbpediaResponse) {
+    public List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         String extractedUri = "";
         Set<String> uris = new HashSet<>();
-        List<Person> persons = new ArrayList<>();
+        List<Answer> answers = new ArrayList<>();
+
         //region extract uri from dbpedia response
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -60,22 +63,49 @@ class PersonParser extends AbstractParserType {
         }
         //endregion
 
-        for(String uri : uris) {
+        List<String> listOfUris = new LinkedList<>(uris);
+        extractDBPediaAnswers(questionId, listOfUris, answers, 0, MAX);
+
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, MAX, 0)).start();
+
+        return answers;
+    }
+
+    private void extractDBPediaAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int finish) {
+        Person person;
+        int start = 0, max = 0;
+
+        if(offset == 0) {
+            max = Math.min(finish, uris.size());
+        } else {
+            start = offset;
+            max = uris.size();
+        }
+
+        for(int idx = start; idx < max; idx++) {
             try {
-                persons.add(dbpediaWhoIs(new URI(uri)));
+                person = dbpediaWhoIs(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(new ObjectId(questionId))
+                        .setBody(person)
+                        .setOrigin(Constants.DBPEDIA.getValue())
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
 
-        return persons;
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
     }
 
     @Override
-    public List<Person> parseFreebaseResponse(String freebaseResponse) {
-        String extractedUri = "";
+    public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
+        String extractedUri;
         Set<String> uris = new HashSet<>();
-        List<Person> persons = new ArrayList<>();
+
+        List<Answer> answers = new ArrayList<>();
         //region extract uri from freebase
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -93,15 +123,40 @@ class PersonParser extends AbstractParserType {
         }
         //endregion
 
-        for(String uri : uris){
+        List<String> listOfUris = new LinkedList<>(uris);
+        extractFreebaseAnswers(questionId, listOfUris, answers, 0, MAX);
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, MAX, 0)).start();
+
+        return answers;
+    }
+
+    private void extractFreebaseAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int max) {
+        Person person;
+        int start = 0, finish;
+
+        if(offset == 0) {
+            finish = Math.min(max, uris.size());
+        } else {
+            start = offset;
+            finish = uris.size();
+        }
+
+        for(int idx = start; idx < finish; idx++) {
             try {
-                persons.add(freebaseWhoIs(new URI(uri)));
+                person = freebaseWhoIs(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(new ObjectId(questionId))
+                        .setBody(person)
+                        .setOrigin(Constants.FREEBASE.getValue())
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
 
-        return persons;
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
     }
 
     public Person freebaseWhoIs(URI freebaseURI) {
@@ -174,7 +229,7 @@ class PersonParser extends AbstractParserType {
             personInfoResponse = client.request().get(String.class);
             personInfo = mapper.readTree(personInfoResponse).get(dbpediaUri.toString());
 
-            ro.semanticwebsearch.responsegenerator.model.Person person = new ro.semanticwebsearch.responsegenerator.model.Person();
+            Person person = new Person();
             aux = DBPediaPropertyExtractor.getName(personInfo);
             person.setName(aux);
 
@@ -212,6 +267,5 @@ class PersonParser extends AbstractParserType {
 
         return null;
     }
-
 
 }

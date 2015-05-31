@@ -1,8 +1,6 @@
 package ro.semanticwebsearch;
 
 import org.apache.log4j.Logger;
-import ro.semanticwebsearch.persistence.DbManager;
-import ro.semanticwebsearch.persistence.exception.HibernateInitializeException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -22,13 +20,11 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        initializeHibernate();
         startQuepyServer();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        destroyHibernate();
         stopQuepyServer();
     }
 
@@ -70,18 +66,6 @@ public class ContextListener implements ServletContextListener {
                 log.info("Could not start quepy server", e);
             }
         }
-    }
-
-    private void initializeHibernate() throws HibernateInitializeException {
-        DbManager.initialize();
-    }
-
-    private void destroyHibernate() {
-        if (log.isInfoEnabled()) {
-            log.info("Start up hibernate");
-        }
-
-        DbManager.getCurrentSession();// Just call the static initializer of that class
     }
 
     private void stopQuepyServer() {

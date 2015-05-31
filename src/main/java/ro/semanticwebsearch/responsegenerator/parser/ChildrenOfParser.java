@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by Spac on 4/12/2015.
  */
-class ChildrenOfParser extends AbstractParserType {
+class ChildrenOfParser implements ParserType {
     private static Logger log = Logger.getLogger(ChildrenOfParser.class.getCanonicalName());
 
     public ChildrenOfParser() {
@@ -27,7 +27,7 @@ class ChildrenOfParser extends AbstractParserType {
     }
 
     @Override
-    public ArrayList<Person> parseFreebaseResponse(String freebaseResponse) {
+    public ArrayList<Person> parseFreebaseResponse(String freebaseResponse, String questionId) {
         Map<String, String> freebaseChildrenInfo = new HashMap<>();
         parseFreebaseForUriAndName(freebaseResponse, freebaseChildrenInfo);
 
@@ -46,7 +46,7 @@ class ChildrenOfParser extends AbstractParserType {
     }
 
     @Override
-    public ArrayList<Person> parseDBPediaResponse(String dbpediaResponse) {
+    public ArrayList<Person> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         Map<String, String> dbpediaChildrenInfo = new HashMap<>();
         parseDBPediaForUriAndName(dbpediaResponse, dbpediaChildrenInfo);
 

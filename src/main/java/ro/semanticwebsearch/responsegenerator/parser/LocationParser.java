@@ -16,10 +16,10 @@ import java.util.ArrayList;
 /**
  * Created by Spac on 5/2/2015.
  */
-class LocationParser extends AbstractParserType  {
+class LocationParser implements ParserType  {
 
     @Override
-    public ArrayList<Location> parseFreebaseResponse(String freebaseResponse) {
+    public ArrayList<Location> parseFreebaseResponse(String freebaseResponse, String questionId) {
         String extractedUri = "";
         //region extract uri from freebase
         try {
@@ -91,7 +91,7 @@ class LocationParser extends AbstractParserType  {
     }
 
     @Override
-    public ArrayList<Location> parseDBPediaResponse(String dbpediaResponse) {
+    public ArrayList<Location> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         String extractedUri = "";
         //region extract uri from dbpedia response
         try {

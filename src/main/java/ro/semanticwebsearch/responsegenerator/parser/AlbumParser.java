@@ -18,10 +18,10 @@ import java.util.ArrayList;
 /**
  * Created by Spac on 5/3/2015.
  */
-class AlbumParser extends AbstractParserType {
+class AlbumParser implements ParserType {
 
     @Override
-    public ArrayList<Album> parseFreebaseResponse(String freebaseResponse) {
+    public ArrayList<Album> parseFreebaseResponse(String freebaseResponse, String questionId) {
         String extractedUri = "";
         ArrayList<String> albumUris = new ArrayList<>();
 
@@ -59,7 +59,7 @@ class AlbumParser extends AbstractParserType {
     }
 
     @Override
-    public ArrayList<Album> parseDBPediaResponse(String dbpediaResponse) {
+    public ArrayList<Album> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         String extractedUri = "";
         ArrayList<String> albumUris = new ArrayList<>();
 

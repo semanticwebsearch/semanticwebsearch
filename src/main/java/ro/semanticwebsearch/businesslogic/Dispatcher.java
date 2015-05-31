@@ -1,26 +1,33 @@
 package ro.semanticwebsearch.businesslogic;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
-import ro.semanticwebsearch.responsegenerator.parser.ParserType;
+import ro.semanticwebsearch.persistence.MongoDBManager;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
+import ro.semanticwebsearch.responsegenerator.model.Question;
 import ro.semanticwebsearch.responsegenerator.parser.ParserFactory;
+import ro.semanticwebsearch.responsegenerator.parser.ParserType;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.services.*;
+import ro.semanticwebsearch.utils.JsonUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Spac on 4/8/2015.
  */
 public class Dispatcher {
+    private static final Map<String, String> questionParserMapping = new HashMap<>();
+    private static final int MAX = 10;
     public static final String DBPEDIA = "dbpedia";
     public static final String FREEBASE = "freebase";
-    private static final Map<String, String> questionParserMapping = new HashMap<>();
     public static Logger log = Logger.getLogger(Dispatcher.class.getCanonicalName());
+
 
     /**
      * Queries Quepy to transform natural language into sparql or mql.
@@ -36,38 +43,81 @@ public class Dispatcher {
         if (log.isInfoEnabled()) {
             log.info("Execute query : " + searchDAO.toString());
         }
+        /**
+         * If searchDAO.getQuery exista in db, retrieve and go
+         * */
+        Map<String, Object> result = new HashMap<>();
+        List<Question> questions = MongoDBManager.getQuestionsByBody(searchDAO.getQuery());
 
-        ServiceResponse response = new ServiceResponse();
-        queryQuepyForSPARQL(searchDAO, response);
-        queryQuepyForMQL(searchDAO, response);
+        if(questions != null && questions.size() > 0) {
+            List<Answer> answers = MongoDBManager.getAnswersForQuestion(questions.get(0).getId().toString(), 0, MAX);
+            result = toAnswerMap(answers);
+        } else {
+            ServiceResponse response = new ServiceResponse();
+            queryQuepyForSPARQL(searchDAO, response);
+            queryQuepyForMQL(searchDAO, response);
 
+            if (response.getQuestionType() != null) {
+                Question question = new Question();
+                question.setNumberOfAccesses(0);
+                question.setBody(searchDAO.getQuery());
+                question.setType(response.getQuestionType());
 
-        if (response.getQuestionType() != null) {
-            Map<String, Object> res = null;
-            String entityType = null;
+                result = parseServicesResponses(response, question.getId().toString());
 
-            try {
-                ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
-                res = qt.doSomethingUseful(response);
-                entityType = qt.getClass().getSimpleName().replace("Parser", "");
-            } catch (UnsupportedEncodingException | URISyntaxException | InstantiationException e) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Could not query for additional info ", e);
-                }
+                MongoDBManager.saveQuestion(question);
             }
+        }
+        return JsonUtil.pojoToString(result);
+    }
 
-            if(res != null) {
-                res.put("entityType", entityType);
-                ObjectMapper mapper = new ObjectMapper();
-                try {
-                    return mapper.writeValueAsString(res);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
+    private static Map<String, Object> toAnswerMap(List<Answer> answers) {
+        Map<String, Object> map = new HashMap<>();
+        List<Answer> dbpedia = new ArrayList<>();
+        List<Answer> freebase = new ArrayList<>();
+
+        for(Answer answer : answers) {
+            if(Constants.DBPEDIA.getValue().equals(answer.getOrigin())) {
+                dbpedia.add(answer);
+            } else if(Constants.FREEBASE.getValue().equals(answer.getOrigin())) {
+                freebase.add(answer);
             }
         }
 
-        return "";
+        map.put(Constants.DBPEDIA.getValue(), dbpedia);
+        map.put(Constants.FREEBASE.getValue(), freebase);
+
+        return map;
+    }
+
+    private static Map<String, Object> parseServicesResponses(ServiceResponse response, String questionId)
+            throws IllegalAccessException {
+        Map<String, Object> resultMap = new HashMap<>();
+        Object aux;
+        String entityType;
+
+        try {
+            ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
+
+            aux = qt.parseDBPediaResponse(response.getDbpediaResponse(), questionId);
+            if(aux != null) {
+                resultMap.put(Constants.DBPEDIA.getValue(), aux);
+            }
+
+            aux = qt.parseFreebaseResponse(response.getFreebaseResponse(), questionId);
+            if(aux != null) {
+                resultMap.put(Constants.FREEBASE.getValue(), aux);
+            }
+
+            entityType = qt.getClass().getSimpleName().replace("Parser", "");
+            resultMap.put("entityType", entityType);
+        } catch (InstantiationException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Could not query for additional info ", e);
+            }
+        }
+
+        return resultMap;
     }
 
     private static void queryQuepyForMQL(SearchDAO searchDAO, ServiceResponse response) {
@@ -118,7 +168,6 @@ public class Dispatcher {
         Service service = ServiceFactory.getInstanceFor(serviceType);
         return service.query(query);
     }
-
 
     private static String getParserForRule(String rule) {
         if (rule != null) {

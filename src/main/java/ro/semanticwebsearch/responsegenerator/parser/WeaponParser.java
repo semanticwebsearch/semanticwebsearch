@@ -16,14 +16,14 @@ import java.util.ArrayList;
 /**
  * Created by Spac on 4/26/2015.
  */
-class WeaponParser extends AbstractParserType {
+class WeaponParser implements ParserType {
 
     private static Logger log = Logger.getLogger(WeaponParser.class.getCanonicalName());
 
     //Freebase does not contain this type of information
     //TODO Update if this changes
     @Override
-    public Object parseFreebaseResponse(String freebaseResponse) {
+    public Object parseFreebaseResponse(String freebaseResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("WeaponUsedByCountryInConflict" + " : " + freebaseResponse);
         }
@@ -47,7 +47,7 @@ class WeaponParser extends AbstractParserType {
     }
 
     @Override
-    public Object parseDBPediaResponse(String dbpediaResponse) {
+    public Object parseDBPediaResponse(String dbpediaResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("WeaponUsedByCountryInConflict" + " : " + dbpediaResponse);
         }
