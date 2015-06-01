@@ -1,6 +1,7 @@
 package ro.semanticwebsearch;
 
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.utils.Config;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -16,16 +17,48 @@ public class ContextListener implements ServletContextListener {
     private static final String LOCALHOST = "127.0.0.1";
     private static Logger log = Logger.getLogger(ContextListener.class.getCanonicalName());
     private Process quepyServer;
+    private Process mongoDB;
     private int noOfFails = 0;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        startQuepyServer();
+        //startQuepyServer();
+        startMongoDB();
+    }
+
+    private void startMongoDB() {
+        String mongodbPath = Config.getProperty("mongodb_path");
+        String mongodbDatabasePath = Config.getProperty("mongodb_dbpath");
+
+        if(mongodbPath == null || mongodbDatabasePath == null) {
+            throw new RuntimeException("MongoDB path or mongo database path was not found in services.properties");
+        } else {
+            StringBuilder execPath = new StringBuilder();
+            execPath.append(mongodbPath).append("/").append("mongod").append(" --dbpath ").append(mongodbDatabasePath);
+
+            try {
+                mongoDB = Runtime.getRuntime()
+                        .exec(execPath.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         stopQuepyServer();
+        stopMongoDB();
+    }
+
+    private void stopMongoDB() {
+        if (mongoDB != null && mongoDB.isAlive()) {
+            mongoDB.destroy();
+
+            if (mongoDB.isAlive()) {
+                mongoDB.destroyForcibly();
+            }
+        }
     }
 
     private void startQuepyServer() {
@@ -49,7 +82,7 @@ public class ContextListener implements ServletContextListener {
             //removing the http:// from endpoint
             if (quepyEndpoint.contains("//")) {
                 int start = quepyEndpoint.indexOf("//");
-                quepyEndpoint = quepyEndpoint.substring(start);
+                quepyEndpoint = quepyEndpoint.substring(start + 2);
             }
 
             execPath.append("python ").append(properties.getProperty("quepyStartServerPath"))

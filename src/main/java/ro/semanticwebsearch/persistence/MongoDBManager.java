@@ -1,7 +1,6 @@
 package ro.semanticwebsearch.persistence;
 
 import com.mongodb.MongoClient;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
@@ -45,7 +44,7 @@ public class MongoDBManager {
         Query<Answer> query = ds.createQuery(Answer.class)
                 .offset(offset)
                 .limit(limit);
-        query.and(query.criteria("questionId").equal(new ObjectId(questionId)));
+        query.and(query.criteria("questionId").equal(questionId));
 
         return query.asList();
     }

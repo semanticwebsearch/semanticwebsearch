@@ -296,7 +296,7 @@ public class DBPediaPropertyExtractor {
         if (text != null) {
             result = String.format(type.getValue(),
                     extractValue(text));
-            return String.format(Constants.LOCALHOST_LINK.getValue(), result);
+            return String.format(Constants.LOCALHOST_LINK, result);
         }
 
         return "";
@@ -306,7 +306,7 @@ public class DBPediaPropertyExtractor {
         String result;
         if (text != null) {
             result = String.format(type.getValue(), text);
-            return String.format(Constants.LOCALHOST_LINK.getValue(), result);
+            return String.format(Constants.LOCALHOST_LINK, result);
         }
 
         return "";

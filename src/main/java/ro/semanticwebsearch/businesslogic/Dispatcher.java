@@ -23,7 +23,6 @@ import java.util.Map;
  */
 public class Dispatcher {
     private static final Map<String, String> questionParserMapping = new HashMap<>();
-    private static final int MAX = 10;
     public static final String DBPEDIA = "dbpedia";
     public static final String FREEBASE = "freebase";
     public static Logger log = Logger.getLogger(Dispatcher.class.getCanonicalName());
@@ -50,7 +49,8 @@ public class Dispatcher {
         List<Question> questions = MongoDBManager.getQuestionsByBody(searchDAO.getQuery());
 
         if(questions != null && questions.size() > 0) {
-            List<Answer> answers = MongoDBManager.getAnswersForQuestion(questions.get(0).getId().toString(), 0, MAX);
+            List<Answer> answers = MongoDBManager.getAnswersForQuestion(questions.get(0).getId().toString(), 0,
+                    Constants.MAX_CHUNK_SIZE);
             result = toAnswerMap(answers);
         } else {
             ServiceResponse response = new ServiceResponse();
@@ -77,15 +77,15 @@ public class Dispatcher {
         List<Answer> freebase = new ArrayList<>();
 
         for(Answer answer : answers) {
-            if(Constants.DBPEDIA.getValue().equals(answer.getOrigin())) {
+            if(Constants.DBPEDIA.equalsIgnoreCase(answer.getOrigin())) {
                 dbpedia.add(answer);
-            } else if(Constants.FREEBASE.getValue().equals(answer.getOrigin())) {
+            } else if(Constants.FREEBASE.equalsIgnoreCase(answer.getOrigin())) {
                 freebase.add(answer);
             }
         }
 
-        map.put(Constants.DBPEDIA.getValue(), dbpedia);
-        map.put(Constants.FREEBASE.getValue(), freebase);
+        map.put(Constants.DBPEDIA, dbpedia);
+        map.put(Constants.FREEBASE, freebase);
 
         return map;
     }
@@ -101,12 +101,12 @@ public class Dispatcher {
 
             aux = qt.parseDBPediaResponse(response.getDbpediaResponse(), questionId);
             if(aux != null) {
-                resultMap.put(Constants.DBPEDIA.getValue(), aux);
+                resultMap.put(Constants.DBPEDIA, aux);
             }
 
             aux = qt.parseFreebaseResponse(response.getFreebaseResponse(), questionId);
             if(aux != null) {
-                resultMap.put(Constants.FREEBASE.getValue(), aux);
+                resultMap.put(Constants.FREEBASE, aux);
             }
 
             entityType = qt.getClass().getSimpleName().replace("Parser", "");

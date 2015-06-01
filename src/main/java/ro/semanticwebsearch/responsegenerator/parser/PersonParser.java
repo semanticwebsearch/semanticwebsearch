@@ -3,7 +3,6 @@ package ro.semanticwebsearch.responsegenerator.parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
-import org.bson.types.ObjectId;
 import ro.semanticwebsearch.persistence.MongoDBManager;
 import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Person;
@@ -24,7 +23,6 @@ import java.util.*;
 class PersonParser implements ParserType {
 
     private static Logger log = Logger.getLogger(PersonParser.class.getCanonicalName());
-    private static int MAX = 10;
     private static String TYPE = "Person";
     public PersonParser() {
         System.out.println("constructor WhoIs");
@@ -64,9 +62,9 @@ class PersonParser implements ParserType {
         //endregion
 
         List<String> listOfUris = new LinkedList<>(uris);
-        extractDBPediaAnswers(questionId, listOfUris, answers, 0, MAX);
+        extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
 
-        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, MAX, 0)).start();
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -85,9 +83,9 @@ class PersonParser implements ParserType {
         for(int idx = start; idx < max; idx++) {
             try {
                 person = dbpediaWhoIs(new URI(uris.get(idx)));
-                Answer s = Answer.getBuilderForQuestion(new ObjectId(questionId))
+                Answer s = Answer.getBuilderForQuestion(questionId)
                         .setBody(person)
-                        .setOrigin(Constants.DBPEDIA.getValue())
+                        .setOrigin(Constants.DBPEDIA)
                         .setType(TYPE)
                         .build();
                 answers.add(s);
@@ -124,8 +122,8 @@ class PersonParser implements ParserType {
         //endregion
 
         List<String> listOfUris = new LinkedList<>(uris);
-        extractFreebaseAnswers(questionId, listOfUris, answers, 0, MAX);
-        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, MAX, 0)).start();
+        extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -144,9 +142,9 @@ class PersonParser implements ParserType {
         for(int idx = start; idx < finish; idx++) {
             try {
                 person = freebaseWhoIs(new URI(uris.get(idx)));
-                Answer s = Answer.getBuilderForQuestion(new ObjectId(questionId))
+                Answer s = Answer.getBuilderForQuestion(questionId)
                         .setBody(person)
-                        .setOrigin(Constants.FREEBASE.getValue())
+                        .setOrigin(Constants.FREEBASE)
                         .setType(TYPE)
                         .build();
                 answers.add(s);

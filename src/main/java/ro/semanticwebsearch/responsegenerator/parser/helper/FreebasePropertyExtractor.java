@@ -186,7 +186,7 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getImageLink(String resource) {
-        return String.format(Constants.FREEBASE_IMAGE_LINK.getValue(), resource);
+        return String.format(Constants.FREEBASE_IMAGE_LINK, resource);
     }
 
     public static String getShortDescription(JsonNode personInfo) {
@@ -324,7 +324,7 @@ public class FreebasePropertyExtractor {
     }
 
     public static String getFreebaseLink(String resource) {
-        return String.format(Constants.FREEBASE_RESOURCE_LINK.getValue(), resource, KEY);
+        return String.format(Constants.FREEBASE_RESOURCE_LINK, resource, KEY);
     }
 
     public static String getEventDate(JsonNode conflictInfo) {

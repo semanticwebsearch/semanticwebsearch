@@ -12,28 +12,28 @@ import org.mongodb.morphia.utils.IndexDirection;
 @Entity
 public class Answer {
     @Id
-    private ObjectId id = new ObjectId();
+    private String id = new ObjectId().toString();
     @Indexed(value = IndexDirection.ASC, name = "questionIdIndex")
-    private ObjectId questionId;
+    private String questionId;
     private Object body;
     private long ups;
     private long downs;
     private String type;
     private String origin;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public ObjectId getQuestionId() {
+    public String getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(ObjectId questionId) {
+    public void setQuestionId(String questionId) {
         this.questionId = questionId;
     }
 
@@ -77,35 +77,35 @@ public class Answer {
         this.origin = origin;
     }
 
-    public static Builder getBuilderForQuestion(ObjectId questionId) {
+    public static Builder getBuilderForQuestion(String questionId) {
         Builder builder = new Builder();
         builder.setQuestionId(questionId);
         return builder;
     }
 
     public static class Builder {
-        private ObjectId questionId;
-        private ObjectId id = new ObjectId();
+        private String questionId;
+        private String id = new ObjectId().toString();
         private Object body;
         private long ups = 0;
         private long downs = 0;
         private String type;
         private String origin;
 
-        public ObjectId getQuestionId() {
+        public String getQuestionId() {
             return questionId;
         }
 
-        private Builder setQuestionId(ObjectId questionId) {
+        private Builder setQuestionId(String questionId) {
             this.questionId = questionId;
             return this;
         }
 
-        public ObjectId getId() {
+        public String getId() {
             return id;
         }
 
-        public Builder setId(ObjectId id) {
+        public Builder setId(String id) {
             this.id = id;
             return this;
         }

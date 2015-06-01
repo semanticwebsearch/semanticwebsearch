@@ -12,18 +12,18 @@ import org.mongodb.morphia.utils.IndexDirection;
 @Entity
 public class Question {
     @Id
-    private ObjectId id = new ObjectId();
+    private String id = new ObjectId().toString();
     private String type;
 
     @Indexed(value = IndexDirection.ASC, name = "bodyIndex", unique = true)
     private String body;
     private long numberOfAccesses;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    private void setId(ObjectId id) {
+    private void setId(String id) {
         this.id = id;
     }
 
