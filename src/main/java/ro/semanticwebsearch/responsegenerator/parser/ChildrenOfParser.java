@@ -40,7 +40,7 @@ class ChildrenOfParser implements ParserType {
         List<Answer> answers = new ArrayList<>();
         extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
 
-        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -56,7 +56,7 @@ class ChildrenOfParser implements ParserType {
         List<Answer> answers = new ArrayList<>();
         extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
 
-        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -157,6 +157,10 @@ class ChildrenOfParser implements ParserType {
             finish = uris.size();
         }
 
+        if(answers == null) {
+            answers = new ArrayList<>();
+        }
+
         PersonParser parser = new PersonParser();
 
         for(int idx = start; idx < finish; idx++) {
@@ -188,6 +192,11 @@ class ChildrenOfParser implements ParserType {
             start = offset;
             max = uris.size();
         }
+
+        if(answers == null) {
+            answers = new ArrayList<>();
+        }
+
         PersonParser parser = new PersonParser();
         for(int idx = start; idx < max; idx++) {
             try {

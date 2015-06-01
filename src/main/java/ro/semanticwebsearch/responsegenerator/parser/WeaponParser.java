@@ -85,7 +85,7 @@ class WeaponParser implements ParserType {
         List<String> listOfUris = new LinkedList<>(weaponUris);
 
         extractDbPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
-        new Thread(() -> extractDbPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractDbPediaAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -99,6 +99,10 @@ class WeaponParser implements ParserType {
         } else {
             start = offset;
             finish = uris.size();
+        }
+
+        if(answers == null) {
+            answers = new ArrayList<>();
         }
 
         for(int idx = start; idx < finish; idx++) {

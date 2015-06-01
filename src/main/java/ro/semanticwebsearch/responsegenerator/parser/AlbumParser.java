@@ -53,7 +53,7 @@ class AlbumParser implements ParserType {
         List<String> listOfUris = new LinkedList<>(albumUris);
 
         extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
-        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -94,7 +94,7 @@ class AlbumParser implements ParserType {
         List<String> listOfUris = new LinkedList<>(albumUris);
 
         extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
-        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -226,6 +226,10 @@ class AlbumParser implements ParserType {
             max = uris.size();
         }
 
+        if(answers == null) {
+            answers = new ArrayList<>();
+        }
+
         for(int idx = start; idx < max; idx++) {
             try {
                 album = dbpediaAlbum(new URI(uris.get(idx)));
@@ -253,6 +257,10 @@ class AlbumParser implements ParserType {
         } else {
             start = offset;
             finish = uris.size();
+        }
+
+        if(answers == null) {
+            answers = new ArrayList<>();
         }
 
         for(int idx = start; idx < finish; idx++) {

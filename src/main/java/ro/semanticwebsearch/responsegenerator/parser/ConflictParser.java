@@ -56,7 +56,7 @@ class ConflictParser implements ParserType {
         List<String> listOfUris = new LinkedList<>(conflictUris);
 
         extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
-        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -73,7 +73,6 @@ class ConflictParser implements ParserType {
         }
 
         ArrayList<String> conflictUris = new ArrayList<>();
-        ArrayList<Conflict> conflicts = new ArrayList<>();
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -98,7 +97,7 @@ class ConflictParser implements ParserType {
         List<String> listOfUris = new LinkedList<>(conflictUris);
 
         extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
-        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -191,6 +190,10 @@ class ConflictParser implements ParserType {
             max = uris.size();
         }
 
+        if(answers == null) {
+            answers = new ArrayList<>();
+        }
+
         for(int idx = start; idx < max; idx++) {
             try {
                 conflict = dbpediaConflict(new URI(uris.get(idx)));
@@ -218,6 +221,10 @@ class ConflictParser implements ParserType {
         } else {
             start = offset;
             finish = uris.size();
+        }
+
+        if(answers == null) {
+            answers = new ArrayList<>();
         }
 
         for(int idx = start; idx < finish; idx++) {

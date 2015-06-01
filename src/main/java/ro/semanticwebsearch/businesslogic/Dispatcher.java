@@ -47,10 +47,14 @@ public class Dispatcher {
          * */
         Map<String, Object> result = new HashMap<>();
         List<Question> questions = MongoDBManager.getQuestionsByBody(searchDAO.getQuery());
+        List<Answer> answers = null;
 
         if(questions != null && questions.size() > 0) {
-            List<Answer> answers = MongoDBManager.getAnswersForQuestion(questions.get(0).getId().toString(), 0,
+            answers = MongoDBManager.getAnswersForQuestion(questions.get(0).getId(), 0,
                     Constants.MAX_CHUNK_SIZE);
+        }
+
+        if(answers != null && answers.size() > 0){
             result = toAnswerMap(answers);
         } else {
             ServiceResponse response = new ServiceResponse();
@@ -63,7 +67,7 @@ public class Dispatcher {
                 question.setBody(searchDAO.getQuery());
                 question.setType(response.getQuestionType());
 
-                result = parseServicesResponses(response, question.getId().toString());
+                result = parseServicesResponses(response, question.getId());
 
                 MongoDBManager.saveQuestion(question);
             }

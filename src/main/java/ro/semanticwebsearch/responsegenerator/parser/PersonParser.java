@@ -64,7 +64,7 @@ class PersonParser implements ParserType {
         List<String> listOfUris = new LinkedList<>(uris);
         extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
 
-        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -78,6 +78,10 @@ class PersonParser implements ParserType {
         } else {
             start = offset;
             max = uris.size();
+        }
+
+        if(answers == null) {
+            answers = new ArrayList<>();
         }
 
         for(int idx = start; idx < max; idx++) {
@@ -123,7 +127,7 @@ class PersonParser implements ParserType {
 
         List<String> listOfUris = new LinkedList<>(uris);
         extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
-        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, null, Constants.MAX_CHUNK_SIZE, 0)).start();
 
         return answers;
     }
@@ -137,6 +141,10 @@ class PersonParser implements ParserType {
         } else {
             start = offset;
             finish = uris.size();
+        }
+
+        if(answers == null) {
+            answers = new ArrayList<>();
         }
 
         for(int idx = start; idx < finish; idx++) {
