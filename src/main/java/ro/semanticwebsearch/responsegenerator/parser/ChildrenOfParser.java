@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.persistence.MongoDBManager;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Person;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.MetadataProperties;
@@ -12,58 +15,50 @@ import ro.semanticwebsearch.responsegenerator.parser.helper.MetadataProperties;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Spac on 4/12/2015.
  */
 class ChildrenOfParser implements ParserType {
     private static Logger log = Logger.getLogger(ChildrenOfParser.class.getCanonicalName());
+    private static final String TYPE = "Person";
 
     public ChildrenOfParser() {
         System.out.println("constructor who are children of");
     }
 
     @Override
-    public ArrayList<Person> parseFreebaseResponse(String freebaseResponse, String questionId) {
+    public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
         Map<String, String> freebaseChildrenInfo = new HashMap<>();
         parseFreebaseForUriAndName(freebaseResponse, freebaseChildrenInfo);
 
-        ArrayList<Person> freebasePersons = new ArrayList<>();
-        PersonParser personParser = new PersonParser();
+        ArrayList<String> listOfUris = new ArrayList<>();
+        listOfUris.addAll(freebaseChildrenInfo.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
 
-        for (Map.Entry<String, String> child : freebaseChildrenInfo.entrySet()) {
-            try {
-                freebasePersons.add(personParser.freebaseWhoIs(new URI(child.getValue())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
+        List<Answer> answers = new ArrayList<>();
+        extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
 
-        return freebasePersons;
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
     }
 
     @Override
-    public ArrayList<Person> parseDBPediaResponse(String dbpediaResponse, String questionId) {
+    public List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         Map<String, String> dbpediaChildrenInfo = new HashMap<>();
         parseDBPediaForUriAndName(dbpediaResponse, dbpediaChildrenInfo);
 
-        ArrayList<Person> dbpediaPersons = new ArrayList<>();
-        PersonParser personParser = new PersonParser();
-        for (Map.Entry<String, String> child : dbpediaChildrenInfo.entrySet()) {
-            try {
-                dbpediaPersons.add(personParser.dbpediaWhoIs(new URI(child.getValue())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-                ro.semanticwebsearch.responsegenerator.model.Person person = new Person();
-                person.setName(child.getValue());
-                dbpediaPersons.add(person);
-            }
-        }
+        ArrayList<String> listOfUris = new ArrayList<>();
+        listOfUris.addAll(dbpediaChildrenInfo.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
 
-        return dbpediaPersons;
+        List<Answer> answers = new ArrayList<>();
+        extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
     }
 
     /**
@@ -148,6 +143,68 @@ class ChildrenOfParser implements ParserType {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void extractFreebaseAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int max) {
+        Person person;
+        int start = 0, finish;
+
+        if(offset == 0) {
+            finish = Math.min(max, uris.size());
+        } else {
+            start = offset;
+            finish = uris.size();
+        }
+
+        PersonParser parser = new PersonParser();
+
+        for(int idx = start; idx < finish; idx++) {
+            try {
+                person = parser.freebaseWhoIs(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(person)
+                        .setOrigin(Constants.FREEBASE)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
+    }
+
+
+    private void extractDBPediaAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int finish) {
+        Person person;
+        int start = 0, max = 0;
+
+        if(offset == 0) {
+            max = Math.min(finish, uris.size());
+        } else {
+            start = offset;
+            max = uris.size();
+        }
+        PersonParser parser = new PersonParser();
+        for(int idx = start; idx < max; idx++) {
+            try {
+                person = parser.dbpediaWhoIs(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(person)
+                        .setOrigin(Constants.DBPEDIA)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
     }
 
 }

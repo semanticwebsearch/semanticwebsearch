@@ -1,5 +1,9 @@
 package ro.semanticwebsearch.responsegenerator.parser;
 
+import ro.semanticwebsearch.responsegenerator.model.Answer;
+
+import java.util.List;
+
 /**
  * Created by Spac on 4/8/2015.
  */
@@ -9,6 +13,6 @@ public interface ParserType {
 */
     Object parseFreebaseResponse(String freebaseResponse, String questionId);
 
-    Object parseDBPediaResponse(String dbpediaResponse, String questionId);
+    List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId);
 
 }

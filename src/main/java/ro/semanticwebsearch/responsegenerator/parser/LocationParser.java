@@ -2,7 +2,10 @@ package ro.semanticwebsearch.responsegenerator.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ro.semanticwebsearch.persistence.MongoDBManager;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Location;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
 
@@ -12,14 +15,17 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Spac on 5/2/2015.
  */
 class LocationParser implements ParserType  {
 
+    private static String TYPE = "Location";
+
     @Override
-    public ArrayList<Location> parseFreebaseResponse(String freebaseResponse, String questionId) {
+    public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
         String extractedUri = "";
         //region extract uri from freebase
         try {
@@ -38,12 +44,19 @@ class LocationParser implements ParserType  {
         }
         //endregion
         Location aux;
-        ArrayList<Location> locations = new ArrayList<>();
+        List<Answer> locations = new ArrayList<>();
         if (extractedUri != null && !extractedUri.trim().isEmpty()) {
             try {
                 aux = freebaseLocation(new URI(extractedUri));
                 if(aux != null) {
-                    locations.add(aux);
+                    Answer s = Answer.getBuilderForQuestion(questionId)
+                            .setBody(aux)
+                            .setOrigin(Constants.FREEBASE)
+                            .setType(TYPE)
+                            .build();
+                    locations.add(s);
+
+                    MongoDBManager.saveAnswerList(locations);
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -91,7 +104,7 @@ class LocationParser implements ParserType  {
     }
 
     @Override
-    public ArrayList<Location> parseDBPediaResponse(String dbpediaResponse, String questionId) {
+    public List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         String extractedUri = "";
         //region extract uri from dbpedia response
         try {
@@ -121,17 +134,25 @@ class LocationParser implements ParserType  {
         //endregion
 
         Location aux;
-        ArrayList<Location> locations = new ArrayList<>();
+        List<Answer> locations = new ArrayList<>();
         if (extractedUri != null && !extractedUri.trim().isEmpty()) {
             try {
                 aux = dbpediaLocation(new URI(extractedUri));
                 if(aux != null) {
-                    locations.add(aux);
+                    Answer s = Answer.getBuilderForQuestion(questionId)
+                            .setBody(aux)
+                            .setOrigin(Constants.FREEBASE)
+                            .setType(TYPE)
+                            .build();
+                    locations.add(s);
+
+                    MongoDBManager.saveAnswerList(locations);
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
+
         return locations;
     }
 

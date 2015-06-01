@@ -2,8 +2,11 @@ package ro.semanticwebsearch.responsegenerator.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ro.semanticwebsearch.persistence.MongoDBManager;
 import ro.semanticwebsearch.responsegenerator.model.Album;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.StringPair;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.MetadataProperties;
@@ -14,14 +17,18 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Spac on 5/3/2015.
  */
 class AlbumParser implements ParserType {
 
+    private static final String TYPE = "Album";
+
     @Override
-    public ArrayList<Album> parseFreebaseResponse(String freebaseResponse, String questionId) {
+    public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
         String extractedUri = "";
         ArrayList<String> albumUris = new ArrayList<>();
 
@@ -42,24 +49,17 @@ class AlbumParser implements ParserType {
         }
         //endregion
 
-        ArrayList<Album> albums = new ArrayList<>();
-        int n = 0;
-        for(String uri : albumUris) {
-            if(n++ == 20) {
-                break;
-            }
-            try {
-                albums.add(freebaseAlbum(new URI(uri)));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
+        List<Answer> answers = new ArrayList<>();
+        List<String> listOfUris = new LinkedList<>(albumUris);
 
-        return albums;
+        extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
     }
 
     @Override
-    public ArrayList<Album> parseDBPediaResponse(String dbpediaResponse, String questionId) {
+    public List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         String extractedUri = "";
         ArrayList<String> albumUris = new ArrayList<>();
 
@@ -90,16 +90,13 @@ class AlbumParser implements ParserType {
         }
         //endregion
 
-        ArrayList<Album> albums = new ArrayList<>();
-        for(String uri : albumUris) {
-            try {
-                albums.add(dbpediaAlbum(new URI(uri)));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
+        List<Answer> answers = new ArrayList<>();
+        List<String> listOfUris = new LinkedList<>(albumUris);
 
-        return albums;
+        extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
     }
 
     public Album dbpediaAlbum(URI dbpediaUri) {
@@ -216,5 +213,63 @@ class AlbumParser implements ParserType {
         }
 
         return null;
+    }
+
+    private void extractDBPediaAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int finish) {
+        Album album;
+        int start = 0, max = 0;
+
+        if(offset == 0) {
+            max = Math.min(finish, uris.size());
+        } else {
+            start = offset;
+            max = uris.size();
+        }
+
+        for(int idx = start; idx < max; idx++) {
+            try {
+                album = dbpediaAlbum(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(album)
+                        .setOrigin(Constants.DBPEDIA)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
+    }
+
+    private void extractFreebaseAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int max) {
+        Album album;
+        int start = 0, finish;
+
+        if(offset == 0) {
+            finish = Math.min(max, uris.size());
+        } else {
+            start = offset;
+            finish = uris.size();
+        }
+
+        for(int idx = start; idx < finish; idx++) {
+            try {
+                album = freebaseAlbum(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(album)
+                        .setOrigin(Constants.FREEBASE)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
     }
 }

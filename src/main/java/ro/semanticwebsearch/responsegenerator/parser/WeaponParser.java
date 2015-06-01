@@ -3,7 +3,10 @@ package ro.semanticwebsearch.responsegenerator.parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.persistence.MongoDBManager;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Weapon;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -12,12 +15,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Spac on 4/26/2015.
  */
 class WeaponParser implements ParserType {
-
+    private static String TYPE = "Weapon";
     private static Logger log = Logger.getLogger(WeaponParser.class.getCanonicalName());
 
     //Freebase does not contain this type of information
@@ -47,7 +52,7 @@ class WeaponParser implements ParserType {
     }
 
     @Override
-    public Object parseDBPediaResponse(String dbpediaResponse, String questionId) {
+    public List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("WeaponUsedByCountryInConflict" + " : " + dbpediaResponse);
         }
@@ -57,7 +62,6 @@ class WeaponParser implements ParserType {
         }
 
         ArrayList<String> weaponUris = new ArrayList<>();
-        ArrayList<Weapon> weapons = new ArrayList<>();
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -77,15 +81,42 @@ class WeaponParser implements ParserType {
             e.printStackTrace();
         }
 
-        for (String uri : weaponUris) {
+        List<Answer> answers = new ArrayList<>();
+        List<String> listOfUris = new LinkedList<>(weaponUris);
+
+        extractDbPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+        new Thread(() -> extractDbPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
+    }
+
+    private void extractDbPediaAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int max) {
+        Weapon weapon;
+        int start = 0, finish;
+
+        if(offset == 0) {
+            finish = Math.min(max, uris.size());
+        } else {
+            start = offset;
+            finish = uris.size();
+        }
+
+        for(int idx = start; idx < finish; idx++) {
             try {
-                weapons.add(dbpediaWeapon(new URI(uri)));
+                weapon = dbpediaWeapon(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(weapon)
+                        .setOrigin(Constants.FREEBASE)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
 
-        return weapons;
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
     }
 
     public Weapon dbpediaWeapon(URI dbpediaUri) {

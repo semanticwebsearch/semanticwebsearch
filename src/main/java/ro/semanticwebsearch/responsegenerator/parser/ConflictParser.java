@@ -3,7 +3,10 @@ package ro.semanticwebsearch.responsegenerator.parser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import ro.semanticwebsearch.persistence.MongoDBManager;
+import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Conflict;
+import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.responsegenerator.parser.helper.DBPediaPropertyExtractor;
 import ro.semanticwebsearch.responsegenerator.parser.helper.FreebasePropertyExtractor;
 
@@ -13,12 +16,15 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Spac on 4/26/2015.
  */
 class ConflictParser implements ParserType {
 
+    private static String TYPE = "Conflict";
     private static Logger log = Logger.getLogger(ConflictParser.class.getCanonicalName());
 
     @Override
@@ -32,7 +38,6 @@ class ConflictParser implements ParserType {
         }
 
         ArrayList<String> conflictUris = new ArrayList<>();
-        ArrayList<Conflict> conflicts = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode response = mapper.readTree(freebaseResponse).get("result");
@@ -46,20 +51,19 @@ class ConflictParser implements ParserType {
             e.printStackTrace();
         }
 
-        for (String uri : conflictUris) {
-            try {
-                conflicts.add(freebaseConflict(new URI(uri)));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return conflicts;
+        List<Answer> answers = new ArrayList<>();
+        List<String> listOfUris = new LinkedList<>(conflictUris);
+
+        extractFreebaseAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+        new Thread(() -> extractFreebaseAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
     }
 
 
     @Override
-    public Object parseDBPediaResponse(String dbpediaResponse, String questionId) {
+    public List<Answer> parseDBPediaResponse(String dbpediaResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("ConflictThatTookPlaceInCountry" + " : " + dbpediaResponse);
         }
@@ -89,15 +93,14 @@ class ConflictParser implements ParserType {
             e.printStackTrace();
         }
 
-        for (String uri : conflictUris) {
-            try {
-                conflicts.add(dbpediaConflict(new URI(uri)));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return conflicts;
+        List<Answer> answers = new ArrayList<>();
+        List<String> listOfUris = new LinkedList<>(conflictUris);
+
+        extractDBPediaAnswers(questionId, listOfUris, answers, 0, Constants.MAX_CHUNK_SIZE);
+        new Thread(() -> extractDBPediaAnswers(questionId, listOfUris, answers, Constants.MAX_CHUNK_SIZE, 0)).start();
+
+        return answers;
     }
 
     private Conflict freebaseConflict(URI freebaseURI) {
@@ -175,5 +178,63 @@ class ConflictParser implements ParserType {
         }
         return null;
 
+    }
+
+    private void extractDBPediaAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int finish) {
+        Conflict conflict;
+        int start = 0, max = 0;
+
+        if(offset == 0) {
+            max = Math.min(finish, uris.size());
+        } else {
+            start = offset;
+            max = uris.size();
+        }
+
+        for(int idx = start; idx < max; idx++) {
+            try {
+                conflict = dbpediaConflict(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(conflict)
+                        .setOrigin(Constants.DBPEDIA)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
+    }
+
+    private void extractFreebaseAnswers(String questionId, List<String> uris, List<Answer> answers, int offset, int max) {
+        Conflict conflict;
+        int start = 0, finish;
+
+        if(offset == 0) {
+            finish = Math.min(max, uris.size());
+        } else {
+            start = offset;
+            finish = uris.size();
+        }
+
+        for(int idx = start; idx < finish; idx++) {
+            try {
+                conflict = freebaseConflict(new URI(uris.get(idx)));
+                Answer s = Answer.getBuilderForQuestion(questionId)
+                        .setBody(conflict)
+                        .setOrigin(Constants.FREEBASE)
+                        .setType(TYPE)
+                        .build();
+                answers.add(s);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //save in db???
+        MongoDBManager.saveAnswerList(answers);
     }
 }
