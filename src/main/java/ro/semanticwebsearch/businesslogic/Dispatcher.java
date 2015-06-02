@@ -1,6 +1,7 @@
 package ro.semanticwebsearch.businesslogic;
 
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
 import ro.semanticwebsearch.persistence.MongoDBManager;
 import ro.semanticwebsearch.responsegenerator.model.Answer;
@@ -13,10 +14,7 @@ import ro.semanticwebsearch.utils.JsonUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Spac on 4/8/2015.
@@ -42,43 +40,74 @@ public class Dispatcher {
         if (log.isInfoEnabled()) {
             log.info("Execute query : " + searchDAO.toString());
         }
+
         /**
          * If searchDAO.getQuery exista in db, retrieve and go
          * */
         Map<String, Object> result = new HashMap<>();
         List<Question> questions = MongoDBManager.getQuestionsByBody(searchDAO.getQuery());
         List<Answer> answers = null;
+        Question question = null;
 
         if(questions != null && questions.size() > 0) {
             answers = MongoDBManager.getAnswersForQuestion(questions.get(0).getId(), 0,
                     Constants.MAX_CHUNK_SIZE);
+            question = questions.get(0);
         }
 
-        if(answers != null && answers.size() > 0){
-            result = toAnswerMap(answers);
-        } else {
-            ServiceResponse response = new ServiceResponse();
-            queryQuepyForSPARQL(searchDAO, response);
-            queryQuepyForMQL(searchDAO, response);
 
-            if (response.getQuestionType() != null) {
-                Question question = new Question();
-                question.setNumberOfAccesses(0);
+        if(answers == null || answers.size() == 0) {
+            result = queryServices(searchDAO, result, question);
+        } else if(isOutdated(answers)) {
+            MongoDBManager.deleteAnswers(answers);
+            result = queryServices(searchDAO, result, question);
+        } else {
+            result = toAnswerMap(answers);
+        }
+
+        return JsonUtil.pojoToString(result);
+    }
+
+    private static Map<String, Object> queryServices(SearchDAO searchDAO, Map<String, Object> result, Question question)
+            throws IllegalAccessException {
+        ServiceResponse response = new ServiceResponse();
+        queryDBPedia(searchDAO, response);
+        queryFreebase(searchDAO, response);
+
+        if (response.getQuestionType() != null) {
+            if(question == null) {
+                question = new Question();
+                question.setNumberOfAccesses(1);
                 question.setBody(searchDAO.getQuery());
                 question.setType(response.getQuestionType());
-
-                result = parseServicesResponses(response, question.getId());
-
                 MongoDBManager.saveQuestion(question);
+            } else {
+                MongoDBManager.updateAccessNumberOfQuestion(question);
             }
+
+            result = parseServicesResponses(response, question.getId());
+
         }
-        return JsonUtil.pojoToString(result);
+        return result;
+    }
+
+    private static boolean isOutdated(List<Answer> answers) {
+        if(answers != null && answers.size() > 0) {
+            Answer answer = answers.get(0);
+            ObjectId answerId = new ObjectId(answer.getId());
+            Date currDate = new Date();
+            int currTimestamp = (int)(currDate.getTime()/1000);
+            return currTimestamp - answerId.getTimestamp() > Constants.SECONDS_IN_A_DAY;
+        }
+
+        return false;
     }
 
     private static Map<String, Object> toAnswerMap(List<Answer> answers) {
         Map<String, Object> map = new HashMap<>();
         List<Answer> dbpedia = new ArrayList<>();
         List<Answer> freebase = new ArrayList<>();
+        String entityType = null;
 
         for(Answer answer : answers) {
             if(Constants.DBPEDIA.equalsIgnoreCase(answer.getOrigin())) {
@@ -86,10 +115,15 @@ public class Dispatcher {
             } else if(Constants.FREEBASE.equalsIgnoreCase(answer.getOrigin())) {
                 freebase.add(answer);
             }
+
+            if(entityType == null) {
+                entityType = answer.getType();
+            }
         }
 
         map.put(Constants.DBPEDIA, dbpedia);
         map.put(Constants.FREEBASE, freebase);
+        map.put(Constants.ENTITY_TYPE, entityType);
 
         return map;
     }
@@ -98,7 +132,6 @@ public class Dispatcher {
             throws IllegalAccessException {
         Map<String, Object> resultMap = new HashMap<>();
         Object aux;
-        String entityType;
 
         try {
             ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
@@ -113,8 +146,7 @@ public class Dispatcher {
                 resultMap.put(Constants.FREEBASE, aux);
             }
 
-            entityType = qt.getClass().getSimpleName().replace("Parser", "");
-            resultMap.put("entityType", entityType);
+            resultMap.put(Constants.ENTITY_TYPE, qt.getType());
         } catch (InstantiationException e) {
             if (log.isDebugEnabled()) {
                 log.debug("Could not query for additional info ", e);
@@ -124,7 +156,7 @@ public class Dispatcher {
         return resultMap;
     }
 
-    private static void queryQuepyForMQL(SearchDAO searchDAO, ServiceResponse response) {
+    private static void queryFreebase(SearchDAO searchDAO, ServiceResponse response) {
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.MQL, searchDAO.getQuery());
             response.setFreebaseResponse(queryService(FREEBASE, quepyResponse.getQuery()));
@@ -145,7 +177,7 @@ public class Dispatcher {
         }
     }
 
-    private static void queryQuepyForSPARQL(SearchDAO searchDAO, ServiceResponse response) {
+    private static void queryDBPedia(SearchDAO searchDAO, ServiceResponse response) {
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.SPARQL, searchDAO.getQuery());
             response.setDbpediaResponse(queryService(DBPEDIA, quepyResponse.getQuery()));
@@ -155,8 +187,7 @@ public class Dispatcher {
                 log.info("DBPedia quepy response: " + quepyResponse.toString());
             }
 
-        } catch (InstantiationException | IllegalArgumentException |
-                IllegalAccessException | UnsupportedEncodingException | URISyntaxException e) {
+        } catch (Exception e) {
             if (log.isDebugEnabled()) {
                 log.debug("Could not query DBPedia ", e);
             }
@@ -198,7 +229,7 @@ public class Dispatcher {
     static {
         questionParserMapping.put("whoarechildrenof", "ChildrenOfParser");
         questionParserMapping.put("whois", "PersonParser");
-        questionParserMapping.put("personthattookpartinconflict", "PersonParser");
+        questionParserMapping.put("personthattookpartinconflict", "PersonnelInvolvedParser");
         questionParserMapping.put("conflictthattookplaceincountry", "ConflictParser");
         questionParserMapping.put("weaponusedbycountryinconflict", "WeaponParser");
         questionParserMapping.put("location", "LocationParser");

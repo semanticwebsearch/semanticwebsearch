@@ -8,10 +8,10 @@ import java.util.Map;
 /**
  * Created by Spac on 4/26/2015.
  */
-public abstract class AbstractParserType implements ParserType {
+abstract class AbstractParserType implements ParserType {
 
     private static Logger log = Logger.getLogger(AbstractParserType.class.getCanonicalName());
-
+    protected String TYPE;
 
     public Map<String, Object> doSomethingUseful(ServiceResponse response) {
          /*   throws UnsupportedEncodingException, URISyntaxException, InstantiationException, IllegalAccessException {
@@ -32,5 +32,7 @@ public abstract class AbstractParserType implements ParserType {
         return null;
     }
 
-
+    public String getType() {
+        return TYPE;
+    }
 }

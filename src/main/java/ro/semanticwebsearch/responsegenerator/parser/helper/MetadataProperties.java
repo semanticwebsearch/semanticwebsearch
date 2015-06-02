@@ -46,6 +46,7 @@ public enum MetadataProperties {
     MILITARY_CONFLICT_COMBATANTS("http://dbpedia.org/ontology/combatant", "/military/military_conflict/combatants"),
     MILITARY_COMBATANT_GROUP_COMBATANTS("", "/military/military_combatant_group/combatants"),
     MILITARY_COMMANDER("", "/military/military_command/military_commander"),
+    MILITARY_PERSONNEL_INVOLVED("", "/military/military_conflict/military_personnel_involved"),
     CAPITAL("http://dbpedia.org/ontology/capital", "/location/country/capital"),
     AREA("http://dbpedia.org/ontology/PopulatedPlace/areaTotal", "/location/location/area"),
     DATE_FOUNDED("http://dbpedia.org/ontology/foundingDate", "/location/dated_location/date_founded"),

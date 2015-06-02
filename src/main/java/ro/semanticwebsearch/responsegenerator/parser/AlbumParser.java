@@ -23,9 +23,11 @@ import java.util.List;
 /**
  * Created by Spac on 5/3/2015.
  */
-class AlbumParser implements ParserType {
+class AlbumParser extends AbstractParserType {
 
-    private static final String TYPE = "Album";
+    public AlbumParser() {
+        TYPE = Constants.ALBUM;
+    }
 
     @Override
     public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {

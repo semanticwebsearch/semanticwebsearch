@@ -22,13 +22,16 @@ import java.util.List;
 /**
  * Created by Spac on 4/26/2015.
  */
-class ConflictParser implements ParserType {
+class ConflictParser extends AbstractParserType {
 
-    private static String TYPE = "Conflict";
+    public ConflictParser() {
+        TYPE = Constants.CONFLICT;
+    }
+
     private static Logger log = Logger.getLogger(ConflictParser.class.getCanonicalName());
 
     @Override
-    public Object parseFreebaseResponse(String freebaseResponse, String questionId) {
+    public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("ConflictThatTookPlaceInCountry" + " : " + freebaseResponse);
         }

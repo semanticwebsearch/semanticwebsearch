@@ -21,14 +21,17 @@ import java.util.List;
 /**
  * Created by Spac on 4/26/2015.
  */
-class WeaponParser implements ParserType {
-    private static String TYPE = "Weapon";
+class WeaponParser extends AbstractParserType{
     private static Logger log = Logger.getLogger(WeaponParser.class.getCanonicalName());
+
+    public WeaponParser() {
+        TYPE = Constants.WEAPON;
+    }
 
     //Freebase does not contain this type of information
     //TODO Update if this changes
     @Override
-    public Object parseFreebaseResponse(String freebaseResponse, String questionId) {
+    public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
         if (log.isInfoEnabled()) {
             log.info("WeaponUsedByCountryInConflict" + " : " + freebaseResponse);
         }

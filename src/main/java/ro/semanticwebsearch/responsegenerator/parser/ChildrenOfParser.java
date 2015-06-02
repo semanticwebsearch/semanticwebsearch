@@ -21,12 +21,11 @@ import java.util.stream.Collectors;
 /**
  * Created by Spac on 4/12/2015.
  */
-class ChildrenOfParser implements ParserType {
+class ChildrenOfParser extends AbstractParserType  {
     private static Logger log = Logger.getLogger(ChildrenOfParser.class.getCanonicalName());
-    private static final String TYPE = "Person";
 
     public ChildrenOfParser() {
-        System.out.println("constructor who are children of");
+        TYPE = Constants.PERSON;
     }
 
     @Override

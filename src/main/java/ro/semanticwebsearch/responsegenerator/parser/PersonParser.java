@@ -20,12 +20,12 @@ import java.util.*;
 /**
  * Created by Spac on 4/18/2015.
  */
-class PersonParser implements ParserType {
+class PersonParser extends AbstractParserType {
 
     private static Logger log = Logger.getLogger(PersonParser.class.getCanonicalName());
-    private static String TYPE = "Person";
+
     public PersonParser() {
-        System.out.println("constructor WhoIs");
+        TYPE = Constants.PERSON;
     }
 
     @Override

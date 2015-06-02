@@ -11,5 +11,13 @@ public class Constants {
     public static final String FREEBASE_IMAGE_LINK = "https://usercontent.googleapis.com/freebase/v1/image%s"; //?maxwidth=200&maxheight=200
     public static final String DBPEDIA_IMAGE_LINK = "http://commons.wikimedia.org/wiki/Special:FilePath/%s;"; //?width=300";)
     public static final int MAX_CHUNK_SIZE = 10;
-   
+    public static final int SECONDS_IN_A_DAY = 24*60*60;
+    public static final String PERSON = "Person";
+    public static final String WEAPON = "Weapon";
+    public static final String LOCATION = "Location";
+    public static final String CONFLICT = "Conflict";
+    public static final String ALBUM = "Album";
+    public static final String ENTITY_TYPE = "entityType";
+
+
 }

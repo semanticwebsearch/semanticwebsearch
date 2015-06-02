@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 import ro.semanticwebsearch.responsegenerator.model.Answer;
 import ro.semanticwebsearch.responsegenerator.model.Question;
 import ro.semanticwebsearch.utils.Config;
@@ -64,5 +65,27 @@ public class MongoDBManager {
     public static void saveQuestion(Question question) {
         Datastore ds = getDatastore(morphia);
         ds.save(question);
+    }
+
+    public static void saveOrUpdateQuestion(Question question) {
+
+    }
+
+    public static void updateAccessNumberOfQuestion(Question question) {
+        if(question != null) {
+            Datastore ds = getDatastore(morphia);
+            UpdateOperations<Question> ops = ds.createUpdateOperations(Question.class)
+                    .set("numberOfAccesses", question.getNumberOfAccesses() + 1);
+
+            ds.update(question, ops);
+
+        }
+    }
+
+    public static void deleteAnswers(List<Answer> answers) {
+        if(answers != null) {
+            Datastore ds = getDatastore(morphia);
+            answers.forEach(ds::delete);
+        }
     }
 }

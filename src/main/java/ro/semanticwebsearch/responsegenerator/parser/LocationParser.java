@@ -20,9 +20,11 @@ import java.util.List;
 /**
  * Created by Spac on 5/2/2015.
  */
-class LocationParser implements ParserType  {
+class LocationParser extends AbstractParserType  {
 
-    private static String TYPE = "Location";
+    public LocationParser() {
+        TYPE = Constants.LOCATION;
+    }
 
     @Override
     public List<Answer> parseFreebaseResponse(String freebaseResponse, String questionId) {
