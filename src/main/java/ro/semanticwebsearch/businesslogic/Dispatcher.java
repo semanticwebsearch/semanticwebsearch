@@ -2,6 +2,7 @@ package ro.semanticwebsearch.businesslogic;
 
 import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
+import ro.semanticwebsearch.api.rest.model.ResultsDAO;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
 import ro.semanticwebsearch.persistence.MongoDBManager;
 import ro.semanticwebsearch.responsegenerator.model.Answer;
@@ -21,8 +22,6 @@ import java.util.*;
  */
 public class Dispatcher {
     private static final Map<String, String> questionParserMapping = new HashMap<>();
-    public static final String DBPEDIA = "dbpedia";
-    public static final String FREEBASE = "freebase";
     public static Logger log = Logger.getLogger(Dispatcher.class.getCanonicalName());
 
 
@@ -159,7 +158,7 @@ public class Dispatcher {
     private static void queryFreebase(SearchDAO searchDAO, ServiceResponse response) {
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.MQL, searchDAO.getQuery());
-            response.setFreebaseResponse(queryService(FREEBASE, quepyResponse.getQuery()));
+            response.setFreebaseResponse(queryService(Constants.FREEBASE, quepyResponse.getQuery()));
 
             if (!response.getFreebaseResponse().trim().isEmpty()) {
                 response.setQuestionType(quepyResponse.getRule());
@@ -180,7 +179,7 @@ public class Dispatcher {
     private static void queryDBPedia(SearchDAO searchDAO, ServiceResponse response) {
         try {
             QuepyResponse quepyResponse = queryQuepy(QueryType.SPARQL, searchDAO.getQuery());
-            response.setDbpediaResponse(queryService(DBPEDIA, quepyResponse.getQuery()));
+            response.setDbpediaResponse(queryService(Constants.DBPEDIA, quepyResponse.getQuery()));
             response.setQuestionType(quepyResponse.getRule());
 
             if (log.isInfoEnabled()) {
@@ -224,6 +223,18 @@ public class Dispatcher {
             throws UnsupportedEncodingException, URISyntaxException {
         Quepy quepy = new Quepy(queryType, query);
         return quepy.query();
+    }
+
+    public static String getMoreResults(ResultsDAO resultsDAO) {
+        List<Answer> answers = MongoDBManager.getAnswersForQuestion(
+                resultsDAO.getQuestionId(),
+                resultsDAO.getOffset(),
+                Math.max(resultsDAO.getMax(), Constants.MAX_CHUNK_SIZE)
+        );
+
+        Map<String, Object> results = toAnswerMap(answers);
+
+        return JsonUtil.pojoToString(results);
     }
 
     static {

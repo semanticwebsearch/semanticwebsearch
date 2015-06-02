@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 @Path("query")
 public class Search {
     public static Logger log = Logger.getLogger(Search.class.getCanonicalName());
-    static int id = 0;
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
