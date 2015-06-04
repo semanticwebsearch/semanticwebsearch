@@ -11,6 +11,7 @@ import ro.semanticwebsearch.responsegenerator.parser.ParserFactory;
 import ro.semanticwebsearch.responsegenerator.parser.ParserType;
 import ro.semanticwebsearch.responsegenerator.parser.helper.Constants;
 import ro.semanticwebsearch.services.*;
+import ro.semanticwebsearch.utils.Config;
 import ro.semanticwebsearch.utils.JsonUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -23,7 +24,18 @@ import java.util.*;
 public class Dispatcher {
     private static final Map<String, String> questionParserMapping = new HashMap<>();
     public static Logger log = Logger.getLogger(Dispatcher.class.getCanonicalName());
+    private static int RETENTION_TIME;
 
+    static {
+        String aux = Config.getProperty("data_lease_time");
+        try {
+            int retention_days = Integer.parseInt(aux);
+            RETENTION_TIME = retention_days * Constants.SECONDS_IN_A_DAY;
+        } catch (Exception e) {
+            RETENTION_TIME = Constants.SECONDS_IN_A_DAY;
+        }
+
+    }
 
     /**
      * Queries Quepy to transform natural language into sparql or mql.
@@ -96,7 +108,7 @@ public class Dispatcher {
             ObjectId answerId = new ObjectId(answer.getId());
             Date currDate = new Date();
             int currTimestamp = (int)(currDate.getTime()/1000);
-            return currTimestamp - answerId.getTimestamp() > Constants.SECONDS_IN_A_DAY;
+            return currTimestamp - answerId.getTimestamp() > RETENTION_TIME;
         }
 
         return false;
