@@ -2,6 +2,7 @@ package ro.semanticwebsearch.businesslogic;
 
 import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
+import ro.semanticwebsearch.api.rest.model.Feedback;
 import ro.semanticwebsearch.api.rest.model.ResultsDAO;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
 import ro.semanticwebsearch.persistence.MongoDBManager;
@@ -73,6 +74,7 @@ public class Dispatcher {
             MongoDBManager.deleteAnswers(answers);
             result = queryServices(searchDAO, result, question);
         } else {
+            MongoDBManager.updateAccessNumberOfQuestion(question);
             result = toAnswerMap(answers);
         }
 
@@ -231,10 +233,15 @@ public class Dispatcher {
         return quepy.query();
     }
 
-    public static QuepyResponse queryQuepy(String queryType, String query)
-            throws UnsupportedEncodingException, URISyntaxException {
-        Quepy quepy = new Quepy(queryType, query);
-        return quepy.query();
+    public static int updateDislike(Feedback feedback) {
+        return MongoDBManager.dislikeQuestion(feedback.getQuestionId(), feedback.getAnswerId(),
+                feedback.getFeedback());
+    }
+
+    public static int updateLike(Feedback feedback) {
+        return MongoDBManager.likeQuestion(feedback.getQuestionId(), feedback.getAnswerId(),
+                feedback.getFeedback());
+
     }
 
     public static String getMoreResults(ResultsDAO resultsDAO) {
@@ -257,5 +264,12 @@ public class Dispatcher {
         questionParserMapping.put("weaponusedbycountryinconflict", "WeaponParser");
         questionParserMapping.put("location", "LocationParser");
         questionParserMapping.put("albumsof", "AlbumParser");
+    }
+
+    public static long getAccessesNumberFor(String questionId) {
+        Question question = MongoDBManager.getQuestionById(questionId);
+
+        return question.getNumberOfAccesses();
+
     }
 }

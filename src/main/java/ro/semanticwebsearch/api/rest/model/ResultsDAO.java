@@ -1,5 +1,6 @@
 package ro.semanticwebsearch.api.rest.model;
 
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 /**
@@ -8,7 +9,7 @@ import javax.ws.rs.QueryParam;
 public class ResultsDAO {
 
     //region Query params
-    @QueryParam("questionId")
+    @PathParam("questionId")
     private String questionId;
 
     @QueryParam("offset")

@@ -3,6 +3,7 @@ package ro.semanticwebsearch.persistence;
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.mapping.Mapper;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import ro.semanticwebsearch.responsegenerator.model.Answer;
@@ -67,8 +68,20 @@ public class MongoDBManager {
         ds.save(question);
     }
 
-    public static void saveOrUpdateQuestion(Question question) {
+    public static int likeQuestion(String questionId, String answerId, int numberOfLikes) {
+        Datastore ds = getDatastore(morphia);
+        Query<Answer> updateQuery = ds.createQuery(Answer.class).field("questionId").equal(questionId)
+                .field(Mapper.ID_KEY).equal(answerId);;
+        UpdateOperations<Answer> ops = ds.createUpdateOperations(Answer.class).inc("ups", numberOfLikes);
+        return ds.update(updateQuery, ops).getUpdatedCount();
+    }
 
+    public static int dislikeQuestion(String questionId, String answerId, int numberOfDislikes) {
+        Datastore ds = getDatastore(morphia);
+        Query<Answer> updateQuery = ds.createQuery(Answer.class).field("questionId").equal(questionId)
+                .field(Mapper.ID_KEY).equal(answerId);
+        UpdateOperations<Answer> ops = ds.createUpdateOperations(Answer.class).inc("downs", numberOfDislikes);
+        return ds.update(updateQuery, ops).getUpdatedCount();
     }
 
     public static void updateAccessNumberOfQuestion(Question question) {
@@ -87,5 +100,12 @@ public class MongoDBManager {
             Datastore ds = getDatastore(morphia);
             answers.forEach(ds::delete);
         }
+    }
+    public static Question getQuestionById(String questionId) {
+        Datastore ds = getDatastore(morphia);
+        Query<Question> query = ds.createQuery(Question.class);
+        query.and(query.criteria(Mapper.ID_KEY).equal(questionId));
+
+        return query.get();
     }
 }
