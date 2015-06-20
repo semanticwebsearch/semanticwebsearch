@@ -709,4 +709,27 @@ public class DBPediaPropertyExtractor {
         }
         return sb.toString().trim();
     }
+
+    public static ArrayList<StringPair> getPersonSiblings(JsonNode response) {
+        /*
+        * Problema: formatul json`ului: entitatea(sibling) e cheie ce are ca prop persoana
+        * nu pot lua parintele
+        *  "http://dbpedia.org/resource/Scott_Trimble": {
+                "http://dbpedia.org/ontology/relative": [
+                    {
+                        "type": "uri",
+                        "value": "http://dbpedia.org/resource/Barack_Obama"
+                    }
+                ],
+                "http://dbpedia.org/property/relatives": [
+                    {
+                        "type": "uri",
+                        "value": "http://dbpedia.org/resource/Barack_Obama"
+                    }
+                ]
+            },
+        * */
+        return null;
+
+    }
 }

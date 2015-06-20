@@ -61,6 +61,8 @@ public enum MetadataProperties {
     CALLING_CODE("http://dbpedia.org/property/callingCode", "/location/country/calling_code"),
     OFFICIAL_LANGUAGE("http://dbpedia.org/ontology/language", "/location/country/official_language"),
     COMMANDERS("http://dbpedia.org/ontology/commander", "/military/military_conflict/commanders"),
+    SIBLING_RELATIONSHIP("http://dbpedia.org/ontology/relative", "/people/sibling_relationship/sibling"),
+    SIBLING_S("", "/people/person/sibling_s"),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;

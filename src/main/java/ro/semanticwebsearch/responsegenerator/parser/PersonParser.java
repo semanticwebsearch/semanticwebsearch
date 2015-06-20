@@ -211,6 +211,7 @@ class PersonParser extends AbstractParserType {
             person.setChildren(FreebasePropertyExtractor.getChildren(personInfo));
 
             person.setNotableFor(FreebasePropertyExtractor.getNotableFor(personInfo));
+            person.setSiblings(FreebasePropertyExtractor.getPersonSiblings(personInfo));
 
             return person;
         } catch (IOException e) {
@@ -233,7 +234,8 @@ class PersonParser extends AbstractParserType {
 
             client = ClientBuilder.newClient().target(DBPediaPropertyExtractor.convertDBPediaUrlToResourceUrl(dbpediaUri.toString()));
             personInfoResponse = client.request().get(String.class);
-            personInfo = mapper.readTree(personInfoResponse).get(dbpediaUri.toString());
+            JsonNode response = mapper.readTree(personInfoResponse);
+            personInfo = response.get(dbpediaUri.toString());
 
             Person person = new Person();
             aux = DBPediaPropertyExtractor.getName(personInfo);
@@ -263,6 +265,7 @@ class PersonParser extends AbstractParserType {
             person.setThumbnails(DBPediaPropertyExtractor.getThumbnail(personInfo));
             person.setSpouse(DBPediaPropertyExtractor.getSpouse(personInfo));
             person.setChildren(DBPediaPropertyExtractor.getChildren(personInfo));
+            person.setSiblings(DBPediaPropertyExtractor.getPersonSiblings(response));
 
             return person;
 

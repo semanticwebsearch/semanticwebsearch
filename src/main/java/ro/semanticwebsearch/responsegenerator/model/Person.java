@@ -17,6 +17,7 @@ public class Person {
     private ArrayList<StringPair> nationality;//
     private ArrayList<StringPair> education;//
     private ArrayList<StringPair> children;//
+    private ArrayList<StringPair> siblings;//
     private ArrayList<StringPair> parents;//
     private ArrayList<StringPair> spouse;//
     private String notableFor;
@@ -132,5 +133,13 @@ public class Person {
 
     public String getNotableFor() {
         return notableFor;
+    }
+
+    public ArrayList<StringPair> getSiblings() {
+        return siblings;
+    }
+
+    public void setSiblings(ArrayList<StringPair> siblings) {
+        this.siblings = siblings;
     }
 }

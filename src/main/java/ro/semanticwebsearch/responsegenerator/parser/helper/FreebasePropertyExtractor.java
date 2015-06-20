@@ -227,13 +227,13 @@ public class FreebasePropertyExtractor {
 
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
-                if (DBPediaPropertyExtractor.isEN(value)) {
+                if (!value.get("text").asText().isEmpty() && DBPediaPropertyExtractor.isEN(value)) {
                     return extractStringPair(AdditionalQuestion.PLACE_INFO, value.get("text"));
                 }
             }
         }
 
-        return new StringPair();
+        return null;
     }
 
     public static String getDeathdate(JsonNode personInfo) {
@@ -937,5 +937,28 @@ public class FreebasePropertyExtractor {
         }
 
         return sb.toString();
+    }
+
+    public static ArrayList<StringPair> getPersonSiblings(JsonNode personInfo) {
+        ArrayList<String> properties = new ArrayList<>();
+        ArrayList<StringPair> result = new ArrayList<>();
+
+        properties.add(MetadataProperties.SIBLING_S.getFreebase());
+        properties.add(MetadataProperties.SIBLING_RELATIONSHIP.getFreebase());
+        properties.add("values");
+
+        ArrayList<JsonNode> siblings = getDeepProperties(properties, personInfo);
+
+        for(JsonNode aux : siblings) {
+            if (!isMissingNode(aux) && aux.isArray()) {
+                for (JsonNode parent : aux) {
+                    if (DBPediaPropertyExtractor.isEN(parent)) {
+                        result.add(extractStringPair(AdditionalQuestion.WHO_IS, parent.get("text")));
+                    }
+                }
+            }
+        }
+        return result;
+
     }
 }
