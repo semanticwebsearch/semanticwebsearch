@@ -1,7 +1,8 @@
 var layoutManager = {
 
     pinManager : {
-               //list which contains the pinned posts
+
+        //list which contains the pinned posts
         pinnedPostsList : new Array(),
         index : 0,
 
@@ -10,6 +11,7 @@ var layoutManager = {
         *   Updates the pin image (sets it on pinned or unpinned)
         */
         pin : function (post) {
+            console.log("pin manager trying to pin !");
             $("#pinAction").removeClass("no-display");
             $(post).toggleClass("pinned");
 
@@ -81,128 +83,100 @@ var layoutManager = {
     },
     eventsManager : {
         // events ---------------------------------->>
-        bindEvents : function() {
-            // events -------------------------->>
-            detach = true,
-            callTimeout = null,
-            /*
-                takes care of checkbox checked prop in case they are in pare with other checkbox;
-            */
-             $(document).on('click','.innerCall',function(){
-                    // code here
-                 Ajax.question_url(this.href);
-                 return false;
-                });
-            $('.search-type-list input[type=checkbox]').on('click',function(){
-                console.log("checkbox clicked;");
-            });
-            $("input[type=checkbox]").click(function(){
-                console.log("was click "+this.id);
-                /*
-                    Display Layout
-                    
-                    takes care of the display layout and the checked prop of the list and grid checkboxes
-                */
+        helper :{
+          likechecked : function(_data){
+          id_question = $(_data).data("id-question");
+          id_respunse = $(_data).data("id-response");
+          console.log(id_question + ' '+ id_respunse);
+          console.log(_data);
+          var grandpa = $(_data).parent().parent();
+          //console.log(grandpa);
+          var data = $(grandpa).find("input:checked");
+          this.changeCheckedPropL(data,"like",id_question,id_respunse,"dislike",0);
 
-                //check if the grid layout is in need
-                if(this.name == "Grid") {
-                    // add class grid to layout & remove class list from layout
-                   addGridLayout();
+          },
+          dislikechecked : function(_data){
+            id_question = $(_data).data("id-question");
+            id_respunse = $(_data).data("id-response");
+            console.log(id_question + ' '+ id_respunse);
+            console.log(_data);
+            var grandpa = $(_data).parent().parent();
+            //console.log(grandpa);
+            var data = $(grandpa).find("input:checked");
+            this.changeCheckedPropL(data,"dislike",id_question,id_respunse,"like",0);
+          },
+          /*
+              works almost the same as changeCheckedProp but
+              it will take a list of items from the caller insted
+              of looking for the items itself;
+           */
+          changeCheckedPropL : function (data,from,id_question,id_respounse,itemName,change){
+              console.log(data.length + " "+from+ " "+id_question+" "+id_respounse);
+              if(data.length == 0){
+                Ajax.feedback_resuls(from,id_question,id_respounse, -1);
+              }else{
+                  Ajax.feedback_resuls(from,id_question,id_respounse, +1);
+              }
+              for(i = 0; i < data.length; i++){
+                  temp = data[i];
+                  console.log(temp);
+                  if(temp.name == itemName){
+                      if(!change){
+                          $(temp).prop('checked',false);
+                      }else {
+                          $(temp).prop('checked',true);
+                      }
+                  }
+              }
+          }
+        } ,
+        layout :{
+            masonryOptions : {
+                itemSelector: '.answer'
+            },
+            _grid_ : null,
+            masoneryActive : false,
+            currentLayout : null,
+            initGrid : function() {
+                $('main').removeClass('list');
+                $('main').addClass('grid');
+                // remove the checked prop from the list button;
+
+                this.changeCheckedProp(".layout-option","List",0);
+                if(this.masoneryActive) {
+                    this._grid_.masonry('destroy');
+                    this.masoneryActive = false;
                 }
-                //check if the list layout is in need
-                if(this.name == "List") {
-                    // add class grid to layout & remove class list from layout
-                    addListLayout();
-                }
-                /*
-                    End Display Layout
-                */
-                /*
-                    Like & Dislike
-
-                    takes care of the radiobutton effect
-                */
-                if(this.name == "like") {
-                    var grandpa = $(this).parent().parent();
-                    console.log(grandpa);
-                    var data = $(grandpa).find("input:checked");
-                    changeCheckedPropL(data,"dislike",0);
-                }
-                if(this.name == "dislike"){
-                    var grandpa = $(this).parent().parent();
-                    console.log(grandpa);
-                    var data = $(grandpa).find("input:checked");
-                    changeCheckedPropL(data,"like",0);
-                }
-                /*
-                    End Like & Dislike
-                */
-            });
-            /*
-                on start of typing it will move the searchbar to top;
-                //execute only once !
-            */
-            $('#search-input').on('input',function(){
-
-                if(detach){
-
-                    detach = false;
-
-                    $("#header").removeClass("center");
-                    $("#header").addClass("top");
-                    $(".img-logo img").prop("src","./../resources/img/logo-md-white.png");
-
-                    //see what type of layout should be displayed based on the type of content
-
-                    var checked_inputs = $('.search-type input:checked');
-                    var checked_inputs_lenght = checked_inputs.length;
-                    if(checked_inputs.length == 1){
-                        // add class grid to layout & remove class list from layout
-                        addListLayout();
-                        changeCheckedProp(".layout-option","List",1);
-                    }else{
-                        //if none were selected so look for all types of content
-                        if(checked_inputs_lenght == 0){
-                            //select all the inputs;
-                            $('.search-type input').prop('checked',true);
-                        }
-                        addGridLayout();
-                        changeCheckedProp(".layout-option","Grid",1);
-                        }
+                this.masoneryActive = true;
+                this._grid_ = $('main').masonry( this.masonryOptions);
+            },
+            initList : function() {
+                if(this.masoneryActive) {
+                    this._grid_.masonry('destroy');
+                    this.masoneryActive = false;
                 }
 
-                /*
-                * Binds the input event to the query input
-                * sets a timeout before querying the server for data
-                */
-                //clearTimeout(this.callTimeout);
-                //console.log("call for data");
-                //this.callTimeout = setTimeout(Ajax.submitForm, 1000);
-            });
-            /*
-                takes care of the toggle efect for the search option wich takes to much space
-                on small devices
-            */
-            $('#toggle').on('click',function(){
-                
-                $(".search-option").toggle('fast');
-            });
+                $('main').removeClass('grid');
+                $('main').addClass('list');
 
-            $( window ).resize(function(){
-                /* set  display:block for the toggle elements when the divice is a medium or bigger*/
-                var window_size =$(window).width();
-                if( window_size >= 720) {
-                    $(".search-option").css('display','block');
+
+
+                // remove the checked prop from the list button;
+                this.changeCheckedProp(".layout-option","Grid",0);
+            },
+            restyleitems : function() {
+                console.log();
+                if(this.currentLayout == "Grid"){
+                    if(this.masoneryActive) {
+                        this._grid_.masonry('destroy');
+                        this.masoneryActive = false;
+                    }
+                    this.masoneryActive = true;
+                    this._grid_ = $('main').masonry( this.masonryOptions);
                 }
-            });
-             // functions ------------------------------>>
-             /*
-                changes the checked prop from a checkbox given: 
-                parent class of the checkbox
-                the name of the checkbox
-                bool attr that removes or adds the checked prop
-             */
-            function changeCheckedProp(itemClass,itemName,change){
+            }
+            ,
+            changeCheckedProp : function(itemClass,itemName,change){
                 var query;
                 if(!change) {
                     query = itemClass+" input:checked";
@@ -210,72 +184,79 @@ var layoutManager = {
                     query = itemClass+" input";
                 }
                 var checked_inputs = $( query );
-                    console.log(checked_inputs.length);
+                console.log(checked_inputs.length);
 
-                    for(i = 0; i < checked_inputs.length; i++) {
-                        console.log(checked_inputs[i]);
-                        var temp = checked_inputs[i];
-                        if(temp.id == itemName) {
-                            if(!change){
-                                $(temp).prop('checked',false);
-                            }else {
-                                $(temp).prop('checked',true);
-                            }
-                            break;
-                        }
-                    }
-            };
-             /*
-                works almost the same as changeCheckedProp but
-                it will take a list of items from the caller insted
-                of looking for the items itself;
-             */
-            function changeCheckedPropL(data,itemName,change){
-                console.log(data.length);
-                for(i = 0; i < data.length; i++){
-                    temp = data[i];
-                    console.log(temp);
-                    if(temp.name == itemName){
+                for(i = 0; i < checked_inputs.length; i++) {
+                    console.log(checked_inputs[i]);
+                    var temp = checked_inputs[i];
+                    if(temp.id == itemName) {
                         if(!change){
                             $(temp).prop('checked',false);
                         }else {
                             $(temp).prop('checked',true);
                         }
+                        break;
                     }
                 }
-            };
-            // adds the grid layout and will remove list layout if its enabled
-            function addGridLayout(){
-                $('main').removeClass('list');
-                $('main').addClass('grid');
-                // remove the checked prop from the list button;
-                changeCheckedProp(".layout-option","List",0);
-                
-                // add masonary layout
-                var container = $('.grid');
-                container.masonry({
-                  itemSelector: '.answer'
-                });
-            };
-            // adds the list layout and will remove the grid layout if its enabled
-            function addListLayout (){
-                $('main').removeClass('grid');
-                $('main').addClass('list');
-                // remove the style attr from answers and main;
-                $('main').removeAttr('style');
-                $(".answer").removeAttr('style');
-                
-                // remove the checked prop from the list button;
-                changeCheckedProp(".layout-option","Grid",0);
-            };
+            }
+        }
+        ,
+        bindEvents : function() {
+          // events -------------------------->>
+          detach = true,
+          callTimeout = null,
+            /*
+                takes care of checkbox checked prop in case they are in pare with other checkbox;
+            */
+           $(document).on('click','.innerCall',function(){
+                  // code here
+               Ajax.question_url(this.href);
+               return false;
+              });
+
+           /* working on this !!!! */
+
+          /*
+              on start of typing it will move the searchbar to top;
+              //execute only once !
+          */
+
+          /*
+              takes care of the toggle efect for the search option wich takes to much space
+              on small devices
+          */
+          $('#toggle').on('click',function(){
+              
+              $(".search-option").toggle('fast');
+          });
+
+          $( window ).resize(function(){
+              /* set  display:block for the toggle elements when the divice is a medium or bigger*/
+              var window_size =$(window).width();
+              if( window_size >= 720) {
+                  $(".search-option").css('display','block');
+              }
+          });
+           // functions ------------------------------>>
+           /*
+              changes the checked prop from a checkbox given: 
+              parent class of the checkbox
+              the name of the checkbox
+              bool attr that removes or adds the checked prop
+           */
+
+          // adds the grid layout and will remove list layout if its enabled
         }
     }
 }
 
 var Ajax = {
-        /* Submits the query form
+
+    /* Submits the query form
     *  adds the type of search selected by user
     */
+    current_questionid : null,
+    current_offset : null,
     submitForm : function() {
         var url = $("#searchForm").prop("action") + "/?q=" + $("#search-input").val() + "&";
         if($("#Text").prop("checked") == true) {
@@ -304,38 +285,9 @@ var Ajax = {
         url += type + "=true";
         Template.display(url);
     },
-
-    demo : function() {
-        var temp_url = "/api/query?q=";
-        var query = $("#search-input").val();
-        console.log("Query: "+ query);
-        var full_url = temp_url + query;
-        console.log("Url: " + full_url)
-
-        $.ajax({
-            type : 'GET',
-            url: full_url,
-            dataType: "text"
-        }).done(function(data){
-            console.log(" loading services: ");
-            console.log(data);
-
-            var use_data =jQuery.parseJSON(data);
-            console.log("-----");
-            console.log(use_data);
-
-            Template.initializeLayout(use_data);
-
-        }).fail(function(e){
-            /* will throw error as the respons is not a valid json fromat!*/
-            console.log("Error loading services: ");
-            console.log(e);
-        });
-    },
-    question_url : function(full_url) {
-
-    console.log("Url: " + full_url)
-
+    add_more_question: function() {
+        console.log("more questions");
+        full_url = "/api/query/topSearches";
         $.ajax({
             type: 'GET',
             url: full_url,
@@ -349,15 +301,154 @@ var Ajax = {
             console.log(use_data);
 
             Template.initializeLayout(use_data);
-
+            layoutManager.eventsManager.layout.restyleitems();
         }).fail(function (e) {
             /* will throw error as the respons is not a valid json fromat!*/
             console.log("Error loading services: ");
             console.log(e);
+
+        });
+    },
+
+    demo : function() {
+        var _this = this;
+        $('.answer').remove();
+
+        var temp_url = "/api/query?q=";
+        var query = $("#search-input").val();
+        console.log("Query: "+ query);
+        var full_url = temp_url + query;
+        console.log("Url: " + full_url);
+        $.ajax({
+            type : 'GET',
+            url: full_url,
+            dataType: "text"
+        }).done(function(data){
+            console.log(" loading services: ");
+            console.log(data);
+
+            var use_data =jQuery.parseJSON(data);
+            console.log("-----");
+            console.log(use_data);
+
+            current_offset = use_data.dbpedia.length + use_data.freebase.length;
+
+            if(current_offset == 0){
+                _this.add_more_question();
+                return;
+            }
+            if(use_data.dbpedia.length > 0)
+                current_questionid = use_data.dbpedia[0].questionId;
+            if(use_data.freebase.length > 0)
+                current_questionid = use_data.freebase[0].questionId;
+            console.log(this.current_questionid + ' ' + this.current_offset);
+
+            Template.initializeLayout(use_data);
+            layoutManager.eventsManager.layout.restyleitems();
+        }).fail(function(e){
+            /* will throw error as the respons is not a valid json fromat!*/
+            console.log("Error loading services: ");
+            console.log(e);
+
+        });
+
+    },
+
+    question_url : function(full_url) {
+        var _this = this;
+        console.log("Url: " + full_url);
+        $('.answer').remove();
+
+        $.ajax({
+            type: 'GET',
+            url: full_url,
+            dataType: "text"
+        }).done(function (data) {
+            console.log(" loading services: ");
+            console.log(data);
+
+            var use_data = jQuery.parseJSON(data);
+            console.log("-----");
+            console.log(use_data);
+
+            current_offset = use_data.dbpedia.length + use_data.freebase.length;
+            if(current_offset == 0){
+                _this.add_more_question();
+                return;
+            }
+            if(use_data.dbpedia.length > 0)
+                current_questionid = use_data.dbpedia[0].questionId;
+            if(use_data.freebase.length > 0)
+                current_questionid = use_data.freebase[0].questionId;
+            console.log(current_questionid + ' ' + current_offset);
+
+            Template.initializeLayout(use_data);
+            layoutManager.eventsManager.layout.restyleitems();
+        }).fail(function (e) {
+            /* will throw error as the respons is not a valid json fromat!*/
+            console.log("Error loading services: ");
+            console.log(e);
+
+        });
+    },
+
+    more_question_results: function() {
+        console.log(current_questionid + ' '+ current_offset);
+        var full_url = "/api/question/"+ current_questionid +"?offset="+ current_offset +"&max=10";
+        console.log(full_url);
+        $.ajax({
+            type: 'GET',
+            url: full_url,
+            dataType: "text"
+        }).done(function (data) {
+            console.log(" loading services: ");
+            console.log(data);
+
+            var use_data = jQuery.parseJSON(data);
+            console.log("-----");
+            console.log(use_data);
+
+            if(use_data.dbpedia.length + use_data.freebase.length == 0)
+                console.log("No more data!");
+            else
+            {
+                this.current_offset += use_data.dbpedia.length + use_data.freebase.length;
+                if(use_data.dbpedia.length > 0)
+                    this.current_questionid = use_data.dbpedia[0].questionId;
+                if(use_data.freebase.length > 0)
+                    this.current_questionid = use_data.freebase[0].questionId;
+                console.log(this.current_questionid + ' ' + this.current_offset);
+
+                Template.initializeLayout(use_data);
+                layoutManager.eventsManager.layout.restyleitems();
+            }
+        }).fail(function (e) {
+            /* will throw error as the respons is not a valid json fromat!*/
+            console.log("Error loading services: ");
+            console.log(e);
+
+        });
+    },
+    feedback_resuls : function(status,questionId,answerId, count){
+        var full_url = "/api/question/"+questionId+"/"+ answerId+"/"+status+"/"+count;
+        console.log(full_url);
+        $.ajax({
+            type: 'POST',
+            url: full_url,
+            dataType: "text"
+        }).done(function (data) {
+            console.log(data);
+        }).fail(function (e) {
+            /* will throw error as the respons is not a valid json fromat!*/
+            console.log("Error loading services: ");
+            console.log(e);
+
         });
     }
 }
+
 var Template = {
+
     /*
     *   Queries the server for information, compiles the template and populates it and
     *   after that it appends it to the DOM
@@ -412,26 +503,47 @@ var Template = {
         var DATE_TYPE_WEAPON = "Weapon";
         var DATE_TYPE_CONFLICT = "Conflict";
         var DATE_TYPE_ALBUM = "Album";
+        var ok = false;
 
         if(_dataType == DATE_TYPE_PERSON) {
             Template.displayPerson(data);
+            ok = true;
         }
 
         if(_dataType == DATE_TYPE_WEAPON) {
             Template.displayWeapon(data);
+            ok = true;
         }
 
         if(_dataType == DATE_TYPE_CONFLICT){
             Template.displayConflict(data);
+            ok = true;
         }
 
         if(_dataType == DATE_TYPE_ALBUM){
             Template.displayAlbum(data);
+            ok = true;
+        }
+        if(!ok){
+            Template.displayMoreLinks(data);
         }
     },
     /*Display Person
     * data - data that needs to be proccess and displayed
     **/
+    displayMoreLinks: function(data){
+        var source = $("#more_question-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+
+        /* var temp_array  = new Array();
+         temp_array.push(data.dbpedia);*/
+
+        //console.log(temp_array);
+        var html = template({answer : data});
+        console.log(html);
+        $(main).append(html);
+    },
     displayPerson : function(data) {
         /* dbpedia */
         var source = $("#person-template").html();
@@ -452,6 +564,7 @@ var Template = {
         html = template({answer : data.freebase});
         $(main).append(html);
     },
+
     displayWeapon : function(data){
         /* dbpedia only! */
 
@@ -463,6 +576,7 @@ var Template = {
         console.log(html);
         $(main).append(html);
     },
+
     displayConflict: function(data){
         /* dbpedia */
 
@@ -511,6 +625,47 @@ $(document).ready(function(){
             return options.fn(this);
         }
         return options.inverse(this);
+    });
+
+    $('#search-input').on('input',function(){
+
+        if(detach){
+
+            detach = false;
+            $("#header").removeClass("center");
+            $("#header").addClass("top");
+            $(".img-logo img").prop("src","./../resources/img/logo-md-white.png");
+
+            //set layout list def.
+
+            layoutManager.eventsManager.layout.changeCheckedProp(".layout-option","List",1);
+            layoutManager.eventsManager.layout.initList();
+        }
+
+    });
+    $("input[type=checkbox]").click(function(){
+        console.log("was click "+this.id);
+        /*
+         Display Layout
+         takes care of the display layout and the checked prop of the list and grid checkboxes
+         */
+
+        //check if the grid layout is in need
+        if(this.name == "Grid") {
+            // add class grid to layout & remove class list from layout
+            layoutManager.eventsManager.layout.initGrid();
+            layoutManager.eventsManager.layout.currentLayout = "Grid";
+        }
+        //check if the list layout is in need
+        if(this.name == "List") {
+            // add class grid to layout & remove class list from layout
+            layoutManager.eventsManager.layout.initList();
+            layoutManager.eventsManager.layout.currentLayout = "List";
+        }
+        /*
+         End Display Layout
+         */
+
     });
 });
 

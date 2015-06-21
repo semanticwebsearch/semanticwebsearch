@@ -21,20 +21,22 @@
 					</form>
 				</section>
 				<section class="search-option">
+
 					<div class="search-type">
-						<ul class="search-type-list">
+					<!--	<ul class="search-type-list">
 							<li><p>Look for:</p></li>
 							<li><input type="checkbox" id="Text" name="Text"></input><label for="Text"><i class="fa fa-file-text-o"></i></label></li>
 							<li><input type="checkbox" id="Images" name="Images"></input><label for="Images"><i class="fa fa-picture-o"></i></label></li>
 							<li><input type="checkbox" id="Video" name="Video"></input><label for="Video"><i class="fa fa-youtube-play"></i></label></li>
 							<li><input type="checkbox" id="Map" name="Map"></input><label for="Map"><i class="fa fa-globe"></i></label></li>
-						</ul>
+						</ul> -->
 					</div>
+
 					<div class="layout-option">
 						<ul class="search-type-list">
 							<li><p>Display as:</p></li>
-							<li><input type="checkbox"," id="List" name="List"></input><label for="List"><i class="fa fa-list"></i></label></li>
-							<li><input type="checkbox"," id="Grid" name="Grid"></input><label for="Grid"><i class="fa fa-th-large"></i></label></li>
+							<li><input type="checkbox" id="List" name="List"/><label for="List"><i class="fa fa-list"></i></label></li>
+							<li><input type="checkbox" id="Grid" name="Grid"/><label for="Grid"><i class="fa fa-th-large"></i></label></li>
 						</ul>
 					</div>
 				</section>
@@ -47,142 +49,228 @@
 		</section>
 	</header>
 	<main id="main" class="layout grid">
-
 	</main>
 	<footer>
 		<div id="pinAction" class="pinAction no-display">
-            <img id="prev" src="./../resources/img/icons/previous.png" onclick="layoutManager.pinManager.previousPin()">
-            <img id="next" src="./../resources/img/icons/next.png" onclick="layoutManager.pinManager.nextPin()">
+            <i class="fa fa-arrow-circle-left fa-2x" onclick="layoutManager.pinManager.previousPin()"></i>
+            <i class="fa fa-chevron-circle-down fa-2x" onclick="Ajax.more_question_results()"></i>
+            <i class="fa fa-arrow-circle-right fa-2x" onclick="layoutManager.pinManager.nextPin()"></i>
         </div>
 	</footer>
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://localhost:35729/livereload.js"></script>
-    <script src="./../resources/components/js/script.js"></script>
-    <script type="text/javascript" src="./../resources/js/lib/handlebars-v2.0.0.js"></script>
-    <script src="./../resources/js/lib/masonry.pkgd.min.js"></script>
 
+    <script type="text/x-handlebars-template" id="more_question-template">
+
+        <div class="answer dbpedia">
+            <header class="answer-top">
+                <div class="icon-link">
+                    <h1 class="title">Questions that work!...</h1>
+                </div>
+            </header>
+            <div class="answer-content">
+
+                <ul>
+                    <li>It looks like the question that you looked for cant be answered! here is is list of question that we can answer to!</li>
+                    {{#each answer}}
+
+                    <li> {{answer}} Number of accesses: {{numberOfAccesses}} link : <a class="innerCall" href="http://localhost:8080/api/query/?q={{body}}">{{body}}</a> </li>
+
+                    {{/each}}
+                </ul>
+
+            </div>
+            </div>
+    </script>
     <script type="text/x-handlebars-template" id="person-template">
 		{{#each answer}}
-			<div class="answer">
+			<div class="answer {{origin}}">
 				<header class="answer-top">
-					<div class="icon-link">
-						<!-- text-o /picture-o  /youtube-play /globe-->
-						<h1 class="title">{{name}}</h1>
-					</div>
-					<div class="answer-option">
-
-					</div>
+				        <div class="icon-link">
+				        {{#ifEqual origin "dbpedia"}}
+			            	<img src="./../resources/img/dbpedia-logo.png"/>
+			            {{else}}
+			            	<img src="./../resources/img/freebase-logo.png"/>
+			            {{/ifEqual}}
+				        <h1 class="title">{{body.name}}</h1>
+				        </div>
+				        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
+				            <ul>
+				                <li>
+					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+				                </li>
+				                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				            </ul>
+				        </div>
 				</header>
 				<div class="answer-content">
-                    <article>
-                        <h4>Birthdate:</h4> {{birthdate}}
-                    </article>
+					<ul>
+                        <li>
+                        {{#ifEqual body.birthdate ""}}
+                        {{else}}
+	                        <h4>Birthdate:</h4> {{body.birthdate}}
+                        {{/ifEqual}}
+                        </li>
+                        <li>
+                        {{#ifEqual body.deathdate ""}}
+                        {{else}}
+                            <h4>Deathdate:</h4> {{body.deathdate}}
+                        {{/ifEqual}}
+                        </li>
+                        <li>
+                        {{#if body.birthplace}}
 
-                    <article>
-                        <h4>Birthplace:</h4>
-	                        {{#ifEqual birthplace.key ""}}
-	                            {{birthplace.value}}
-	                        {{else}}
-	                        	<a href="{{birthplace.key}}" class="innerCall">{{birthplace.value}}</a>
-	                        {{/ifEqual}}
-                    </article>
-
-                    <article>
-                        <h4>Children:</h4>
-                        {{#each children}}
-                            {{#ifEqual key ""}}
-                                {{value}}
+                            <h4>Birthplace:</h4>
+                            {{#ifEqual body.birthplace.key ""}}
+                            {{body.birthplace.value}}
                             {{else}}
-                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            <a href="{{body.birthplace.key}}" class="innerCall">{{body.birthplace.value}}</a>
                             {{/ifEqual}}
 
-                        {{/each}}
-                    </article>
+                        {{else}}
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#if body.nationality}}
 
-                    <article>
-                        <h4>Deathdate:</h4> {{deathdate}}
-                    </article>
-
-                    <article>
-                    	<h4>Notable for:</h4> {{notableFor}}
-                    </article>
-
-					<article>
-                    	<h4>Short description:</h4> {{shortDescription}}
-                    </article>
-
-                    <article>
-                        <h4>Description:</h4> <p>{{description}}</p>
-                    </article>
-
-                    <article>
-                        <h4>Education:</h4>
-                        {{#each education}}
+                            <h4>Nationality:</h4>
+                            {{#each body.nationality}}
                             {{#ifEqual key ""}}
-                                {{value}}
+                            {{value}}
                             {{else}}
-                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            <a href="{{key}}" class="innerCall">{{value}}</a>
                             {{/ifEqual}}
-                        {{/each}}
-                    </article>
+                            {{/each}}
 
-                    <article>
-                        <h4>Nationality:</h4>
-                        {{#each nationality}}
-                            {{#ifEqual key ""}}
-                                {{value}}
-                            {{else}}
-                                <a href="{{key}}" class="innerCall">{{value}}</a>
-                            {{/ifEqual}}
-                        {{/each}}
-                    </article>
+                        {{else}}
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#if body.parents}}
 
-                    <article>
-                        <h4>Parents:</h4>
-                        {{#each parents}}
+                            <h4>Parents:</h4>
+                            {{#each body.parents}}
                             {{#ifEqual key ""}}
-                                {{value}}
+                            {{value}}
                             {{else}}
-                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            <a href="{{key}}" class="innerCall">{{value}}</a>
                             {{/ifEqual}}
-                        {{/each}}
-                    </article>
+                            {{/each}}
 
-                    <article>
-                        <h4>Spouse:</h4>
-                        {{#each spouse}}
+                        {{else}}
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#if body.spouse}}
+
+                            <h4>Spouse:</h4>
+                            {{#each body.spouse}}
                             {{#ifEqual key ""}}
-                                {{value}}
+                            {{value}}
                             {{else}}
-                                <a href="{{key}}" class="innerCall">{{value}}</a>
+                            <a href="{{key}}" class="innerCall">{{value}}</a>
                             {{/ifEqual}}
-                        {{/each}}
-                    </article>
-                    <article>
-						<a href="{{wikiPageExternal}}">wiki page</a>
-					</article>
-                    <article>
+                            {{/each}}
+
+                        {{else}}
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#if body.children}}
+
+                            <h4>Children:</h4>
+                            {{#each body.children}}
+                            {{#ifEqual key ""}}
+                            {{value}}
+                            {{else}}
+                            <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+                            {{/each}}
+
+                        {{else}}
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#if body.education}}
+
+                            <h4>Education:</h4>
+                            {{#each body.education}}
+                            {{#ifEqual key ""}}
+                            {{value}}
+                            {{else}}
+                            <a href="{{key}}" class="innerCall">{{value}}</a>
+                            {{/ifEqual}}
+                            {{/each}}
+
+                        {{else}}
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#if body.notableFor }}
+                            <h4>Notable for:</h4> {{body.notableFor}}
+                        {{else}}
+
+                        {{/if}}
+                        </li>
+                        <li>
+                        {{#ifEqual body.shortDescription ""}}
+                        {{else}}
+                        <h4>Short description:</h4> {{body.shortDescription}}
+                        {{/ifEqual}}
+                        </li>
+                        <li class="showLess">
+                        {{#ifEqual body.description ""}}
+                        {{else}}
+                        <h4>Description:</h4> {{body.description}}
+                        <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
+                        {{/ifEqual}}
+                        </li>
+
+                        <li>
+                        {{#ifEqual body.wikiPageExternal ""}}
+                        {{else}}
+                        <a class="externalCall" href="{{body.wikiPageExternal}}">wiki page</a>
+                        {{/ifEqual}}
+
+                        {{#if body.thumbnails}}
                         <h3>Thumbnails:</h3>
                         <div class="pixgrid">
-                        {{#each thumbnails}}
+                            {{#each body.thumbnails}}
                             <img src="{{this}}"/>
-                        {{/each}}
+                            {{/each}}
                         </div>
-                    </article>
+                        {{else}}
+                        {{/if}}
+                        </li>
+
+                    </ul>
 				</div>
 			</div>
 		{{/each}}
 	</script>
+
 	<script type="text/x-handlebars-template" id="weapon-template">
 		{{#each answer}}
 			<div class="answer">
 				<header class="answer-top">
-					<div class="icon-link">
-						<h1 class="title">{{name}}</h1>
-					</div>
-					<div class="answer-option">
-
-					</div>
+				        <div class="icon-link">
+				        {{#ifEqual origin "dbpedia"}}
+			            	<img src="./../resources/img/dbpedia-logo.png"/>
+			            {{else}}
+			            	<img src="./../resources/img/freebase-logo.png"/>
+			            {{/ifEqual}}
+				        <h1 class="title">{{body.name}}</h1>
+				        </div>
+				        <div class="answer-option">
+				            <ul>
+				                <li>
+					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+				                </li>
+				                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				            </ul>
+				        </div>
 				</header>
 				<div class="answer-content">
 					<article>
@@ -236,60 +324,72 @@
 		{{#each answer}}
 			<div class="answer">
 				<header class="answer-top">
-					<div class="icon-link">
-						<h1 class="title">{{name}}</h1>
-					</div>
-					<div class="answer-option">
-
-					</div>
+				        <div class="icon-link">
+				        {{#ifEqual origin "dbpedia"}}
+			            	<img src="./../resources/img/dbpedia-logo.png"/>
+			            {{else}}
+			            	<img src="./../resources/img/freebase-logo.png"/>
+			            {{/ifEqual}}
+				        <h1 class="title">{{body.name}}</h1>
+				        </div>
+				        <div class="answer-option">
+				            <ul>
+				                <li>
+					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+				                </li>
+				                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				            </ul>
+				        </div>
 				</header>
 				<div class="answer-content">
 
 					<article>
-						<h4>Date:</h4> {{date}}
+						<p><h4>Date:</h4> {{body.date}}</p>
 					</article>
 					<article>
-						<h4>Combatants:</h4>
-						{{#each combatants}}
+						<p><h4>Combatants:</h4>
+						{{#each body.combatants}}
 							{{#ifEqual key ""}}
                             	{{value}}
                         	{{else}}
                             	<a href="{{key}}" class="innerCall">{{value}}</a>
                         	{{/ifEqual}}
-						{{/each}}
+						{{/each}}</p>
 					</article>
 					<article>
-						<h4>Place:</h4>
-						{{#each place}}
+						<p><h4>Place:</h4>
+						{{#each body.place}}
 							{{#ifEqual key ""}}
                             	{{value}}
                         	{{else}}
                             	<a href="{{key}}" class="innerCall">{{value}}</a>
                         	{{/ifEqual}}
-						{{/each}}
+						{{/each}}</p>
 					</article>
 
 					<article>
-						<h4>Result:</h4> {{result}}
+						<p><h4>Result:</h4> {{result}}
 					</article>
-						<h4>Commanders:</h4>
-						{{#each commanders}}
+						<p><h4>Commanders:</h4>
+						{{#each body.commanders}}
 							{{#ifEqual key ""}}
                             	{{value}}
                         	{{else}}
                             	<a href="{{key}}" class="innerCall">{{value}}</a>
                         	{{/ifEqual}}
-						{{/each}}
+						{{/each}}</p>
 					<article>
 					</article>
 						<h4>Casualties:</h4>
 						<ul>
-						{{#each casualties}}
+						{{#each body.casualties}}
 							<li>
 							{{#ifEqual comatant.key ""}}
-                            	{{comatant.value}}	|	{{casualties}}	|	{{casualtyType}}
+                            	<p>{{comatant.value}}	|	{{casualties}}	|	{{casualtyType}}</p>
                         	{{else}}
-                            	<a href="{{comatant.key}}" class="innerCall">{{comatant.value}}</a>	|	{{casualties}}	|	{{casualtyType}}
+                            	<p><a href="{{comatant.key}}" class="innerCall">{{comatant.value}}</a>	|	{{casualties}}	|	{{casualtyType}}</p>
                         	{{/ifEqual}}
                         	</li>
 						{{/each}}
@@ -297,29 +397,29 @@
 					<article>
 					</article>
 					<article>
-						<h4>Part of:</h4>
-						{{#each partOf}}
+						<p><h4>Part of:</h4>
+						{{#each body.partOf}}
 							{{#ifEqual key ""}}
                             	{{value}}
                         	{{else}}
                             	<a href="{{key}}" class="innerCall">{{value}}</a>
                         	{{/ifEqual}}
-						{{/each}}
+						{{/each}}</p>
 					</article>
 
 
 
 					<article>
 						<h4>Description:</h4>
-						<p>{{description}}</p>
+						<p>{{body.description}}</p>
 					</article>
 					<article>
-						<h4>Page:</h4> <a href="{{wikiPageExternal}}">wiki page</a>
+						<p><h4>Page:</h4> <a href="{{body.wikiPageExternal}}">wiki page</a></p>
 					</article>
 					<article>
-                    	<h3>Thumbnails:</h3>
+                    	<p><h3>Thumbnails:</h3></p>
                         <div class="pixgrid">
-	                        {{#each thumbnails}}
+	                        {{#each body.thumbnails}}
 	                            <img src="{{this}}"/>
 	                        {{/each}}
                         </div>
@@ -329,41 +429,52 @@
 			</div>
 		{{/each}}
 	</script>
-
 	<script type="text/x-handlebars-template" id="album-template">
 		{{#each answer}}
 			<div class="answer">
 				<header class="answer-top">
-					<div class="icon-link">
-						<h1 class="title">{{name}}</h1>
-					</div>
-					<div class="answer-option">
-
-					</div>
+				        <div class="icon-link">
+				        {{#ifEqual origin "dbpedia"}}
+			            	<img src="./../resources/img/dbpedia-logo.png"/>
+			            {{else}}
+			            	<img src="./../resources/img/freebase-logo.png"/>
+			            {{/ifEqual}}
+				        <h1 class="title">{{body.name}}</h1>
+				        </div>
+				        <div class="answer-option">
+				            <ul>
+				                <li>
+					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+				                </li>
+				                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				            </ul>
+				        </div>
 				</header>
 				<div class="answer-content">
 
 					<article>
-						<h4>Release date:</h4> {{releaseDate}}
+						<p><h4>Release date:</h4> {{body.releaseDate}}</p>
 					</article>
 
 					<article>
-						<h4>Genre:</h4> {{genre}}
+						<p><h4>Genre:</h4> {{body.genre}}</p>
 					</article>
 
 					<article>
-						<h4>Album length:</h4> {{length}}
+						<p><h4>Album length:</h4> {{body.length}}</p>
 					</article>
 
 					<article>
 						<h4>Track list:</h4>
 						<ul>
-						{{#each trackList}}
+						{{#each body.trackList}}
 							<li>
 							{{#ifEqual key ""}}
-                            	{{value}}
+                            	<p>{{value}}</p>
                         	{{else}}
-                            	<a href="{{key}}" class="innerCall">{{value}}</a>
+                            	<p><a href="{{key}}" class="innerCall">{{value}}</a></p>
                         	{{/ifEqual}}
                         	</li>
 						{{/each}}
@@ -371,16 +482,20 @@
 					</article>
 
 					<article>
-						<h4>Description:</h4>
-						<p>{{description}}</p>
+						<p>
+							<h4>Description:</h4>
+							{{body.description}}
+						</p>
 					</article>
 					<article>
-						<h4>Page:</h4> <a href="{{wikiPageExternalLink}}">wiki page</a>
+						<p><h4>Page:</h4> <a href="{{body.wikiPageExternalLink}}">wiki page</a></p>
 					</article>
 					<article>
-                    	<h3>Thumbnails:</h3>
+                    	<p>
+                    		<h3>Thumbnails:</h3>
+                    	</p>
                         <div class="pixgrid">
-	                        {{#each thumbnails}}
+	                        {{#each body.thumbnails}}
 	                            <img src="{{this}}"/>
 	                        {{/each}}
                         </div>
@@ -390,6 +505,149 @@
 			</div>
 		{{/each}}
 	</script>
+	<script type="text/x-handlebars-template" id="demo-template">
+		{{#each answer}}
+			<div class="answer {{origin}}" id= "{{id}}">
+			    <header class="answer-top">
+			        <div class="icon-link">
+			        {{#ifEqual origin "dbpedia"}}
+		            	<img src="./../resources/img/dbpedia-logo.png"/>
+		            {{else}}
+		            	<img src="./../resources/img/freebase-logo.png"/>
+		            {{/ifEqual}}
+			        <h1 class="title">{{body.name}}</h1>
+			        </div>
+			        <div class="answer-option">
+			            <ul>
+			                <li>
+				                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+				                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+			                </li>
+			                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+			                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+			            </ul>
+			        </div>
+			    </header>
+			    <div class="answer-content">
+					<article>
+	                    <p><h4>Birthdate:</h4> {{body.birthdate}}</p>
+	                </article>
+
+	                <article>
+		                <p>
+		                    <h4>Nationality:</h4>
+		                    {{#each body.nationality}}
+		                        {{#ifEqual key ""}}
+		                            {{value}}
+		                        {{else}}
+		                            <a href="{{key}}" class="innerCall">{{value}}</a>
+		                        {{/ifEqual}}
+		                    {{/each}}
+		                </p>
+	                </article>
+
+	                <article>
+	                	<p>
+		                    <h4>Birthplace:</h4>
+		                        {{#ifEqual body.birthplace.key ""}}
+		                            {{body.birthplace.value}}
+		                        {{else}}
+		                        	<a href="{{body.birthplace.key}}" class="innerCall">{{body.birthplace.value}}</a>
+		                        {{/ifEqual}}
+	                    </p>
+	                </article>
+
+	                <article>
+	                    <p><h4>Deathdate:</h4> {{body.deathdate}}</p>
+	                </article>
+
+	                <article>
+	                    <p>
+		                    <h4>Parents:</h4>
+		                    {{#each body.parents}}
+		                        {{#ifEqual key ""}}
+		                            {{value}}
+		                        {{else}}
+		                            <a href="{{key}}" class="innerCall">{{value}}</a>
+		                        {{/ifEqual}}
+		                    {{/each}}
+	                    </p>
+	                </article>
+
+	                <article>
+	                    <p>
+		                    <h4>Spouse:</h4>
+		                    {{#each body.spouse}}
+		                        {{#ifEqual key ""}}
+		                            {{value}}
+		                        {{else}}
+		                            <a href="{{key}}" class="innerCall">{{value}}</a>
+		                        {{/ifEqual}}
+		                    {{/each}}
+	                    </p>
+	                </article>
+
+	                <article>
+	                    <p>
+		                    <h4>Children:</h4>
+		                    {{#each body.children}}
+		                        {{#ifEqual key ""}}
+		                            {{value}}
+		                        {{else}}
+		                            <a href="{{key}}" class="innerCall">{{value}}</a>
+		                        {{/ifEqual}}
+
+		                    {{/each}}
+	                    </p>
+	                </article>
+
+	                <article>
+	                    <p>
+		                    <h4>Education:</h4>
+		                    {{#each body.education}}
+		                        {{#ifEqual key ""}}
+		                            {{value}}
+		                        {{else}}
+		                            <a href="{{key}}" class="innerCall">{{value}}</a>
+		                        {{/ifEqual}}
+		                    {{/each}}
+	                    </p>
+	                </article>    
+
+	                <article>
+	                	<p><h4>Notable for:</h4> {{body.notableFor}}</p>
+	                </article>
+
+					<article>
+	                	<p><h4>Short description:</h4> {{body.shortDescription}}</p>
+	                </article>
+
+	                <article>
+	                    <p><h4>Description:</h4> <p>{{body.description}}</p>
+	                </article>
+
+	                <article>
+						<p><a href="{{body.wikiPageExternal}}">wiki page</a></p>
+					</article>
+
+	                <article>
+	                    <p><h3>Thumbnails:</h3></p>
+	                    <div class="pixgrid">
+	                    {{#each body.thumbnails}}
+	                        <img src="{{this}}"/>
+	                    {{/each}}
+	                    </div>
+	                </article>
+				</div>
+			</div>
+		{{/each}}
+	</script>
+
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+    <script src="./../resources/components/js/script.js"></script>
+    <script type="text/javascript" src="./../resources/js/lib/handlebars-v2.0.0.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.1/masonry.pkgd.js"></script>
 
 </body>
 </html>
