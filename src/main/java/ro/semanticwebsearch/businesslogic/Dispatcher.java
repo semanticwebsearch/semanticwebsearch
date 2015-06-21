@@ -56,7 +56,7 @@ public class Dispatcher {
         /**
          * If searchDAO.getQuery exista in db, retrieve and go
          * */
-        Map<String, Object> result = new HashMap<>();
+        Result result;
         List<Question> questions = MongoDBManager.getQuestionsByBody(searchDAO.getQuery());
         List<Answer> answers = null;
         Question question = null;
@@ -69,20 +69,21 @@ public class Dispatcher {
 
 
         if(answers == null || answers.size() == 0) {
-            result = queryServices(searchDAO, result, question);
+            result = queryServices(searchDAO, question);
         } else if(isOutdated(answers)) {
             MongoDBManager.deleteAnswers(answers);
-            result = queryServices(searchDAO, result, question);
+            result = queryServices(searchDAO, question);
         } else {
             MongoDBManager.updateAccessNumberOfQuestion(question);
-            result = toAnswerMap(answers);
+            result = toResultObject(answers);
         }
 
         return JsonUtil.pojoToString(result);
     }
 
-    private static Map<String, Object> queryServices(SearchDAO searchDAO, Map<String, Object> result, Question question)
+    private static Result queryServices(SearchDAO searchDAO,  Question question)
             throws IllegalAccessException {
+        Result result = new Result();
         ServiceResponse response = new ServiceResponse();
         queryDBPedia(searchDAO, response);
         queryFreebase(searchDAO, response);
@@ -97,9 +98,7 @@ public class Dispatcher {
             } else {
                 MongoDBManager.updateAccessNumberOfQuestion(question);
             }
-
             result = parseServicesResponses(response, question.getId());
-
         }
         return result;
     }
@@ -116,8 +115,7 @@ public class Dispatcher {
         return false;
     }
 
-    private static Map<String, Object> toAnswerMap(List<Answer> answers) {
-        Map<String, Object> map = new HashMap<>();
+    private static Result toResultObject(List<Answer> answers) {
         List<Answer> dbpedia = new ArrayList<>();
         List<Answer> freebase = new ArrayList<>();
         String entityType = null;
@@ -134,39 +132,39 @@ public class Dispatcher {
             }
         }
 
-        map.put(Constants.DBPEDIA, dbpedia);
-        map.put(Constants.FREEBASE, freebase);
-        map.put(Constants.ENTITY_TYPE, entityType);
+        Result result = new Result();
+        result.setEntityType(entityType);
+        result.setDbpedia(dbpedia);
+        result.setFreebase(freebase);
 
-        return map;
+        return result;
     }
 
-    private static Map<String, Object> parseServicesResponses(ServiceResponse response, String questionId)
+    private static Result parseServicesResponses(ServiceResponse response, String questionId)
             throws IllegalAccessException {
-        Map<String, Object> resultMap = new HashMap<>();
-        Object aux;
-
+        List<Answer> aux;
+        Result result = new Result();
         try {
             ParserType qt = ParserFactory.getInstance().getInstanceFor(getParserForRule(response.getQuestionType()));
 
             aux = qt.parseDBPediaResponse(response.getDbpediaResponse(), questionId);
             if(aux != null) {
-                resultMap.put(Constants.DBPEDIA, aux);
+                result.setDbpedia(aux);
             }
 
             aux = qt.parseFreebaseResponse(response.getFreebaseResponse(), questionId);
             if(aux != null) {
-                resultMap.put(Constants.FREEBASE, aux);
+                result.setFreebase(aux);
             }
 
-            resultMap.put(Constants.ENTITY_TYPE, qt.getType());
+            result.setEntityType(qt.getType());
         } catch (InstantiationException e) {
             if (log.isDebugEnabled()) {
                 log.debug("Could not query for additional info ", e);
             }
         }
 
-        return resultMap;
+        return result;
     }
 
     private static void queryFreebase(SearchDAO searchDAO, ServiceResponse response) {
@@ -251,7 +249,7 @@ public class Dispatcher {
                 Math.max(resultsDAO.getMax(), Constants.MAX_CHUNK_SIZE)
         );
 
-        Map<String, Object> results = toAnswerMap(answers);
+        Result results = toResultObject(answers);
 
         return JsonUtil.pojoToString(results);
     }
