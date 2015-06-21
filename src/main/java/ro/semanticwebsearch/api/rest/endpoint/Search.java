@@ -27,5 +27,16 @@ public class Search {
         return Dispatcher.executeQuery(searchDAO);
     }
 
+    @GET
+    @Path("topSearches")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public String topSearches() {
+        if (log.isInfoEnabled()) {
+            log.info("Top searches");
+        }
+
+        return Dispatcher.getTopSearches();
+    }
+
 
 }

@@ -3,7 +3,7 @@ package ro.semanticwebsearch.api.rest.endpoint;
 import org.apache.log4j.Logger;
 import ro.semanticwebsearch.api.rest.model.Feedback;
 import ro.semanticwebsearch.api.rest.model.ResultsDAO;
-import ro.semanticwebsearch.businesslogic.Dispatcher;
+import ro.semanticwebsearch.businesslogic.QuestionDispatcher;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,17 +22,7 @@ public class Question {
         if (log.isInfoEnabled()) {
             log.info("More results for : " + resultsDAO.toString());
         }
-        return Dispatcher.getMoreResults(resultsDAO);
-    }
-
-    @GET
-    @Path("numberOfAccesses")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public long getNumberOfAccesses(@PathParam("questionId")String questionId) {
-        if (log.isInfoEnabled()) {
-            log.info("Number of accesses for : " + questionId);
-        }
-        return Dispatcher.getAccessesNumberFor(questionId);
+        return QuestionDispatcher.getMoreResults(resultsDAO);
     }
 
     @POST
@@ -42,7 +32,7 @@ public class Question {
         if (log.isInfoEnabled()) {
             log.info("Like for : " + feedback.getAnswerId());
         }
-        if(Dispatcher.updateLike(feedback) > 0) {
+        if(QuestionDispatcher.updateLike(feedback) > 0) {
             return Response.ok().build();
         } else {
             return Response.serverError().build();
@@ -56,7 +46,7 @@ public class Question {
         if (log.isInfoEnabled()) {
             log.info("Dislike for : " + feedback.getAnswerId());
         }
-        if(Dispatcher.updateDislike(feedback) > 0) {
+        if(QuestionDispatcher.updateDislike(feedback) > 0) {
             return Response.ok().build();
         } else {
             return Response.serverError().build();

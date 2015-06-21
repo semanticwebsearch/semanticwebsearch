@@ -2,8 +2,6 @@ package ro.semanticwebsearch.businesslogic;
 
 import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
-import ro.semanticwebsearch.api.rest.model.Feedback;
-import ro.semanticwebsearch.api.rest.model.ResultsDAO;
 import ro.semanticwebsearch.api.rest.model.SearchDAO;
 import ro.semanticwebsearch.persistence.MongoDBManager;
 import ro.semanticwebsearch.responsegenerator.model.Answer;
@@ -115,7 +113,7 @@ public class Dispatcher {
         return false;
     }
 
-    private static Result toResultObject(List<Answer> answers) {
+    public static Result toResultObject(List<Answer> answers) {
         List<Answer> dbpedia = new ArrayList<>();
         List<Answer> freebase = new ArrayList<>();
         String entityType = null;
@@ -231,28 +229,6 @@ public class Dispatcher {
         return quepy.query();
     }
 
-    public static int updateDislike(Feedback feedback) {
-        return MongoDBManager.dislikeQuestion(feedback.getQuestionId(), feedback.getAnswerId(),
-                feedback.getFeedback());
-    }
-
-    public static int updateLike(Feedback feedback) {
-        return MongoDBManager.likeQuestion(feedback.getQuestionId(), feedback.getAnswerId(),
-                feedback.getFeedback());
-
-    }
-
-    public static String getMoreResults(ResultsDAO resultsDAO) {
-        List<Answer> answers = MongoDBManager.getAnswersForQuestion(
-                resultsDAO.getQuestionId(),
-                resultsDAO.getOffset(),
-                Math.max(resultsDAO.getMax(), Constants.MAX_CHUNK_SIZE)
-        );
-
-        Result results = toResultObject(answers);
-
-        return JsonUtil.pojoToString(results);
-    }
 
     static {
         questionParserMapping.put("whoarechildrenof", "ChildrenOfParser");
@@ -264,10 +240,9 @@ public class Dispatcher {
         questionParserMapping.put("albumsof", "AlbumParser");
     }
 
-    public static long getAccessesNumberFor(String questionId) {
-        Question question = MongoDBManager.getQuestionById(questionId);
 
-        return question.getNumberOfAccesses();
-
+    public static String getTopSearches() {
+        List<Question> topSearches = MongoDBManager.getTopSearches();
+        return JsonUtil.pojoToString(topSearches);
     }
 }

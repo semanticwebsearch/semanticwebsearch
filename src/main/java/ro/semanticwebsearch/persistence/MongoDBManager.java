@@ -108,4 +108,12 @@ public class MongoDBManager {
 
         return query.get();
     }
+
+    public static List<Question> getTopSearches() {
+        Datastore ds = getDatastore(morphia);
+        Query<Question> query = ds.createQuery(Question.class);
+        query.order("-numberOfAccesses");
+
+        return query.asList();
+    }
 }
