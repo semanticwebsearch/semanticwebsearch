@@ -209,7 +209,7 @@ public class DBPediaPropertyExtractor {
                     String uri = extractValue(birthplace.get("value"));
                     String[] pieces = uri.split("/");
                     String birthPlace = pieces[pieces.length - 1];
-                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             birthPlace.replace("_", " "));
                 }
             }
@@ -395,7 +395,7 @@ public class DBPediaPropertyExtractor {
                     String uri = extractValue(item.get("value"));
                     String[] pieces = uri.split("/");
                     String origin = pieces[pieces.length - 1];
-                    return new StringPair(getLink(AdditionalQuestion.PLACE_INFO, origin.replace("_", " ")),
+                    return new StringPair(getLink(AdditionalQuestion.LOCATION_INFO, origin.replace("_", " ")),
                             origin.replace("_", " "));
                 }
                /* if (isLiteral(name)) {
@@ -415,13 +415,13 @@ public class DBPediaPropertyExtractor {
         if (names != null) {
             for (JsonNode name : names) {
                 if (isLiteral(name)) {
-                    places.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    places.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             name.get("value")));
                 } else if (isUri(name)) {
                     String uri = extractValue(name.get("value"));
                     String[] pieces = uri.split("/");
                     String birthPlace = pieces[pieces.length - 1];
-                    places.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    places.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             birthPlace.replace("_", " ")));
                 }
             }
@@ -481,14 +481,14 @@ public class DBPediaPropertyExtractor {
         if (parentsArray != null) {
             for (JsonNode parent : parentsArray) {
                 if (isLiteral(parent)) {
-                    commanders.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    commanders.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             parent.get("value")));
                 } else if (isUri(parent)) {
                     String uri = extractValue(parent.get("value"));
                     String[] pieces = uri.split("/");
                     String parentName = pieces[pieces.length - 1];
                     //TODO better get the name from uri
-                    commanders.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    commanders.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             parentName.replace("_", " ")));
                 }
             }
@@ -509,7 +509,7 @@ public class DBPediaPropertyExtractor {
                     String[] pieces = uri.split("/");
                     String parentName = pieces[pieces.length - 1];
                     //TODO better get the name from uri
-                    commanders.add(new StringPair(getLink(AdditionalQuestion.PLACE_INFO,
+                    commanders.add(new StringPair(getLink(AdditionalQuestion.LOCATION_INFO,
                             parentName.replace("_", " ")), parentName.replace("_", " ")));
                 }
             }
@@ -589,13 +589,13 @@ public class DBPediaPropertyExtractor {
         if (childrenArray != null) {
             for (JsonNode child : childrenArray) {
                 if (isLiteral(child)) {
-                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             child.get("value"));
                 } else if (isUri(child)) {
                     String uri = extractValue(child.get("value"));
                     String[] pieces = uri.split("/");
                     String spouseName = pieces[pieces.length - 1];
-                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.PLACE_INFO,
+                    return FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.LOCATION_INFO,
                             spouseName.replace("_", " "));
                 }
             }

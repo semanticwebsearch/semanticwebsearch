@@ -234,10 +234,13 @@ public class Dispatcher {
         questionParserMapping.put("whoarechildrenof", "ChildrenOfParser");
         questionParserMapping.put("whois", "PersonParser");
         questionParserMapping.put("personthattookpartinconflict", "PersonnelInvolvedParser");
+        questionParserMapping.put("personthattookpartinconflictnationality", "PersonnelInvolvedParser");
+        questionParserMapping.put("personthattookpartinconflictnationalitybornafter", "PersonnelInvolvedParser");
         questionParserMapping.put("conflictthattookplaceincountry", "ConflictParser");
         questionParserMapping.put("weaponusedbycountryinconflict", "WeaponParser");
         questionParserMapping.put("location", "LocationParser");
         questionParserMapping.put("albumsof", "AlbumParser");
+        questionParserMapping.put("booksbyauthor", "BookParser");
     }
 
 

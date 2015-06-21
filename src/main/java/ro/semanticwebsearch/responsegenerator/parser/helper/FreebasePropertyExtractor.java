@@ -95,7 +95,7 @@ public class FreebasePropertyExtractor {
         if (nationalities.isArray()) {
             for (JsonNode nationality : nationalities) {
                 if (DBPediaPropertyExtractor.isEN(nationality)) {
-                    nationalitiesArray.add(extractStringPair(AdditionalQuestion.PLACE_INFO, nationality.get("text")));
+                    nationalitiesArray.add(extractStringPair(AdditionalQuestion.LOCATION_INFO, nationality.get("text")));
                 }
             }
         }
@@ -228,7 +228,7 @@ public class FreebasePropertyExtractor {
         if (values != null && values.isArray()) {
             for (JsonNode value : values) {
                 if (!value.get("text").asText().isEmpty() && DBPediaPropertyExtractor.isEN(value)) {
-                    return extractStringPair(AdditionalQuestion.PLACE_INFO, value.get("text"));
+                    return extractStringPair(AdditionalQuestion.LOCATION_INFO, value.get("text"));
                 }
             }
         }
@@ -414,7 +414,7 @@ public class FreebasePropertyExtractor {
 
         if (locationsNode != null) {
             for (JsonNode location : locationsNode) {
-                locations.add(extractStringPair(AdditionalQuestion.PLACE_INFO, location.get("text")));
+                locations.add(extractStringPair(AdditionalQuestion.LOCATION_INFO, location.get("text")));
 
             }
         }
@@ -462,7 +462,7 @@ public class FreebasePropertyExtractor {
 
         ArrayList<JsonNode> combatants = getDeepProperties(properties, conflictInfo);
 
-        return extractStringPair(AdditionalQuestion.PLACE_INFO, combatants);
+        return extractStringPair(AdditionalQuestion.LOCATION_INFO, combatants);
     }
 
     public static ArrayList<StringPair> extractStringPair(AdditionalQuestion question, ArrayList<JsonNode> node) {
@@ -608,7 +608,7 @@ public class FreebasePropertyExtractor {
 
         ArrayList<JsonNode> combatants = getDeepProperties(properties, node);
 
-        return extractStringPair(AdditionalQuestion.PLACE_INFO, combatants).get(0);
+        return extractStringPair(AdditionalQuestion.LOCATION_INFO, combatants).get(0);
     }
 
     public static String getOfficialLanguage(JsonNode node) {
