@@ -13,6 +13,7 @@ public class Constants {
     public static final int MAX_CHUNK_SIZE = 10;
     public static final int SECONDS_IN_A_DAY = 24*60*60;
     public static final String PERSON = "Person";
+    public static final String EDUCATION_INSTITUTION = "EducationInstitution";
     public static final String BOOK = "Book";
     public static final String WEAPON = "Weapon";
     public static final String LOCATION = "Location";

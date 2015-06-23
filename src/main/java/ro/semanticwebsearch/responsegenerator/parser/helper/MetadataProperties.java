@@ -20,6 +20,8 @@ public enum MetadataProperties {
     PARENTS("http://dbpedia.org/property/parents", "/people/person/parents"),
     CHILDREN("http://dbpedia.org/property/children", "/people/person/children"),
     EDUCATIONAL_INSTITUTION("", "/education/education/institution"),
+    STUDENTS_GRADUATES("", "/education/educational_institution/students_graduates"),
+    STUDENT("", "/education/education/student"),
     DEGREE("", "/education/education/degree"),
     WEAPON_LENGTH("http://dbpedia.org/ontology/Weapon/length", ""),
     WEAPON_WEIGHT("http://dbpedia.org/ontology/Weapon/weight", ""),
@@ -39,6 +41,7 @@ public enum MetadataProperties {
     CASUALTY_TYPE("", "/military/casualties/type_of_casualties"),
     CASUALTIES("", "/military/military_conflict/casualties"),
     END_DATE("", "/time/event/end_date"),
+    OFFICIAL_WEBSITE("", "/common/topic/official_website"),
     PRIMARY_RELEASE("", "/music/album/primary_release"),
     TRACK_LIST("", "/music/release/track_list"),
     TRACK_LENGTH("", "/music/release_track/length"),
@@ -63,6 +66,7 @@ public enum MetadataProperties {
     COMMANDERS("http://dbpedia.org/ontology/commander", "/military/military_conflict/commanders"),
     SIBLING_RELATIONSHIP("http://dbpedia.org/ontology/relative", "/people/sibling_relationship/sibling"),
     SIBLING_S("", "/people/person/sibling_s"),
+    ORGANIZATION_DATE_FOUNDED("", "/organization/organization/date_founded"),
     LABEL("http://www.w3.org/2000/01/rdf-schema#label", "");
 
     private String dbpedia;

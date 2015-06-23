@@ -8,6 +8,7 @@ import ro.semanticwebsearch.responsegenerator.model.Geolocation;
 import ro.semanticwebsearch.responsegenerator.model.StringPair;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -118,7 +119,10 @@ public class FreebasePropertyExtractor {
             for (JsonNode institution : institutions) {
                 property = institution.get("property");
                 if (property != null) {
-                    aux = property.get(MetadataProperties.EDUCATIONAL_INSTITUTION.getFreebase()).get("values");
+                    aux = property.get(MetadataProperties.EDUCATIONAL_INSTITUTION.getFreebase());
+                    if(aux != null) {
+                        aux = aux.get("values");
+                    }
                     if (aux != null && aux.isArray()) {
                         for (JsonNode value : aux) {
                             if (DBPediaPropertyExtractor.isEN(value)) {
@@ -960,5 +964,54 @@ public class FreebasePropertyExtractor {
         }
         return result;
 
+    }
+
+    public static List<String> getOfficialWebsites(JsonNode info) {
+        List<String> websites = new ArrayList<>();
+
+        JsonNode aux = info.path(MetadataProperties.OFFICIAL_WEBSITE.getFreebase());
+        if(!isMissingNode(aux)) {
+            aux = aux.path("values");
+            if(!isMissingNode(aux)) {
+                for(JsonNode website : aux) {
+                    websites.add(DBPediaPropertyExtractor.extractValue(website.get("text")));
+                }
+            }
+        }
+
+        return websites;
+    }
+
+    public static String getOrganizationDateFounded(JsonNode info) {
+        JsonNode aux = info.path(MetadataProperties.ORGANIZATION_DATE_FOUNDED.getFreebase());
+        if(!isMissingNode(aux)) {
+            aux = aux.path("values");
+            if(!isMissingNode(aux)) {
+                for(JsonNode website : aux) {
+                    return DBPediaPropertyExtractor.extractValue(website.get("value"));
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static List<StringPair> getGraduatesForEducationInstitution(JsonNode info) {
+        ArrayList<String> properties = new ArrayList<>();
+        List<StringPair> result = new ArrayList<>();
+        properties.add(MetadataProperties.STUDENTS_GRADUATES.getFreebase());
+        properties.add(MetadataProperties.STUDENT.getFreebase());
+        properties.add("values");
+
+        ArrayList<JsonNode> persons = getDeepProperties(properties, info);
+        for(JsonNode person : persons) {
+            if(person.isArray()) {
+                for(JsonNode item : person) {
+                    result.add(extractStringPair(AdditionalQuestion.WHO_IS,
+                            DBPediaPropertyExtractor.extractValue(item.get("text"))));
+                }
+            }
+        }
+        return result;
     }
 }
