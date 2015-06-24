@@ -1014,4 +1014,38 @@ public class FreebasePropertyExtractor {
         }
         return result;
     }
+
+    public static String getAlbumOfSong(JsonNode songNode) {
+        ArrayList<String> properties = new ArrayList<>();
+        List<StringPair> result = new ArrayList<>();
+        properties.add(MetadataProperties.TRACK_ALBUM.getFreebase());
+        properties.add("values");
+
+        ArrayList<JsonNode> persons = getDeepProperties(properties, songNode);
+        for(JsonNode person : persons) {
+            if(person.isArray()) {
+                for(JsonNode item : person) {
+                    return DBPediaPropertyExtractor.extractValue(item.get("text"));
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String getTrackNumberOfSong(JsonNode songNode) {
+        ArrayList<String> properties = new ArrayList<>();
+        List<StringPair> result = new ArrayList<>();
+        properties.add(MetadataProperties.TRACK_NUMBER.getFreebase());
+        properties.add("values");
+
+        ArrayList<JsonNode> persons = getDeepProperties(properties, songNode);
+        for(JsonNode person : persons) {
+            if(person.isArray()) {
+                for(JsonNode item : person) {
+                    return DBPediaPropertyExtractor.extractValue(item.get("text"));
+                }
+            }
+        }
+        return null;
+    }
 }

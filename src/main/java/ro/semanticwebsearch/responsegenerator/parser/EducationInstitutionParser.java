@@ -21,7 +21,7 @@ import java.util.*;
  * Created by Spac on 6/23/2015.
  */
 class EducationInstitutionParser extends AbstractParserType  {
-    private static Logger log = Logger.getLogger(BookParser.class.getCanonicalName());
+    private static Logger log = Logger.getLogger(SongParser.class.getCanonicalName());
 
     public EducationInstitutionParser() {
         TYPE = Constants.EDUCATION_INSTITUTION;

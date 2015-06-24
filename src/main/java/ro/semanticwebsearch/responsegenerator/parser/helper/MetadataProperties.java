@@ -44,6 +44,8 @@ public enum MetadataProperties {
     OFFICIAL_WEBSITE("", "/common/topic/official_website"),
     PRIMARY_RELEASE("", "/music/album/primary_release"),
     TRACK_LIST("", "/music/release/track_list"),
+    TRACK_ALBUM("", "/music/release_track/release"),
+    TRACK_NUMBER("", "/music/release_track/track_number"),
     TRACK_LENGTH("", "/music/release_track/length"),
     MILITARY_STRENGTHS("", "/military/military_conflict/force_strengths"),
     MILITARY_CONFLICT_COMBATANTS("http://dbpedia.org/ontology/combatant", "/military/military_conflict/combatants"),
