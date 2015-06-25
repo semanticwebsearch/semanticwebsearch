@@ -611,8 +611,13 @@ public class FreebasePropertyExtractor {
         properties.add("text");
 
         ArrayList<JsonNode> combatants = getDeepProperties(properties, node);
+        ArrayList<StringPair> capitals = extractStringPair(AdditionalQuestion.LOCATION_INFO, combatants);
 
-        return extractStringPair(AdditionalQuestion.LOCATION_INFO, combatants).get(0);
+        if(capitals != null && capitals.size() > 0) {
+            return capitals.get(0);
+        } else {
+            return null;
+        }
     }
 
     public static String getOfficialLanguage(JsonNode node) {
