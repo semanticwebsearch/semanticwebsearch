@@ -143,7 +143,7 @@ class LocationParser extends AbstractParserType  {
                 if(aux != null) {
                     Answer s = Answer.getBuilderForQuestion(questionId)
                             .setBody(aux)
-                            .setOrigin(Constants.FREEBASE)
+                            .setOrigin(Constants.DBPEDIA)
                             .setType(TYPE)
                             .build();
                     locations.add(s);
