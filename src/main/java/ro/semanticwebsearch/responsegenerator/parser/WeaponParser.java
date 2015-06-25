@@ -113,7 +113,7 @@ class WeaponParser extends AbstractParserType{
                 weapon = dbpediaWeapon(new URI(uris.get(idx)));
                 Answer s = Answer.getBuilderForQuestion(questionId)
                         .setBody(weapon)
-                        .setOrigin(Constants.FREEBASE)
+                        .setOrigin(Constants.DBPEDIA)
                         .setType(TYPE)
                         .build();
                 answers.add(s);
