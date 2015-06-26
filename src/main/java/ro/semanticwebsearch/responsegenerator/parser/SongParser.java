@@ -26,7 +26,7 @@ class SongParser extends AbstractParserType  {
     private static Logger log = Logger.getLogger(SongParser.class.getCanonicalName());
 
     public SongParser() {
-        TYPE = Constants.PERSON;
+        TYPE = Constants.SONG;
     }
 
 

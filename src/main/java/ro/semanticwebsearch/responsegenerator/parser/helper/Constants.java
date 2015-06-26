@@ -22,4 +22,5 @@ public class Constants {
     public static final String ENTITY_TYPE = "entityType";
 
 
+    public static final String SONG = "Song";
 }
