@@ -233,6 +233,7 @@ public class Dispatcher {
     static {
         questionParserMapping.put("whoarechildrenof", "ChildrenOfParser");
         questionParserMapping.put("whois", "PersonParser");
+        questionParserMapping.put("bandmembers", "PersonParser");
         questionParserMapping.put("presidentof", "PersonParser");
         questionParserMapping.put("personthattookpartinconflict", "PersonnelInvolvedParser");
         questionParserMapping.put("personthattookpartinconflictnationality", "PersonnelInvolvedParser");
@@ -246,9 +247,12 @@ public class Dispatcher {
         questionParserMapping.put("weaponusedbycountryinconflict", "WeaponParser");
         questionParserMapping.put("location", "LocationParser");
         questionParserMapping.put("albumsof", "AlbumParser");
+        questionParserMapping.put("albumswrittenbybandafteryear", "AlbumParser");
+        questionParserMapping.put("albumsof", "AlbumParser");
         questionParserMapping.put("educationinstitution", "EducationInstitutionParser");
         questionParserMapping.put("songsaboutstuffwrittenbyperson", "SongParser");
         questionParserMapping.put("songsaboutstuff", "SongParser");
+        questionParserMapping.put("songsfromalbumbyband", "SongParser");
         questionParserMapping.put("songnamefromalbumbyband", "SongParser");
     }
 
