@@ -6,13 +6,13 @@ import java.util.List;
  * Created by Spac on 6/23/2015.
  */
 public class EducationInstitution {
-    private String description;
+    private String description;//
     private String wikiPageExternal;//
-    private List<String> websites;
-    private Geolocation geolocation;
-    private String dateFounded;
-    private String name;
-    private List<StringPair> graduates;
+    private List<String> websites; //
+    private Geolocation geolocation; //
+    private String dateFounded; //
+    private String name;//
+    private List<StringPair> graduates; //
 
     public String getDescription() {
         return description;

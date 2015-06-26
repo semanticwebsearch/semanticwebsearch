@@ -23,7 +23,10 @@
     text-align: justify;
 
 }
-
+.minimap{
+    height: 100px;
+    padding: 10px;
+}
 @media only screen and (min-width: 400px) {
     .answer {
         margin-bottom: 20px;

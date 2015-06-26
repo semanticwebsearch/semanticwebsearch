@@ -127,27 +127,42 @@ a {
     color: #BD3613; }
   /* line 58, ../components/sass/_base.scss */
   a.innerCall {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #52b4af; }
-    /* line 60, ../components/sass/_base.scss */
+    /* line 66, ../components/sass/_base.scss */
     a.innerCall:hover {
       color: #76c3bf; }
-  /* line 64, ../components/sass/_base.scss */
+  /* line 70, ../components/sass/_base.scss */
   a.externalCall {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #ca4247; }
-    /* line 66, ../components/sass/_base.scss */
+    /* line 78, ../components/sass/_base.scss */
     a.externalCall:hover {
       color: #d56a6e; }
 
-/* line 72, ../components/sass/_base.scss */
+/* line 84, ../components/sass/_base.scss */
 p {
   margin: 10px;
   text-align: justify; }
 
-/* line 76, ../components/sass/_base.scss */
+/* line 88, ../components/sass/_base.scss */
 .clearfix {
   overflow: hidden;
   *zoom: 1;
   clear: both; }
+
+/* line 92, ../components/sass/_base.scss */
+.minimap {
+  height: 250px;
+  padding: 20px; }
 
 /* line 9, ../components/sass/_layout.scss */
 .layout {
@@ -211,40 +226,55 @@ p {
             font-size: 1.5em; } }
     /* line 57, ../components/sass/_layout.scss */
     .list .answer header .answer-option {
-      position: absolute;
-      right: 0;
-      bottom: 0px; }
-    /* line 64, ../components/sass/_layout.scss */
-    .list .answer header .icon-link .title {
       display: inline-block;
-      border-bottom: none;
-      color: #FAF9F4;
-      text-shadow: none;
-      font-size: 1.15em;
-      padding-left: 0; }
-      @media (min-width: 45em) {
-        /* line 64, ../components/sass/_layout.scss */
-        .list .answer header .icon-link .title {
-          -moz-transition: all 0.3s ease-out;
-          -o-transition: all 0.3s ease-out;
-          -webkit-transition: all 0.3s ease-out;
-          transition: all 0.3s ease-out;
-          font-size: 1.5em; } }
-  /* line 79, ../components/sass/_layout.scss */
+      width: 29%; }
+      /* line 60, ../components/sass/_layout.scss */
+      .list .answer header .answer-option ul {
+        float: right; }
+    /* line 66, ../components/sass/_layout.scss */
+    .list .answer header .content-title {
+      display: inline-block;
+      width: 59%;
+      margin: 0px; }
+      /* line 70, ../components/sass/_layout.scss */
+      .list .answer header .content-title .title {
+        border-bottom: none;
+        color: #FAF9F4;
+        text-shadow: none;
+        font-size: 1.15em;
+        padding-left: 0;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+        @media (min-width: 45em) {
+          /* line 70, ../components/sass/_layout.scss */
+          .list .answer header .content-title .title {
+            -moz-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            -webkit-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+            font-size: 1.5em; } }
+    /* line 86, ../components/sass/_layout.scss */
+    .list .answer header .icon-link {
+      display: inline-block;
+      width: 10%;
+      margin: 0px; }
+  /* line 92, ../components/sass/_layout.scss */
   .list .answer .answer-content {
     min-height: 100px;
     min-width: 250px;
     width: 100%;
     padding: 0.5em; }
     @media (min-width: 45em) {
-      /* line 79, ../components/sass/_layout.scss */
+      /* line 92, ../components/sass/_layout.scss */
       .list .answer .answer-content {
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
         -webkit-transition: all 0.3s ease-out;
         transition: all 0.3s ease-out;
         width: 90%; } }
-    /* line 89, ../components/sass/_layout.scss */
+    /* line 102, ../components/sass/_layout.scss */
     .list .answer .answer-content ul li.showLess {
       max-height: 100px;
       overflow: hidden;
@@ -253,142 +283,153 @@ p {
       -o-transition: all 0.3s ease-out;
       -webkit-transition: all 0.3s ease-out;
       transition: all 0.3s ease-out; }
-      /* line 95, ../components/sass/_layout.scss */
+      /* line 108, ../components/sass/_layout.scss */
       .list .answer .answer-content ul li.showLess .showMore {
         display: block;
         position: absolute;
         top: 0px; }
-      /* line 100, ../components/sass/_layout.scss */
+      /* line 113, ../components/sass/_layout.scss */
       .list .answer .answer-content ul li.showLess:hover {
         overflow: visible;
         max-height: 999px; }
-        /* line 103, ../components/sass/_layout.scss */
+        /* line 116, ../components/sass/_layout.scss */
         .list .answer .answer-content ul li.showLess:hover .showMore {
           display: none; }
-    /* line 110, ../components/sass/_layout.scss */
+    /* line 123, ../components/sass/_layout.scss */
     .list .answer .answer-content .pixgrid {
       margin-top: 0.5em; }
-      /* line 112, ../components/sass/_layout.scss */
+      /* line 125, ../components/sass/_layout.scss */
       .list .answer .answer-content .pixgrid img {
         border-radius: 10px;
         max-width: 120px;
         cursor: pointer; }
 
-/* line 123, ../components/sass/_layout.scss */
+/* line 136, ../components/sass/_layout.scss */
 .answer.dbpedia header {
   background: #4FAA6C; }
-/* line 126, ../components/sass/_layout.scss */
+/* line 139, ../components/sass/_layout.scss */
 .answer.dbpedia .answer-content {
   border: 1px solid #4FAA6C; }
 
-/* line 132, ../components/sass/_layout.scss */
+/* line 145, ../components/sass/_layout.scss */
 .answer.freebase header {
   background: #409AAD; }
-/* line 135, ../components/sass/_layout.scss */
+/* line 148, ../components/sass/_layout.scss */
 .answer.freebase .answer-content {
   border: 1px solid #409AAD; }
 
-/* line 141, ../components/sass/_layout.scss */
+/* line 154, ../components/sass/_layout.scss */
 .grid .answer {
   width: 100%;
   min-width: 200px;
   margin: 10px 5px;
   position: absolute; }
   @media (min-width: 63em) {
-    /* line 141, ../components/sass/_layout.scss */
+    /* line 154, ../components/sass/_layout.scss */
     .grid .answer {
       width: 48%; } }
   @media (min-width: 97em) {
-    /* line 141, ../components/sass/_layout.scss */
+    /* line 154, ../components/sass/_layout.scss */
     .grid .answer {
       width: 32%; } }
-  /* line 152, ../components/sass/_layout.scss */
+  /* line 165, ../components/sass/_layout.scss */
   .grid .answer header {
     position: relative;
     width: 100%; }
     @media (min-width: 45em) {
-      /* line 152, ../components/sass/_layout.scss */
+      /* line 165, ../components/sass/_layout.scss */
       .grid .answer header {
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
         -webkit-transition: all 0.3s ease-out;
         transition: all 0.3s ease-out;
         width: 100%; } }
-    /* line 161, ../components/sass/_layout.scss */
+    /* line 174, ../components/sass/_layout.scss */
     .grid .answer header div {
       display: inline-block;
       padding: 3px; }
-      /* line 165, ../components/sass/_layout.scss */
+      /* line 178, ../components/sass/_layout.scss */
       .grid .answer header div ul input {
         display: none; }
-      /* line 168, ../components/sass/_layout.scss */
+      /* line 181, ../components/sass/_layout.scss */
       .grid .answer header div ul li {
         display: inline-block;
         padding: 3px; }
-      /* line 173, ../components/sass/_layout.scss */
+      /* line 186, ../components/sass/_layout.scss */
       .grid .answer header div i {
         display: inline-block;
         font-size: 1.2em; }
         @media (min-width: 45em) {
-          /* line 173, ../components/sass/_layout.scss */
+          /* line 186, ../components/sass/_layout.scss */
           .grid .answer header div i {
             -moz-transition: all 0.3s ease-out;
             -o-transition: all 0.3s ease-out;
             -webkit-transition: all 0.3s ease-out;
             transition: all 0.3s ease-out;
             font-size: 1.5em; } }
-    /* line 182, ../components/sass/_layout.scss */
+    /* line 195, ../components/sass/_layout.scss */
     .grid .answer header .answer-option {
-      position: absolute;
-      right: 0;
-      top: -1px; }
-    /* line 188, ../components/sass/_layout.scss */
-    .grid .answer header .icon-link .title {
       display: inline-block;
-      border-bottom: none;
-      color: #EAE3CB;
-      text-shadow: none;
-      font-size: 1.15em;
-      padding-left: 0;
-      padding-top: 0;
-      position: absolute;
-      top: 0px;
-      left: 60px; }
-      @media (min-width: 45em) {
-        /* line 188, ../components/sass/_layout.scss */
-        .grid .answer header .icon-link .title {
-          -moz-transition: all 0.3s ease-out;
-          -o-transition: all 0.3s ease-out;
-          -webkit-transition: all 0.3s ease-out;
-          transition: all 0.3s ease-out;
-          font-size: 1.5em; } }
-  /* line 206, ../components/sass/_layout.scss */
+      width: 29%; }
+      /* line 199, ../components/sass/_layout.scss */
+      .grid .answer header .answer-option ul {
+        float: right; }
+    /* line 204, ../components/sass/_layout.scss */
+    .grid .answer header .content-title {
+      display: inline-block;
+      width: 59%;
+      margin: 0px; }
+      /* line 208, ../components/sass/_layout.scss */
+      .grid .answer header .content-title .title {
+        border-bottom: none;
+        color: #FAF9F4;
+        text-shadow: none;
+        font-size: 1.15em;
+        padding-left: 0;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+        @media (min-width: 45em) {
+          /* line 208, ../components/sass/_layout.scss */
+          .grid .answer header .content-title .title {
+            -moz-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            -webkit-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+            font-size: 1.5em; } }
+    /* line 224, ../components/sass/_layout.scss */
+    .grid .answer header .icon-link {
+      display: inline-block;
+      width: 10%;
+      margin: 0px; }
+  /* line 230, ../components/sass/_layout.scss */
   .grid .answer .answer-content {
     min-height: 100px;
     min-width: 250px;
     padding: 0 10px;
     width: 100%; }
     @media (min-width: 45em) {
-      /* line 206, ../components/sass/_layout.scss */
+      /* line 230, ../components/sass/_layout.scss */
       .grid .answer .answer-content {
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
         -webkit-transition: all 0.3s ease-out;
         transition: all 0.3s ease-out;
         width: 100%; } }
-    /* line 218, ../components/sass/_layout.scss */
+    /* line 242, ../components/sass/_layout.scss */
     .grid .answer .answer-content ul li.showLess .showMore {
       display: none; }
-    /* line 224, ../components/sass/_layout.scss */
+    /* line 248, ../components/sass/_layout.scss */
     .grid .answer .answer-content .pixgrid {
       margin-top: 0.5em; }
-      /* line 226, ../components/sass/_layout.scss */
+      /* line 250, ../components/sass/_layout.scss */
       .grid .answer .answer-content .pixgrid img {
         border-radius: 10px;
         max-width: 120px;
         cursor: pointer; }
 
-/* line 237, ../components/sass/_layout.scss */
+/* line 261, ../components/sass/_layout.scss */
 .no-display {
   display: none; }
 
@@ -715,8 +756,19 @@ main {
   main div header .answer-option ul li i:hover {
     color: #FAF9F4; }
 
-/* line 294, ../components/sass/_modules.scss */
-footer {
-  right: 44%;
+/* line 296, ../components/sass/_modules.scss */
+footer .more-data {
   position: fixed;
+  right: 50%;
   bottom: 0px; }
+  /* line 300, ../components/sass/_modules.scss */
+  footer .more-data i {
+    display: inline-block; }
+/* line 304, ../components/sass/_modules.scss */
+footer .pinAction {
+  position: fixed;
+  right: 44%;
+  bottom: 0px; }
+  /* line 308, ../components/sass/_modules.scss */
+  footer .pinAction i {
+    display: inline-block; }

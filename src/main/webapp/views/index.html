@@ -53,8 +53,10 @@
 	<footer>
 		<div id="pinAction" class="pinAction no-display">
             <i class="fa fa-arrow-circle-left fa-2x" onclick="layoutManager.pinManager.previousPin()"></i>
-            <i class="fa fa-chevron-circle-down fa-2x" onclick="Ajax.more_question_results()"></i>
             <i class="fa fa-arrow-circle-right fa-2x" onclick="layoutManager.pinManager.nextPin()"></i>
+        </div>
+        <div class="more-data no-display">
+            <i class="fa fa-chevron-circle-down fa-2x" onclick="Ajax.more_question_results()"></i>
         </div>
 	</footer>
 
@@ -63,6 +65,8 @@
         <div class="answer dbpedia">
             <header class="answer-top">
                 <div class="icon-link">
+                </div>
+                <div class="content-title">
                     <h1 class="title">Questions that work!...</h1>
                 </div>
             </header>
@@ -91,8 +95,11 @@
 			            {{else}}
 			            	<img src="./../resources/img/freebase-logo.png"/>
 			            {{/ifEqual}}
-				        <h1 class="title">{{body.name}}</h1>
+
 				        </div>
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
 				        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
 				            <ul>
 				                <li>
@@ -106,6 +113,7 @@
 				</header>
 				<div class="answer-content">
 					<ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
                         <li>
                         {{#ifEqual body.birthdate ""}}
                         {{else}}
@@ -230,7 +238,7 @@
                         <li>
                         {{#ifEqual body.wikiPageExternal ""}}
                         {{else}}
-                        <a class="externalCall" href="{{body.wikiPageExternal}}">wiki page</a>
+                        <h4>Page:</h4><a class="externalCall" href="{{body.wikiPageExternal}}">wiki page</a>
                         {{/ifEqual}}
 
                         {{#if body.thumbnails}}
@@ -252,7 +260,7 @@
 
 	<script type="text/x-handlebars-template" id="weapon-template">
 		{{#each answer}}
-			<div class="answer">
+			<div class="answer {{origin}}">
 				<header class="answer-top">
 				        <div class="icon-link">
 				        {{#ifEqual origin "dbpedia"}}
@@ -260,395 +268,622 @@
 			            {{else}}
 			            	<img src="./../resources/img/freebase-logo.png"/>
 			            {{/ifEqual}}
-				        <h1 class="title">{{body.name}}</h1>
+
 				        </div>
-				        <div class="answer-option">
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
+				        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
 				            <ul>
 				                <li>
 					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
 					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
 				                </li>
-				                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-				                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
 				            </ul>
 				        </div>
 				</header>
 				<div class="answer-content">
-					<article>
-						<h4>Caliber:</h4> {{caliber}}
-					</article>
-					<article>
-						<h4>Description:</h4>
-						<p>{{description}}</p>
-					</article>
-					<article>
-						<h4>Designer:</h4>
-						{{#ifEqual designer.key ""}}
-                            {{designer.value}}
-                        {{else}}
-                            <a href="{{designer.key}}" class="innerCall">{{designer.value}}</a>
-                        {{/ifEqual}}
-					</article>
-					<article>
-						<h4>Length:</h4> {{length}}
-					</article>
-					<article>
-						<h4>Origin</h4>
-						{{#ifEqual origin.key ""}}
-                            {{origin.value}}
-                        {{else}}
-                            <a href="{{origin.key}}" class="innerCall">{{origin.value}}</a>
-                        {{/ifEqual}}
-					</article>
-					<article>
-						<h4>Service:</h4> {{service}}
-					</article>
-					<article>
-						<h4>Weight:</h4> {{weight}}
-					</article>
-					<article>
-						<h4>Page:</h4> <a href="{{wikiPageExternal}}">wiki page</a>
-					</article>
-					<article>
-                    	<h3>Thumbnails:</h3>
-                        <div class="pixgrid">
-	                        {{#each thumbnails}}
-	                            <img src="{{this}}"/>
-	                        {{/each}}
-                        </div>
-                	</article>
+					<ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
+                        <li>
+                        	{{#ifEqual body.caliber ""}}
+                        	{{else}}
+                        	<h4>Caliber:</h4> {{body.caliber}}
+                        	{{/ifEqual}}
+                        </li>
+
+                        <li>
+                        	{{#if body.designer}}
+                        		<h4>Designer:</h4>
+								{{#ifEqual body.designer.key ""}}
+		                            {{body.designer.value}}
+		                        {{else}}
+		                            <a href="{{designer.key}}" class="innerCall">{{body.designer.value}}</a>
+		                        {{/ifEqual}}
+                        	{{/if}}
+                        </li>
+
+                        <li>
+                        	{{#ifEqual body.length ""}}
+                        	{{else}}
+                        	<h4>Length:</h4> {{body.length}}
+                        	{{/ifEqual}}
+                        </li>
+
+                        <li>
+                        	{{#if body.origin}}
+	                        	<h4>Origin</h4>
+								{{#ifEqual body.origin.key ""}}
+		                            {{body.origin.value}}
+		                        {{else}}
+		                            <a href="{{body.origin.key}}" class="innerCall">{{body.origin.value}}</a>
+		                        {{/ifEqual}}
+                        	{{else}}
+                        	{{/if}}
+                        </li>
+
+                        <li>
+                        	{{#ifEqual body.service ""}}
+                        	{{else}}
+                        	<h4>Service:</h4> {{body.service}}
+                        	{{/ifEqual}}
+                        </li>
+
+                        <li>
+                        	{{#ifEqual body.weight ""}}
+                        	{{else}}
+                        		<h4>Weight:</h4> {{body.weight}}
+                        	{{/ifEqual}}
+                        </li>
+
+                        <li class="showLess">
+                            {{#ifEqual body.description ""}}
+                                {{else}}
+                                <h4>Description:</h4> {{body.description}}
+                                <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
+                            {{/ifEqual}}
+                        </li>
+
+                        <li>
+                            {{#ifEqual body.wikiPageExternal ""}}
+                            {{else}}
+                                <h4>Page:</h4> <a class="externalCall" href="{{body.wikiPageExternal}}">wiki page</a>
+
+                            {{/ifEqual}}
+                        </li>
+
+                        <li>
+                            {{#if body.thumbnails}}
+                            <h3>Thumbnails:</h3>
+                            <div class="pixgrid">
+                                {{#each body.thumbnails}}
+                                <img src="{{this}}"/>
+                                {{/each}}
+                            </div>
+                            {{/if}}
+                        </li>
+
+                	</ul>
 				</div>
 			</div>
 		{{/each}}
 	</script>
+
 	<script type="text/x-handlebars-template" id="conflict-template">
 		{{#each answer}}
-			<div class="answer">
-				<header class="answer-top">
-				        <div class="icon-link">
-				        {{#ifEqual origin "dbpedia"}}
-			            	<img src="./../resources/img/dbpedia-logo.png"/>
-			            {{else}}
-			            	<img src="./../resources/img/freebase-logo.png"/>
-			            {{/ifEqual}}
-				        <h1 class="title">{{body.name}}</h1>
-				        </div>
-				        <div class="answer-option">
-				            <ul>
-				                <li>
-					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
-					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
-				                </li>
-				                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-				                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
-				            </ul>
-				        </div>
-				</header>
-				<div class="answer-content">
+			<div class="answer {{origin}}">
+                <header class="answer-top">
+                        <div class="icon-link">
+                        {{#ifEqual origin "dbpedia"}}
+                            <img src="./../resources/img/dbpedia-logo.png"/>
+                        {{else}}
+                            <img src="./../resources/img/freebase-logo.png"/>
+                        {{/ifEqual}}
 
-					<article>
-						<p><h4>Date:</h4> {{body.date}}</p>
-					</article>
-					<article>
-						<p><h4>Combatants:</h4>
-						{{#each body.combatants}}
-							{{#ifEqual key ""}}
-                            	{{value}}
-                        	{{else}}
-                            	<a href="{{key}}" class="innerCall">{{value}}</a>
-                        	{{/ifEqual}}
-						{{/each}}</p>
-					</article>
-					<article>
-						<p><h4>Place:</h4>
-						{{#each body.place}}
-							{{#ifEqual key ""}}
-                            	{{value}}
-                        	{{else}}
-                            	<a href="{{key}}" class="innerCall">{{value}}</a>
-                        	{{/ifEqual}}
-						{{/each}}</p>
-					</article>
-
-					<article>
-						<p><h4>Result:</h4> {{result}}
-					</article>
-						<p><h4>Commanders:</h4>
-						{{#each body.commanders}}
-							{{#ifEqual key ""}}
-                            	{{value}}
-                        	{{else}}
-                            	<a href="{{key}}" class="innerCall">{{value}}</a>
-                        	{{/ifEqual}}
-						{{/each}}</p>
-					<article>
-					</article>
-						<h4>Casualties:</h4>
-						<ul>
-						{{#each body.casualties}}
-							<li>
-							{{#ifEqual comatant.key ""}}
-                            	<p>{{comatant.value}}	|	{{casualties}}	|	{{casualtyType}}</p>
-                        	{{else}}
-                            	<p><a href="{{comatant.key}}" class="innerCall">{{comatant.value}}</a>	|	{{casualties}}	|	{{casualtyType}}</p>
-                        	{{/ifEqual}}
-                        	</li>
-						{{/each}}
-						</ul>
-					<article>
-					</article>
-					<article>
-						<p><h4>Part of:</h4>
-						{{#each body.partOf}}
-							{{#ifEqual key ""}}
-                            	{{value}}
-                        	{{else}}
-                            	<a href="{{key}}" class="innerCall">{{value}}</a>
-                        	{{/ifEqual}}
-						{{/each}}</p>
-					</article>
-
-
-
-					<article>
-						<h4>Description:</h4>
-						<p>{{body.description}}</p>
-					</article>
-					<article>
-						<p><h4>Page:</h4> <a href="{{body.wikiPageExternal}}">wiki page</a></p>
-					</article>
-					<article>
-                    	<p><h3>Thumbnails:</h3></p>
-                        <div class="pixgrid">
-	                        {{#each body.thumbnails}}
-	                            <img src="{{this}}"/>
-	                        {{/each}}
                         </div>
-                	</article>
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
+                        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
+                            <ul>
+                                <li>
+                                    <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+                                    <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+                                </li>
+                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                            </ul>
+                        </div>
+                </header>
+				<div class="answer-content">
+                    <ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
+                        <li>
+                            {{#ifEqual body.date ""}}
+                            {{else}}
+                                <h4>Date:</h4> {{body.date}}
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#if body.combatants}}
+                                <h4>Combatants:</h4>
+                                {{#each body.combatants}}
+                                    {{#ifEqual key ""}}
+                                        {{value}}
+                                    {{else}}
+                                        <a href="{{key}}" class="innerCall">{{value}}</a>
+                                    {{/ifEqual}}
+                                {{/each}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.place}}
+                                <h4>Place:</h4>
+                                {{#each body.place}}
+                                    {{#ifEqual key ""}}
+                                        {{value}}
+                                    {{else}}
+                                        <a href="{{key}}" class="innerCall">{{value}}</a>
+                                    {{/ifEqual}}
+                                {{/each}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.result }}
+                            {{else}}
+                                <h4>Result:</h4> {{body.result}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.commanders}}
+                                <h4>Commanders:</h4>
+                                {{#each body.commanders}}
+                                    {{#ifEqual key ""}}
+                                        {{value}}
+                                    {{else}}
+                                        <a href="{{key}}" class="innerCall">{{value}}</a>
+                                    {{/ifEqual}}
+                                {{/each}}
+                            {{/if}}
+                        </li>
 
+
+                        <li>
+                            {{#if body.casualties}}
+                                <h4>Casualties:</h4>
+                                <ul>
+                                {{#each body.casualties}}
+                                    <li>
+                                    {{#ifEqual comatant.key ""}}
+                                        <p>{{comatant.value}}   |   {{casualties}}  |   {{casualtyType}}</p>
+                                    {{else}}
+                                        <p><a href="{{comatant.key}}" class="innerCall">{{comatant.value}}</a>  |   {{casualties}}  |   {{casualtyType}}</p>
+                                    {{/ifEqual}}
+                                    </li>
+                                {{/each}}
+                                </ul>
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.partOf}}
+                                <h4>Part of:</h4>
+                                {{#each body.partOf}}
+                                    {{#ifEqual key ""}}
+                                        {{value}}
+                                    {{else}}
+                                        <a href="{{key}}" class="innerCall">{{value}}</a>
+                                    {{/ifEqual}}
+                                {{/each}}
+                            {{/if}}
+                        </li>
+
+
+                        <li class="showLess">
+                            {{#ifEqual body.description ""}}
+                            {{else}}
+                                <h4>Description:</h4> {{body.description}}
+                                <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#ifEqual body.wikiPageExternal ""}}
+                            {{else}}
+                                <h4>Page:</h4><a class="externalCall" href="{{body.wikiPageExternal}}">wiki page</a>
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#if body.thumbnails}}
+                                <h3>Thumbnails:</h3>
+                                <div class="pixgrid">
+                                    {{#each body.thumbnails}}
+                                        <img src="{{this}}"/>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        </li>
+                    </ul>
 				</div>
 			</div>
 		{{/each}}
 	</script>
+
 	<script type="text/x-handlebars-template" id="album-template">
 		{{#each answer}}
-			<div class="answer">
-				<header class="answer-top">
-				        <div class="icon-link">
-				        {{#ifEqual origin "dbpedia"}}
-			            	<img src="./../resources/img/dbpedia-logo.png"/>
-			            {{else}}
-			            	<img src="./../resources/img/freebase-logo.png"/>
-			            {{/ifEqual}}
-				        <h1 class="title">{{body.name}}</h1>
-				        </div>
-				        <div class="answer-option">
-				            <ul>
-				                <li>
-					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
-					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
-				                </li>
-				                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-				                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
-				            </ul>
-				        </div>
-				</header>
-				<div class="answer-content">
+			<div class="answer {{origin}}">
+                <header class="answer-top">
+                        <div class="icon-link">
+                        {{#ifEqual origin "dbpedia"}}
+                            <img src="./../resources/img/dbpedia-logo.png"/>
+                        {{else}}
+                            <img src="./../resources/img/freebase-logo.png"/>
+                        {{/ifEqual}}
 
-					<article>
-						<p><h4>Release date:</h4> {{body.releaseDate}}</p>
-					</article>
-
-					<article>
-						<p><h4>Genre:</h4> {{body.genre}}</p>
-					</article>
-
-					<article>
-						<p><h4>Album length:</h4> {{body.length}}</p>
-					</article>
-
-					<article>
-						<h4>Track list:</h4>
-						<ul>
-						{{#each body.trackList}}
-							<li>
-							{{#ifEqual key ""}}
-                            	<p>{{value}}</p>
-                        	{{else}}
-                            	<p><a href="{{key}}" class="innerCall">{{value}}</a></p>
-                        	{{/ifEqual}}
-                        	</li>
-						{{/each}}
-						</ul>
-					</article>
-
-					<article>
-						<p>
-							<h4>Description:</h4>
-							{{body.description}}
-						</p>
-					</article>
-					<article>
-						<p><h4>Page:</h4> <a href="{{body.wikiPageExternalLink}}">wiki page</a></p>
-					</article>
-					<article>
-                    	<p>
-                    		<h3>Thumbnails:</h3>
-                    	</p>
-                        <div class="pixgrid">
-	                        {{#each body.thumbnails}}
-	                            <img src="{{this}}"/>
-	                        {{/each}}
                         </div>
-                	</article>
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
+                        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
+                            <ul>
+                                <li>
+                                    <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+                                    <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+                                </li>
+                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                            </ul>
+                        </div>
+                </header>
+				<div class="answer-content">
+                    <ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
+                        <li>
+                            {{#ifEqual body.releaseDate ""}}
+                            {{else}}
+                                <h4>Release date:</h4> {{body.releaseDate}}
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#ifEqual body.genre ""}}
+                            {{else}}
+                                <h4>Genre:</h4> {{body.genre}}
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#if body.length}}
+                                <h4>Album length:</h4> {{body.length}}
 
+                                
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.trackList}}
+                                <h4>Track list:</h4>
+                                <ul>
+                                {{#each body.trackList}}
+                                    <li>
+                                    {{#ifEqual key ""}}
+                                        {{value}}
+                                    {{else}}
+                                        <a href="{{key}}" class="innerCall">{{value}}</a>
+                                    {{/ifEqual}}
+                                    </li>
+                                {{/each}}
+                                </ul>
+                            {{/if}}
+                        </li>
+                        <li class="showLess">
+                            {{#if body.description }}
+                                <h4>Description:</h4> {{body.description}}
+                                <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
+
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#ifEqual body.wikiPageExternalLink ""}}
+                            {{else}}
+                                <h4>Page:</h4><a class="externalCall" href="{{body.wikiPageExternalLink}}">wiki page</a>
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#if body.thumbnails}}
+                                <h3>Thumbnails:</h3>
+                                <div class="pixgrid">
+                                    {{#each body.thumbnails}}
+                                        <img src="{{this}}"/>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        </li>
+                    </ul>
 				</div>
 			</div>
 		{{/each}}
 	</script>
-	<script type="text/x-handlebars-template" id="demo-template">
-		{{#each answer}}
-			<div class="answer {{origin}}" id= "{{id}}">
-			    <header class="answer-top">
-			        <div class="icon-link">
-			        {{#ifEqual origin "dbpedia"}}
-		            	<img src="./../resources/img/dbpedia-logo.png"/>
-		            {{else}}
-		            	<img src="./../resources/img/freebase-logo.png"/>
-		            {{/ifEqual}}
-			        <h1 class="title">{{body.name}}</h1>
-			        </div>
-			        <div class="answer-option">
-			            <ul>
-			                <li>
-				                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
-				                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
-			                </li>
-			                <li><input onclick="layoutManager.eventsManager.helper.likechecked(this);" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-			                <li><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
-			            </ul>
-			        </div>
-			    </header>
-			    <div class="answer-content">
-					<article>
-	                    <p><h4>Birthdate:</h4> {{body.birthdate}}</p>
-	                </article>
+    <script type="text/x-handlebars-template" id="location-template">
+        {{#each answer}}
+            <div class="answer {{origin}}">
+                <header class="answer-top">
+                        <div class="icon-link">
+                        {{#ifEqual origin "dbpedia"}}
+                            <img src="./../resources/img/dbpedia-logo.png"/>
+                        {{else}}
+                            <img src="./../resources/img/freebase-logo.png"/>
+                        {{/ifEqual}}
 
-	                <article>
-		                <p>
-		                    <h4>Nationality:</h4>
-		                    {{#each body.nationality}}
-		                        {{#ifEqual key ""}}
-		                            {{value}}
-		                        {{else}}
-		                            <a href="{{key}}" class="innerCall">{{value}}</a>
-		                        {{/ifEqual}}
-		                    {{/each}}
-		                </p>
-	                </article>
+                        </div>
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
+                        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
+                            <ul>
+                                <li>
+                                    <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+                                    <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+                                </li>
+                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                            </ul>
+                        </div>
+                </header>
+                <div class="answer-content">
+                    <ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
+                        <li>
+                            {{#if body.population}}
+                                <h4>Population: </h4> {{body.population}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.area}}
+                                <h4>Area: </h4> {{body.area}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.capital}}
+                            <h4>Capital:</h4>
+                                {{#ifEqual body.capital.key ""}}
+                                    {{body.capital.value}}
+                                {{else}}
+                                    <a href="{{body.capital.key}}" class="innerCall">{{body.capital.value}}</a>
+                                {{/ifEqual}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.officialLanguage}}
+                                <h4>Official Language: </h4> {{body.officialLanguage}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.currency}}
+                                <h4>Currency: </h4> {{body.currency}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.callingCode}}
+                                <h4>Calling Code: </h4> {{body.callingCode}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.religions}}
+                                <h4>Religions: </h4>
+                                <ul>
+                                    {{#each body.religions}}
+                                    <li>
+                                        {{#ifEqual key ""}}
+                                           {{key}} : {{value}}
+                                        {{/ifEqual}}
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.dateFounded}}
+                                <h4>Date Founded: </h4> {{body.dateFounded}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                        
+                            <div class="minimap" id="minimap{{id}}"> 
+                            </div>
+                        </li>
+                        <li class="showLess">
+                            {{#if body.description }}
+                                <h4>Description:</h4> {{body.description}}
+                                <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
 
-	                <article>
-	                	<p>
-		                    <h4>Birthplace:</h4>
-		                        {{#ifEqual body.birthplace.key ""}}
-		                            {{body.birthplace.value}}
-		                        {{else}}
-		                        	<a href="{{body.birthplace.key}}" class="innerCall">{{body.birthplace.value}}</a>
-		                        {{/ifEqual}}
-	                    </p>
-	                </article>
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#ifEqual body.wikiPageExternalLink ""}}
+                            {{else}}
+                                <h4>Page:</h4><a class="externalCall" href="{{body.wikiPageExternalLink}}">wiki page</a>
+                            {{/ifEqual}}
+                        </li>
+                        <li>
+                            {{#if body.thumbnails}}
+                                <h3>Thumbnails:</h3>
+                                <div class="pixgrid">
+                                    {{#each body.thumbnails}}
+                                        <img src="{{this}}"/>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        {{/each}}
+    </script>
 
-	                <article>
-	                    <p><h4>Deathdate:</h4> {{body.deathdate}}</p>
-	                </article>
+    <script type="text/x-handlebars-template" id="education-template">
+        {{#each answer}}
+            <div class="answer {{origin}}">
+                <header class="answer-top">
+                        <div class="icon-link">
+                        {{#ifEqual origin "dbpedia"}}
+                            <img src="./../resources/img/dbpedia-logo.png"/>
+                        {{else}}
+                            <img src="./../resources/img/freebase-logo.png"/>
+                        {{/ifEqual}}
 
-	                <article>
-	                    <p>
-		                    <h4>Parents:</h4>
-		                    {{#each body.parents}}
-		                        {{#ifEqual key ""}}
-		                            {{value}}
-		                        {{else}}
-		                            <a href="{{key}}" class="innerCall">{{value}}</a>
-		                        {{/ifEqual}}
-		                    {{/each}}
-	                    </p>
-	                </article>
+                        </div>
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
+                        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
+                            <ul>
+                                <li>
+                                    <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+                                    <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+                                </li>
+                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                            </ul>
+                        </div>
+                </header>
+                <div class="answer-content">
+                    <ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
+                        <li>
+                            {{#if body.dateFounded}}
+                                <h4>Date Founded: </h4> {{body.dateFounded}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        
+                        <li>
+                            {{#if body.graduates}}
+                                <h4>Graduates: </h4>
+                                <ul>
+                                    {{#each body.graduates}}
+                                    <li>
 
-	                <article>
-	                    <p>
-		                    <h4>Spouse:</h4>
-		                    {{#each body.spouse}}
-		                        {{#ifEqual key ""}}
-		                            {{value}}
-		                        {{else}}
-		                            <a href="{{key}}" class="innerCall">{{value}}</a>
-		                        {{/ifEqual}}
-		                    {{/each}}
-	                    </p>
-	                </article>
+                                        {{#ifEqual key ""}}
+                                        {{else}}
+                                            <a href="{{key}}" class="innerCall">{{value}}</a>
+                                        {{/ifEqual}}
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
+                        </li>
 
-	                <article>
-	                    <p>
-		                    <h4>Children:</h4>
-		                    {{#each body.children}}
-		                        {{#ifEqual key ""}}
-		                            {{value}}
-		                        {{else}}
-		                            <a href="{{key}}" class="innerCall">{{value}}</a>
-		                        {{/ifEqual}}
+                        <li>
+                            <div class="minimap" id="minimap{{id}}"> 
+                            </div>
+                        </li>
+                        <li class="showLess">
+                            {{#if body.description }}
+                                <h4>Description:</h4> {{body.description}}
+                                <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
 
-		                    {{/each}}
-	                    </p>
-	                </article>
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.websites}}
+                                <h4>Websites: </h4>
+                                <ul>
+                                    {{#each body.websites}}
+                                    <li>
+                                   
+                                        {{#ifEqual this ""}}
+                                        {{else}}
+                                         <a class="externalCall" href="{{this}}"> {{this}} </a>
+                                        {{/ifEqual}}
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#ifEqual body.wikiPageExternal ""}}
+                            {{else}}
+                                <h4>Page:</h4><a class="externalCall" href="{{body.wikiPageExternal}}">wiki page</a>
+                            {{/ifEqual}}
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+        {{/each}}
+    </script>
+    <script type="text/x-handlebars-template" id="song-template">
+        {{#each answer}}
+            <div class="answer {{origin}}">
+                <header class="answer-top">
+                        <div class="icon-link">
+                        {{#ifEqual origin "dbpedia"}}
+                            <img src="./../resources/img/dbpedia-logo.png"/>
+                        {{else}}
+                            <img src="./../resources/img/freebase-logo.png"/>
+                        {{/ifEqual}}
 
-	                <article>
-	                    <p>
-		                    <h4>Education:</h4>
-		                    {{#each body.education}}
-		                        {{#ifEqual key ""}}
-		                            {{value}}
-		                        {{else}}
-		                            <a href="{{key}}" class="innerCall">{{value}}</a>
-		                        {{/ifEqual}}
-		                    {{/each}}
-	                    </p>
-	                </article>    
+                        </div>
+                        <div class="content-title">
+                            <h1 class="title">{{body.name}}</h1>
+                        </div>
+                        <div class="answer-option" id="{{id}}" questionid="{{questionId}}">
+                            <ul>
+                                <li>
+                                    <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
+                                    <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
+                                </li>
+                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                            </ul>
+                        </div>
+                </header>
+                <div class="answer-content">
+                    <ul>
+                        <li><h4>Name:</h4> {{body.name}}</li>
+                        <li>
+                            {{#if body.album}}
+                                <h4>Date Founded: </h4> {{body.album}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.album}}
+                                <h4>Album: </h4> {{body.album}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li>
+                            {{#if body.trackNumber}}
+                                <h4>Track Number: </h4> {{body.trackNumber}}
+                            {{else}}
+                            {{/if}}
+                        </li>
+                        <li class="showLess">
+                            {{#if body.description }}
+                                <h4>Description:</h4> {{body.description}}
+                                <span class="showMore"><i class="fa fa-arrow-circle-o-down"></i></span>
 
-	                <article>
-	                	<p><h4>Notable for:</h4> {{body.notableFor}}</p>
-	                </article>
-
-					<article>
-	                	<p><h4>Short description:</h4> {{body.shortDescription}}</p>
-	                </article>
-
-	                <article>
-	                    <p><h4>Description:</h4> <p>{{body.description}}</p>
-	                </article>
-
-	                <article>
-						<p><a href="{{body.wikiPageExternal}}">wiki page</a></p>
-					</article>
-
-	                <article>
-	                    <p><h3>Thumbnails:</h3></p>
-	                    <div class="pixgrid">
-	                    {{#each body.thumbnails}}
-	                        <img src="{{this}}"/>
-	                    {{/each}}
-	                    </div>
-	                </article>
-				</div>
-			</div>
-		{{/each}}
-	</script>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        {{/each}}
+    </script>
 
 	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>
     <script src="./../resources/components/js/script.js"></script>
     <script type="text/javascript" src="./../resources/js/lib/handlebars-v2.0.0.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.1/masonry.pkgd.js"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 </body>
 </html>

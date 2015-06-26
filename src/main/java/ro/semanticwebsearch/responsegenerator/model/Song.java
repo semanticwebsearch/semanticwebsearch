@@ -4,8 +4,8 @@ package ro.semanticwebsearch.responsegenerator.model;
  * Created by Spac on 6/21/2015.
  */
 public class Song {
-    private String name;
-    private String description;
+    private String name;//
+    private String description;//
     private String album;
     private String trackNumber;
 

@@ -128,7 +128,12 @@ var layoutManager = {
                       }
                   }
               }
+          },
+          mapper: function(id, latitude, longitude){
+              alert("Working?!");
+              alert(id + " " + latitude + " " + longitude);
           }
+
         } ,
         layout :{
             masonryOptions : {
@@ -341,15 +346,17 @@ var Ajax = {
                 current_questionid = use_data.dbpedia[0].questionId;
             if(use_data.freebase.length > 0)
                 current_questionid = use_data.freebase[0].questionId;
+
             console.log(this.current_questionid + ' ' + this.current_offset);
 
             Template.initializeLayout(use_data);
             layoutManager.eventsManager.layout.restyleitems();
+
         }).fail(function(e){
             /* will throw error as the respons is not a valid json fromat!*/
             console.log("Error loading services: ");
             console.log(e);
-
+            _this.add_more_question();
         });
 
     },
@@ -388,6 +395,7 @@ var Ajax = {
             /* will throw error as the respons is not a valid json fromat!*/
             console.log("Error loading services: ");
             console.log(e);
+            _this.add_more_question();
 
         });
     },
@@ -408,15 +416,18 @@ var Ajax = {
             console.log("-----");
             console.log(use_data);
 
-            if(use_data.dbpedia.length + use_data.freebase.length == 0)
+            if(use_data.dbpedia.length + use_data.freebase.length == 0) {
                 console.log("No more data!");
+                $('.more-data').addClass("no-display");
+            }
             else
             {
-                this.current_offset += use_data.dbpedia.length + use_data.freebase.length;
+                current_offset += use_data.dbpedia.length + use_data.freebase.length;
                 if(use_data.dbpedia.length > 0)
-                    this.current_questionid = use_data.dbpedia[0].questionId;
+                    current_questionid = use_data.dbpedia[0].questionId;
                 if(use_data.freebase.length > 0)
-                    this.current_questionid = use_data.freebase[0].questionId;
+                    current_questionid = use_data.freebase[0].questionId;
+
                 console.log(this.current_questionid + ' ' + this.current_offset);
 
                 Template.initializeLayout(use_data);
@@ -503,6 +514,9 @@ var Template = {
         var DATE_TYPE_WEAPON = "Weapon";
         var DATE_TYPE_CONFLICT = "Conflict";
         var DATE_TYPE_ALBUM = "Album";
+        var DATE_TYPE_Location = "Location";
+        var DATE_TYPE_Education = "EducationInstitution";
+        var DATE_TYPE_Song = "Song";
         var ok = false;
 
         if(_dataType == DATE_TYPE_PERSON) {
@@ -522,6 +536,18 @@ var Template = {
 
         if(_dataType == DATE_TYPE_ALBUM){
             Template.displayAlbum(data);
+            ok = true;
+        }
+        if(_dataType == DATE_TYPE_Location){
+            Template.displayLocation(data);
+            ok = true;
+        }
+        if(_dataType == DATE_TYPE_Education){
+            Template.displayEducation(data);
+            ok = true;
+        }
+        if(_dataType == DATE_TYPE_Song){
+            Template.displaySong(data);
             ok = true;
         }
         if(!ok){
@@ -611,7 +637,196 @@ var Template = {
         console.log(html);
         $(main).append(html);
 
+    },
+    displayLocation: function(data){
+        var _this = this;
+        var source = $("#location-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+        
+        var html = template({answer : data.dbpedia});
+        console.log(html);
+        $(main).append(template({answer : data.dbpedia})).ready(function(){
+            console.log(data.dbpedia);
+            $.each(data.dbpedia, function(index, value){
+                console.log(value);
+                if(value.body.geolocation) {
+                    console.log(value.body.geolocation.latitude + " "+ value.body.geolocation.longitude);
+                    var currentPosition = new google.maps.LatLng(value.body.geolocation.latitude, value.body.geolocation.longitude);
+                    var minimapOptions = {
+                        
+                        center: currentPosition,
+                        zoom: 6,
+                        
+                    };
+                    var map = new google.maps.Map(document.getElementById("minimap"+value.id), minimapOptions);
+                    var marker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: value.body.name
+                    });
+
+                }
+
+            });    
+        });
+
+        /* freebase */
+        html = template({answer : data.freebase});
+        console.log(html);
+        $(main).append(template({answer : data.freebase})).ready(function(){
+            console.log(data.freebase);
+            $.each(data.freebase, function(index, value){
+                console.log(value);
+                if(value.body.geolocation) {
+                    console.log(value.body.geolocation.latitude + " "+ value.body.geolocation.longitude);
+                    var currentPosition = new google.maps.LatLng(value.body.geolocation.latitude, value.body.geolocation.longitude);
+                    var minimapOptions = {
+                        
+                        center: currentPosition,
+                        zoom: 6,
+                        
+                    };
+                    var map = new google.maps.Map(document.getElementById("minimap"+value.id), minimapOptions);
+                    var marker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: value.body.name
+                    });
+
+                }
+
+            });
+            
+        });
+    },
+    displayEducation: function(data){
+                var _this = this;
+        var source = $("#education-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+        
+        var html = template({answer : data.dbpedia});
+        console.log(html);
+        $(main).append(template({answer : data.dbpedia})).ready(function(){
+            console.log(data.dbpedia);
+            $.each(data.dbpedia, function(index, value){
+                console.log(value);
+                if(value.body.geolocation) {
+                    console.log(value.body.geolocation.latitude + " "+ value.body.geolocation.longitude);
+                    var currentPosition = new google.maps.LatLng(value.body.geolocation.latitude, value.body.geolocation.longitude);
+                    var minimapOptions = {
+                        
+                        center: currentPosition,
+                        zoom: 6,
+                        
+                    };
+                    var map = new google.maps.Map(document.getElementById("minimap"+value.id), minimapOptions);
+                    var marker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: value.body.name
+                    });
+
+                }
+
+            });    
+        });
+
+        /* freebase */
+        html = template({answer : data.freebase});
+        console.log(html);
+        $(main).append(template({answer : data.freebase})).ready(function(){
+            console.log(data.freebase);
+            $.each(data.freebase, function(index, value){
+                console.log(value);
+                if(value.body.geolocation) {
+                    console.log(value.body.geolocation.latitude + " "+ value.body.geolocation.longitude);
+                    var currentPosition = new google.maps.LatLng(value.body.geolocation.latitude, value.body.geolocation.longitude);
+                    var minimapOptions = {
+                        
+                        center: currentPosition,
+                        zoom: 6,
+                        
+                    };
+                    var map = new google.maps.Map(document.getElementById("minimap"+value.id), minimapOptions);
+                    var marker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: value.body.name
+                    });
+
+                }
+
+            });
+            
+        });
+
+    },
+    displaySong: function(data){
+                var _this = this;
+        var source = $("#song-template").html();
+        console.log(source);
+        var template = Handlebars.compile(source);
+        
+        var html = template({answer : data.dbpedia});
+        console.log(html);
+        $(main).append(template({answer : data.dbpedia})).ready(function(){
+            console.log(data.dbpedia);
+            $.each(data.dbpedia, function(index, value){
+                console.log(value);
+                if(value.body.geolocation) {
+                    console.log(value.body.geolocation.latitude + " "+ value.body.geolocation.longitude);
+                    var currentPosition = new google.maps.LatLng(value.body.geolocation.latitude, value.body.geolocation.longitude);
+                    var minimapOptions = {
+                        
+                        center: currentPosition,
+                        zoom: 6,
+                        
+                    };
+                    var map = new google.maps.Map(document.getElementById("minimap"+value.id), minimapOptions);
+                    var marker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: value.body.name
+                    });
+
+                }
+
+            });    
+        });
+
+        /* freebase */
+        html = template({answer : data.freebase});
+        console.log(html);
+        $(main).append(template({answer : data.freebase})).ready(function(){
+            console.log(data.freebase);
+            $.each(data.freebase, function(index, value){
+                console.log(value);
+                if(value.body.geolocation) {
+                    console.log(value.body.geolocation.latitude + " "+ value.body.geolocation.longitude);
+                    var currentPosition = new google.maps.LatLng(value.body.geolocation.latitude, value.body.geolocation.longitude);
+                    var minimapOptions = {
+                        
+                        center: currentPosition,
+                        zoom: 6,
+                        
+                    };
+                    var map = new google.maps.Map(document.getElementById("minimap"+value.id), minimapOptions);
+                    var marker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: value.body.name
+                    });
+
+                }
+
+            });
+            
+        });
+
     }
+
 
 }
 
@@ -626,6 +841,7 @@ $(document).ready(function(){
         }
         return options.inverse(this);
     });
+    
 
     $('#search-input').on('input',function(){
 
@@ -668,4 +884,8 @@ $(document).ready(function(){
 
     });
 });
-
+$(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+       $('.more-data').removeClass("no-display");
+    }
+});
