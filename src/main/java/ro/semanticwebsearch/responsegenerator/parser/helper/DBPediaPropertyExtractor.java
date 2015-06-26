@@ -136,7 +136,8 @@ public class DBPediaPropertyExtractor {
                     String uri = extractValue(educationNode.get("value"));
                     String[] pieces = uri.split("/");
                     String education = pieces[pieces.length - 1];
-                    institutions.add(new StringPair(uri, education.replace("_", " ")));
+                    institutions.add(FreebasePropertyExtractor.extractStringPair(AdditionalQuestion.EDUCATION_INFO,
+                            education.replace("_", " ")));
                 }
             }
         }
