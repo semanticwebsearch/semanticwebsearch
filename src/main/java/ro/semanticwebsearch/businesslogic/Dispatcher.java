@@ -249,6 +249,7 @@ public class Dispatcher {
         questionParserMapping.put("educationinstitution", "EducationInstitutionParser");
         questionParserMapping.put("songsaboutstuffwrittenbyperson", "SongParser");
         questionParserMapping.put("songsaboutstuff", "SongParser");
+        questionParserMapping.put("songnamefromalbumbyband", "SongParser");
     }
 
 
