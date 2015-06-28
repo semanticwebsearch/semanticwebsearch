@@ -106,8 +106,8 @@
 					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
 					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
 				                </li>
-				                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-				                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
 				            </ul>
 				        </div>
 				</header>
@@ -279,8 +279,8 @@
 					                <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
 					                <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
 				                </li>
-				                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-				                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+				                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+				                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
 				            </ul>
 				        </div>
 				</header>
@@ -392,8 +392,8 @@
                                     <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
                                     <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
                                 </li>
-                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
                             </ul>
                         </div>
                 </header>
@@ -530,8 +530,8 @@
                                     <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
                                     <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
                                 </li>
-                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
                             </ul>
                         </div>
                 </header>
@@ -622,8 +622,8 @@
                                     <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
                                     <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
                                 </li>
-                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
                             </ul>
                         </div>
                 </header>
@@ -746,8 +746,8 @@
                                     <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
                                     <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
                                 </li>
-                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
                             </ul>
                         </div>
                 </header>
@@ -839,20 +839,14 @@
                                     <input onclick="layoutManager.pinManager.pin(this);" type="checkbox" id="pin{{id}}" name="pin"></input>
                                     <label for="pin{{id}}"><i class="fa fa-thumb-tack"></i></label>
                                 </li>
-                                <li>{{ups}}<input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
-                                <li>{{downs}}<input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
+                                <li><span class="visualFeedback">{{ups}}</span><input onclick="layoutManager.eventsManager.helper.likechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="like{{id}}" data-ups={{ups}} name="like"></input><label for="like{{id}}"><i class="fa fa-thumbs-o-up"></i></label></li>
+                                <li><span class="visualFeedback">{{downs}}</span><input onclick="layoutManager.eventsManager.helper.dislikechecked(this);" data-id-response="{{id}}" data-id-question="{{questionId}}" type="checkbox" id="dislike{{id}}" data-downs={{downs}} name="dislike"></input><label for="dislike{{id}}"><i class="fa fa-thumbs-o-down"></i></label></li>
                             </ul>
                         </div>
                 </header>
                 <div class="answer-content">
                     <ul>
                         <li><h4>Name:</h4> {{body.name}}</li>
-                        <li>
-                            {{#if body.album}}
-                                <h4>Date Founded: </h4> {{body.album}}
-                            {{else}}
-                            {{/if}}
-                        </li>
                         <li>
                             {{#if body.album}}
                                 <h4>Album: </h4> {{body.album}}

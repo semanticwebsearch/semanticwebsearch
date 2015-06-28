@@ -94,6 +94,11 @@ var layoutManager = {
           var data = $(grandpa).find("input:checked");
           this.changeCheckedPropL(data,"like",id_question,id_respunse,"dislike",0);
 
+              ups = $(_data).data("ups");
+              downs = $("#dislike" + id_respunse).data("downs");
+              $(_data).siblings(".visualFeedback")[0].innerHTML = ups + 1;
+              $("#dislike" + id_respunse).siblings(".visualFeedback")[0].innerHTML = downs;
+
           },
           dislikechecked : function(_data){
             id_question = $(_data).data("id-question");
@@ -104,6 +109,16 @@ var layoutManager = {
             //console.log(grandpa);
             var data = $(grandpa).find("input:checked");
             this.changeCheckedPropL(data,"dislike",id_question,id_respunse,"like",0);
+              downs = $(_data).data("downs");
+              ups = $("#like" + id_respunse).data("ups");
+
+              if(downs/ups >= 0.75) {
+                  $(_data).parent().parent().parent().parent().parent().hide()
+              }
+
+              $(_data).siblings(".visualFeedback")[0].innerHTML = downs + 1;
+              $("#like" + id_respunse).siblings(".visualFeedback")[0].innerHTML = ups;
+
           },
           /*
               works almost the same as changeCheckedProp but
